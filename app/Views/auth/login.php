@@ -21,31 +21,39 @@
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
                     <div class="auth-logo">
-                        <a href="index.html"><img src="dist/assets/compiled/svg/logo.svg" alt="Logo"></a>
+                        <h1 class="">V-MARS</h1>
+                        <small class="text-gray-600 fw-bold">( Vehicle Maintenance and Recording System )</small>
                     </div>
-                    <h1 class="auth-title">Log in.</h1>
-                    <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>
 
+                    <h1>Log in.</h1>
+                    <p class="mb-3 fs-4">Log in with your data that you entered during registration.</p>
+                    <?php if (session()->getFlashdata('error')) : ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <?= session()->getFlashdata('error') ?>
+                        </div>
+                    <?php endif; ?>
                     <form action="<?= base_url('auth/login') ?>" method="post">
-                        <div class="form-group position-relative has-icon-left mb-4">
+                        <div class="form-group position-relative has-icon-left mb-2">
                             <input type="text" class="form-control form-control-xl" placeholder="Username" name="username">
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>
                         </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
+                        <div class="form-group position-relative has-icon-left mb-2">
                             <input type="password" class="form-control form-control-xl" placeholder="Password" name="password">
                             <div class="form-control-icon">
                                 <i class="bi bi-shield-lock"></i>
                             </div>
                         </div>
+                        <small class="text-gray-600">By logging in, you agree to the V-MARS <a href="#" class="font-bold">Terms of
+                                Service</a> and <a href="#" class="font-bold">Privacy Policy</a>.</small>
                         <!-- <div class="form-check form-check-lg d-flex align-items-end">
                             <input class="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault">
                             <label class="form-check-label text-gray-600" for="flexCheckDefault">
                                 Keep me logged in
                             </label>
                         </div> -->
-                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" type="submit">Log in</button>
+                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-3" type="submit">Log in</button>
                     </form>
                     <!-- <div class="text-center mt-5 text-lg fs-4">
                         <p class="text-gray-600">Don't have an account? <a href="auth-register.html" class="font-bold">Sign

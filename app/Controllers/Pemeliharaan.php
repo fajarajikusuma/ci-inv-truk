@@ -14,7 +14,7 @@ class Pemeliharaan extends BaseController
     {
         $this->pemeliharaanModel = new \App\Models\PemeliharaanModel();
         $this->kendaraanModel = new \App\Models\KendaraanModel();
-        helper(['id_helper']);
+        helper(['id_helper', 'barcode', 'qrcode']);
     }
     public function index()
     {
@@ -41,6 +41,10 @@ class Pemeliharaan extends BaseController
         foreach ($data['pemeliharaan'] as &$p) {
             $p['enc_id_pemeliharaan'] = encode_id($p['id_pemeliharaan']);
         }
+
+        // Generate QR Code berdasarkan nomor polisi + ID kendaraan
+        $qrText = "Nopol: " . $data['kendaraan']['nopol'] . " | ID: " . $id_kendaraan;
+        $data['qrcode'] = generateQRCode($qrText);
 
         return view('pemeliharaan/detail_pemeliharaan', $data);
     }
@@ -128,5 +132,17 @@ class Pemeliharaan extends BaseController
         $this->pemeliharaanModel->delete($id_pemeliharaan);
 
         return redirect()->to(base_url('pemeliharaan/detail/' . encode_id($id_kendaraan)))->with('success', 'Data pemeliharaan kendaraan berhasil dihapus.');
+    }
+
+    public function cetak_qrcode($enc_id)
+    {
+        $id_kendaraan = decode_id($enc_id);
+
+        $data = [
+            'kendaraan' => $this->kendaraanModel->getKendaraanDetail($id_kendaraan),
+            'qrcode' => generateQRCode($id_kendaraan),
+        ];
+
+        return view('pemeliharaan/cetak_qrcode', $data);
     }
 }

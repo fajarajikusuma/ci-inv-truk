@@ -48,6 +48,7 @@ class Validation extends BaseConfig
     public $sopir_edit;
     public $user_simpan;
     public $user_edit;
+    public $login;
 
     public function __construct()
     {
@@ -103,6 +104,11 @@ class Validation extends BaseConfig
             'password' => 'permit_empty|min_length[8]',
             'role' => 'required',
             'status' => 'required',
+        ];
+
+        $this->login = [
+            'username' => 'required',
+            'password' => 'required',
         ];
     }
 }

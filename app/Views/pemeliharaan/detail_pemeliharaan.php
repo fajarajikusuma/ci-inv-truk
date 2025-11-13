@@ -16,39 +16,63 @@
         <div class="card-header bg-light">
             <h5 class="mb-0">Data Kendaraan</h5>
         </div>
-        <div class="card-body table-responsive">
-            <table class="table table-bordered mt-4">
-                <tr>
-                    <th width="200">Nomor Polisi</th>
-                    <td><?= esc($kendaraan['nopol']); ?></td>
-                </tr>
-                <tr>
-                    <th>Merk</th>
-                    <td><?= esc($kendaraan['merk']); ?></td>
-                </tr>
-                <tr>
-                    <th>Tipe</th>
-                    <td><?= esc($kendaraan['tipe']); ?></td>
-                </tr>
-                <tr>
-                    <th>Jenis Kendaraan</th>
-                    <td><?= esc($kendaraan['jenis_kendaraan']); ?></td>
-                </tr>
-                <tr>
-                    <th>Tahun Pembuatan</th>
-                    <td><?= esc($kendaraan['tahun_pembuatan']); ?></td>
-                </tr>
-                <tr>
-                    <th>No. Mesin</th>
-                    <td><?= esc($kendaraan['no_mesin']); ?></td>
-                </tr>
-                <tr>
-                    <th>No. Rangka</th>
-                    <td><?= esc($kendaraan['no_rangka']); ?></td>
-                </tr>
-            </table>
+        <div class="card-body p-4">
+            <div class="row">
+                <!-- Kolom Tabel -->
+                <div class="col-lg-8 col-md-7 col-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered mt-3">
+                            <tr>
+                                <th width="200">Nomor Polisi</th>
+                                <td><?= esc($kendaraan['nopol']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Merk</th>
+                                <td><?= esc($kendaraan['merk']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Tipe</th>
+                                <td><?= esc($kendaraan['tipe']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Jenis Kendaraan</th>
+                                <td><?= esc($kendaraan['jenis_kendaraan']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Tahun Pembuatan</th>
+                                <td><?= esc($kendaraan['tahun_pembuatan']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>No. Mesin</th>
+                                <td><?= esc($kendaraan['no_mesin']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>No. Rangka</th>
+                                <td><?= esc($kendaraan['no_rangka']); ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Kolom QR Code -->
+                <div class="col-lg-4 col-md-5 col-12 mt-3">
+                    <div class="card mt-3 mt-md-0 text-center">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">QR Code Kendaraan</h5>
+                        </div>
+                        <div class="card-body border border-secondary rounded-bottom-4 d-flex justify-content-center align-items-center p-3" style="min-height: 200px;">
+                            <img src="<?= $qrcode ?>" alt="QR Code Kendaraan" class="img-fluid" style="max-width: 150px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- cetak qr code -->
+            <a href="<?= base_url('pemeliharaan/cetak_qrcode/' . $enc_id); ?>" class="btn btn-primary btn-sm mt-3">
+                <i class="bi bi-printer"></i> Cetak QR Code
+            </a>
         </div>
     </div>
+
 
     <div class="card mt-4">
         <div class="card-header bg-light">

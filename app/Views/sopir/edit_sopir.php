@@ -10,7 +10,17 @@
         <div class="card-header">
             <h4 class="card-title">Form Edit Sopir</h4>
         </div>
-
+        <?php if (session()->has('errors')): ?>
+            <div class="m-3">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Terjadi kesalahan!</strong><br>
+                    <?php foreach (session('errors') as $error): ?>
+                        - <?= esc($error) ?><br>
+                    <?php endforeach; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        <?php endif; ?>
         <div class="card-body">
             <form action="<?= base_url('sopir/update/' . $enc_id) ?>" method="post">
                 <?= csrf_field() ?>

@@ -10,6 +10,17 @@
         <div class="card-header">
             <h5 class="mb-0">Input Pemeliharaan Kendaraan</h5>
         </div>
+        <?php if (session()->has('errors')): ?>
+            <div class="m-3">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Terjadi kesalahan!</strong><br>
+                    <?php foreach (session('errors') as $error): ?>
+                        - <?= esc($error) ?><br>
+                    <?php endforeach; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        <?php endif; ?>
         <div class="card-body">
             <form action="<?= base_url('pemeliharaan/simpan/' . $enc_id); ?>" method="post">
                 <?= csrf_field(); ?>

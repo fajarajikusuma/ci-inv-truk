@@ -33,6 +33,8 @@ $routes->get('/pemeliharaan/edit/(:any)', 'Pemeliharaan::edit/$1');
 $routes->post('/pemeliharaan/update/(:any)', 'Pemeliharaan::update/$1', ['filter' => 'validate:pemeliharaan_edit']);
 $routes->get('/pemeliharaan/hapus/(:any)', 'Pemeliharaan::hapus/$1');
 $routes->get('/pemeliharaan/detail/(:any)', 'Pemeliharaan::detail/$1');
+$routes->get('/pemeliharaan/cetak_qrcode/(:any)', 'Pemeliharaan::cetak_qrcode/$1');
+
 
 // User Routes
 $routes->get('/user', 'User::index');
@@ -44,5 +46,5 @@ $routes->get('/user/hapus/(:any)', 'User::hapus/$1');
 
 // Auth Routes
 $routes->get('/login', 'Auth::index');
-$routes->post('/auth/login', 'Auth::login');
+$routes->post('/auth/login', 'Auth::login', ['filter' => 'validate:login']);
 $routes->get('/logout', 'Auth::logout');
