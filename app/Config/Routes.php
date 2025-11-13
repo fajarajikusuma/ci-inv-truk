@@ -27,8 +27,8 @@ $routes->get('/sopir/hapus/(:any)', 'Sopir::hapus/$1');
 
 // Pemeliharaan Routes
 $routes->get('/pemeliharaan', 'Pemeliharaan::index');
-$routes->get('/pemeliharaan/tambah', 'Pemeliharaan::tambah');
-$routes->post('/pemeliharaan/simpan', 'Pemeliharaan::simpan', ['filter' => 'validate:pemeliharaan_simpan']);
+$routes->get('/pemeliharaan/tambah/(:any)', 'Pemeliharaan::tambah/$1');
+$routes->post('/pemeliharaan/simpan/(:any)', 'Pemeliharaan::simpan/$1', ['filter' => 'validate:pemeliharaan_simpan']);
 $routes->get('/pemeliharaan/edit/(:any)', 'Pemeliharaan::edit/$1');
 $routes->post('/pemeliharaan/update/(:any)', 'Pemeliharaan::update/$1', ['filter' => 'validate:pemeliharaan_edit']);
 $routes->get('/pemeliharaan/hapus/(:any)', 'Pemeliharaan::hapus/$1');
@@ -41,3 +41,8 @@ $routes->post('/user/simpan', 'User::simpan', ['filter' => 'validate:user_simpan
 $routes->get('/user/edit/(:any)', 'User::edit/$1');
 $routes->post('/user/update/(:any)', 'User::update/$1', ['filter' => 'validate:user_edit']);
 $routes->get('/user/hapus/(:any)', 'User::hapus/$1');
+
+// Auth Routes
+$routes->get('/login', 'Auth::index');
+$routes->post('/auth/login', 'Auth::login');
+$routes->get('/logout', 'Auth::logout');

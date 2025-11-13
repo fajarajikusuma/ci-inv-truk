@@ -4,5 +4,6 @@ $(document).ready(function () {
     $('#tableSopir').DataTable();
     $('#tableUser').DataTable();
     $('#table-pemeliharaan').DataTable();
+    $('#table-riwayat').DataTable();
 });
 

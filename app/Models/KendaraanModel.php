@@ -53,7 +53,7 @@ class KendaraanModel extends Model
 
     public function getKendaraanDetail($id)
     {
-        return $this->select('tb_kendaraan.*, tb_sopir.nama_sopir')
+        return $this->select('tb_kendaraan.*, tb_sopir.*')
             ->join('tb_sopir', 'tb_kendaraan.id_sopir = tb_sopir.id_sopir', 'left')
             ->where('tb_kendaraan.id_kendaraan', $id)
             ->first();

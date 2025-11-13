@@ -34,8 +34,9 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
-        'logActivity' => \App\Filters\ActivityLogFilter::class,
-        'validate' => \App\Filters\ValidationFilter::class,
+        'logActivity'   => \App\Filters\ActivityLogFilter::class,
+        'validate'      => \App\Filters\ValidationFilter::class,
+        'login'         => \App\Filters\LoginFilter::class,
     ];
 
     /**
@@ -78,6 +79,7 @@ class Filters extends BaseFilters
             // 'csrf',
             // 'invalidchars',
             'logActivity',
+            'login' => ['except' => ['login', 'auth/*']],
         ],
         'after' => [
             // 'honeypot',

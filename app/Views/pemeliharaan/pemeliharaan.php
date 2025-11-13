@@ -10,7 +10,7 @@
         <div class="card-header">
             <h4 class="card-title">Tabel Pemeliharaan Kendaraan</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
             <table class="table table-striped" id="table-pemeliharaan">
                 <thead>
                     <tr>

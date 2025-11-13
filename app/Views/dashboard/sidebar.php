@@ -48,7 +48,7 @@ $segment1 = $uri->getSegment(1); // contoh: 'kendaraan' dari /kendaraan
 
                 <!-- Dashboard -->
                 <li class="sidebar-item <?= ($segment1 == '' || $segment1 == 'dashboard') ? 'active' : '' ?>">
-                    <a href="<?= base_url('dashboard') ?>" class='sidebar-link'>
+                    <a href="<?= base_url('/') ?>" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
                     </a>
