@@ -79,7 +79,7 @@ class Filters extends BaseFilters
             // 'csrf',
             // 'invalidchars',
             'logActivity',
-            'login' => ['except' => ['login', 'auth/*']],
+            'login' => ['except' => ['login', 'auth/*', 'cek_riwayat_kendaraan/*']],
         ],
         'after' => [
             // 'honeypot',

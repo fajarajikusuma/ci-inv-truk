@@ -86,10 +86,14 @@ class Sopir extends BaseController
 
         $this->sopirModel->update($id_sopir, $data);
 
-        if ($data['status_sopir'] != 'aktif') {
+        if (strtolower($data['status_sopir']) != 'aktif') {
             $this->db->table('tb_kendaraan')
                 ->where('id_sopir', $id_sopir)
                 ->update(['id_sopir' => null]);
+        } else {
+            $this->db->table('tb_kendaraan')
+                ->where('id_sopir', null)
+                ->update(['id_sopir' => $id_sopir]);
         }
 
         return redirect()->to('/sopir')->with('success', 'Data sopir berhasil diupdate');

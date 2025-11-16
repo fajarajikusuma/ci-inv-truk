@@ -48,3 +48,6 @@ $routes->get('/user/hapus/(:any)', 'User::hapus/$1');
 $routes->get('/login', 'Auth::index');
 $routes->post('/auth/login', 'Auth::login', ['filter' => 'validate:login']);
 $routes->get('/logout', 'Auth::logout');
+
+// CEK RIWAYAT KENDARAAN
+$routes->get('/cek_riwayat_kendaraan/(:any)', 'Auth::cek_riwayat_kendaraan/$1');

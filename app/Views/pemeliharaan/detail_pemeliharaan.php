@@ -90,7 +90,7 @@
                 </tr>
                 <tr>
                     <th>Status</th>
-                    <td><?= esc($kendaraan['status']); ?></td>
+                    <td><?= esc($kendaraan['status_sopir']); ?></td>
                 </tr>
             </table>
         </div>
@@ -105,7 +105,7 @@
         </div>
 
         <div class="card-body table-responsive">
-            <table class="table table-striped " id="table-riwayat">
+            <table class="table table-striped" id="table-riwayat">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -113,8 +113,9 @@
                         <th>Tindakan Perbaikan</th>
                         <th>Bengkel</th>
                         <th>Biaya</th>
+                        <th>Nama Sopir</th>
                         <th>Dibuat Oleh</th>
-                        <th>Aksi</th>
+                        <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -127,16 +128,19 @@
                                 <td><?= esc($row['tindakan_perbaikan']); ?></td>
                                 <td><?= esc($row['bengkel']); ?></td>
                                 <td>Rp <?= number_format($row['biaya'], 0, ',', '.'); ?></td>
+                                <td><?= esc($row['nama_sopir']); ?></td>
                                 <td><?= esc($row['nama_user']); ?></td>
                                 <td>
-                                    <a href="<?= base_url('pemeliharaan/edit/' . $row['enc_id_pemeliharaan']); ?>" class="btn btn-sm btn-warning">
-                                        <i class="bi bi-pencil-square"></i> Edit
-                                    </a>
-                                    <a href="<?= base_url('pemeliharaan/hapus/' . $row['enc_id_pemeliharaan']); ?>"
-                                        onclick="return confirm('Yakin ingin menghapus data ini?')"
-                                        class="btn btn-sm btn-danger">
-                                        <i class="bi bi-trash"></i> Hapus
-                                    </a>
+                                    <div class="d-flex justify-content-center align-items-center gap-1">
+                                        <a href="<?= base_url('pemeliharaan/edit/' . $row['enc_id_pemeliharaan']); ?>" class="btn btn-sm btn-warning">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </a>
+                                        <a href="<?= base_url('pemeliharaan/hapus/' . $row['enc_id_pemeliharaan']); ?>"
+                                            onclick="return confirm('Yakin ingin menghapus data ini?')"
+                                            class="btn btn-sm btn-danger">
+                                            <i class="bi bi-trash"></i> Hapus
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

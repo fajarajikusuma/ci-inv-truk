@@ -54,7 +54,8 @@ class PemeliharaanModel extends Model
                 tb_kendaraan.tipe,
                 tb_kendaraan.tahun_pembuatan,
                 COALESCE(SUM(tb_pemeliharaan.biaya), 0) AS total_biaya,
-                COUNT(tb_pemeliharaan.id_pemeliharaan) AS jumlah_record
+                COUNT(tb_pemeliharaan.id_pemeliharaan) AS jumlah_record,
+                GROUP_CONCAT(DISTINCT tb_kendaraan.id_sopir) AS id_sopir
             ')
             ->join('tb_kendaraan', 'tb_kendaraan.id_kendaraan = tb_pemeliharaan.id_kendaraan', 'right')
             // atau gunakan left dari tb_kendaraan: ubah model referensi jadi kendaraan utama
@@ -76,9 +77,11 @@ class PemeliharaanModel extends Model
                 tb_pemeliharaan.tindakan_perbaikan,
                 tb_pemeliharaan.biaya,
                 tb_pemeliharaan.dibuat_oleh,
-                tb_user.nama as nama_user
+                tb_user.nama as nama_user,
+                tb_sopir.nama_sopir as nama_sopir
             ')
             ->join('tb_user', 'tb_user.id_user = tb_pemeliharaan.dibuat_oleh', 'left')
+            ->join('tb_sopir', 'tb_sopir.id_sopir = tb_pemeliharaan.id_sopir', 'left')
             ->where('tb_pemeliharaan.id_kendaraan', $id_kendaraan)
             ->findAll();
     }

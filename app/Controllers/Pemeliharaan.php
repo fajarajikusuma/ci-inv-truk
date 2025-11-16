@@ -14,6 +14,7 @@ class Pemeliharaan extends BaseController
     {
         $this->pemeliharaanModel = new \App\Models\PemeliharaanModel();
         $this->kendaraanModel = new \App\Models\KendaraanModel();
+        $this->sopirModel = new \App\Models\SopirModel();
         helper(['id_helper', 'barcode', 'qrcode']);
     }
     public function index()
@@ -24,6 +25,16 @@ class Pemeliharaan extends BaseController
         foreach ($data['pemeliharaan'] as &$p) {
             $p['enc_id'] = encode_id($p['id_kendaraan']);
         }
+
+        foreach ($data['pemeliharaan'] as &$p) {
+            $sopir = null;
+            if (!empty($p['id_sopir'])) {
+                $sopir = $this->sopirModel->find($p['id_sopir']);
+            }
+            $sopir_nonaktif = (!$sopir || empty($sopir['status_sopir'])) ? true : false;
+            $p['sopir_nonaktif'] = $sopir_nonaktif;
+        }
+        unset($p);
 
         return view('pemeliharaan/pemeliharaan', $data);
     }
@@ -43,7 +54,8 @@ class Pemeliharaan extends BaseController
         }
 
         // Generate QR Code berdasarkan nomor polisi + ID kendaraan
-        $qrText = "Nopol: " . $data['kendaraan']['nopol'] . " | ID: " . $id_kendaraan;
+        $qrText = base_url('cek_riwayat_kendaraan/' . $enc_id);
+
         $data['qrcode'] = generateQRCode($qrText);
 
         return view('pemeliharaan/detail_pemeliharaan', $data);
@@ -140,7 +152,7 @@ class Pemeliharaan extends BaseController
 
         $data = [
             'kendaraan' => $this->kendaraanModel->getKendaraanDetail($id_kendaraan),
-            'qrcode' => generateQRCode($id_kendaraan),
+            'qrcode' => generateQRCode(base_url('cek_riwayat_kendaraan/' . $enc_id)),
         ];
 
         return view('pemeliharaan/cetak_qrcode', $data);
