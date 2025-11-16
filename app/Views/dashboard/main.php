@@ -60,7 +60,7 @@
             <header>
                 <nav class="navbar navbar-expand navbar-light navbar-top">
                     <div class="container-fluid">
-                        <a href="#" class="burger-btn d-block">
+                        <a href="javascript:void(0)" class="burger-btn d-block" aria-expanded="false">
                             <i class="bi bi-justify fs-3"></i>
                         </a>
 

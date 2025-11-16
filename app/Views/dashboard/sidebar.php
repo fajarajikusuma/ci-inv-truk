@@ -8,7 +8,7 @@ $segment1 = $uri->getSegment(1); // contoh: 'kendaraan' dari /kendaraan
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a href="<?= base_url() ?>"><img src="<?= base_url('dist/assets/compiled/svg/logo.svg') ?>" alt="Logo"></a>
+                    <span class="fs-5 text-bg-primary p-2 rounded-3">V-MARS</span>
                 </div>
                 <div class="theme-toggle d-flex gap-2 align-items-center mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="20" height="20" viewBox="0 0 21 21"
@@ -37,7 +37,7 @@ $segment1 = $uri->getSegment(1); // contoh: 'kendaraan' dari /kendaraan
                     </svg>
                 </div>
                 <div class="sidebar-toggler x">
-                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                    <a href="javascript:void(0)" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
                 </div>
             </div>
         </div>
