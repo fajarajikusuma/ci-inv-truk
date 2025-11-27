@@ -166,7 +166,7 @@
                         </div>
                         <div class="float-end">
                             <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                                    href="https://saugi.me">Saugi</a></p>
+                                    href="https://fajarajikusuma.vercel.app">Fajar Aji Kusuma</a></p>
                         </div>
                     </div>
                 </div>

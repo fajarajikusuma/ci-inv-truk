@@ -22,7 +22,7 @@
             </div>
         <?php endif; ?>
         <div class="card-body">
-            <form action="<?= base_url('pemeliharaan/simpan/' . $enc_id); ?>" method="post">
+            <form action="<?= base_url('pemeliharaan/simpan/' . $enc_id); ?>" method="post" enctype="multipart/form-data">
                 <?= csrf_field(); ?>
 
                 <div class="row">
@@ -67,6 +67,12 @@
                     <input type="text" name="biaya" id="biaya" class="form-control" placeholder="Contoh: 150000" required>
                 </div>
 
+                <!-- Nota -->
+                <div class="mb-3">
+                    <label for="nota" class="form-label">Upload Nota (Opsional)</label>
+                    <input type="file" name="nota" id="nota" class="form-control">
+                </div>
+
                 <!-- Dibuat Oleh -->
                 <div class="mb-3">
                     <label for="dibuat_oleh" class="form-label">Dibuat Oleh</label>
@@ -75,7 +81,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end mt-5">
-                    <a href="<?= base_url('pemeliharaan'); ?>" class="btn btn-secondary me-2">Kembali</a>
+                    <a href="<?= base_url('pemeliharaan/detail/' . $enc_id); ?>" class="btn btn-secondary me-2">Kembali</a>
                     <button type="submit" class="btn btn-primary">Simpan Data</button>
                 </div>
             </form>
@@ -87,6 +93,22 @@
 <script>
     document.getElementById('biaya').addEventListener('input', function(e) {
         e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    });
+
+    function toTitleCase(str) {
+        return str
+            .toLowerCase()
+            .replace(/\b\w/g, function(char) {
+                return char.toUpperCase();
+            });
+    }
+
+    document.getElementById('bengkel').addEventListener('input', function(e) {
+        e.target.value = toTitleCase(e.target.value);
+    });
+
+    document.getElementById('tindakan_perbaikan').addEventListener('input', function(e) {
+        e.target.value = toTitleCase(e.target.value);
     });
 </script>
 

@@ -114,6 +114,7 @@
                         <th>Bengkel</th>
                         <th>Biaya</th>
                         <th>Nama Sopir</th>
+                        <th>Nota</th>
                         <th>Dibuat Oleh</th>
                         <th class="text-center">Aksi</th>
                     </tr>
@@ -129,6 +130,15 @@
                                 <td><?= esc($row['bengkel']); ?></td>
                                 <td>Rp <?= number_format($row['biaya'], 0, ',', '.'); ?></td>
                                 <td><?= esc($row['nama_sopir']); ?></td>
+                                <td>
+                                    <?php if (!empty($row['nota'])) : ?>
+                                        <a href="<?= base_url('assets/img/nota/' . $row['nota']); ?>" class="btn btn-sm btn-primary">
+                                            <i class="bi bi-eye"></i> Lihat
+                                        </a>
+                                    <?php else : ?>
+                                        <span class="text-danger">Tidak Ada Nota</span>
+                                    <?php endif; ?>
+                                </td>
                                 <td><?= esc($row['nama_user']); ?></td>
                                 <td>
                                     <div class="d-flex justify-content-center align-items-center gap-1">

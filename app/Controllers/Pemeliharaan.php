@@ -78,6 +78,15 @@ class Pemeliharaan extends BaseController
     public function simpan($enc_id)
     {
         $id_kendaraan = decode_id($enc_id);
+        //handle foto nota
+        $file = $this->request->getFile('nota');
+        if ($file && $file->getError() == 0) {
+            $nama_nota = $file->getRandomName();
+            $file->move('assets/img/nota', $nama_nota);
+            $nota = $nama_nota;
+        } else {
+            $nota = null;
+        }
 
         $data = [
             'id_kendaraan' => $id_kendaraan,
@@ -87,6 +96,7 @@ class Pemeliharaan extends BaseController
             'bengkel' => $this->request->getPost('bengkel'),
             'biaya' => $this->request->getPost('biaya'),
             'dibuat_oleh' => $this->request->getPost('id_user'),
+            'nota' => $nota,
         ];
         // dd($data);
         $this->pemeliharaanModel->insert($data);
@@ -120,6 +130,21 @@ class Pemeliharaan extends BaseController
         $id_pemeliharaan = decode_id($enc_id_pemeliharaan);
         $id_kendaraan = $this->pemeliharaanModel->getKendaraanId($id_pemeliharaan);
 
+        //handle foto nota
+        $nota = $this->request->getFile('nota');
+        if ($nota && $nota->getError() == 0) {
+            $nama_nota = $nota->getRandomName();
+            // delete old nota
+            $nota_lama = $this->request->getPost('nota_lama');
+            if ($nota_lama && file_exists('assets/img/nota/' . $nota_lama)) {
+                unlink('assets/img/nota/' . $nota_lama);
+            }
+            $nota->move('assets/img/nota', $nama_nota);
+            $nota = $nama_nota;
+        } else {
+            $nota = $this->request->getPost('nota_lama');
+        }
+
         $data = [
             'id_kendaraan' => $id_kendaraan,
             'id_sopir' => $this->request->getPost('id_sopir'),
@@ -128,6 +153,7 @@ class Pemeliharaan extends BaseController
             'bengkel' => $this->request->getPost('bengkel'),
             'biaya' => $this->request->getPost('biaya'),
             'dibuat_oleh' => $this->request->getPost('dibuat_oleh'),
+            'nota' => $nota,
         ];
         // dd($data);
         $this->pemeliharaanModel->update($id_pemeliharaan, $data);

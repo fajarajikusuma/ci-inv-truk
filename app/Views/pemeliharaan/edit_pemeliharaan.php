@@ -22,7 +22,7 @@
             </div>
         <?php endif; ?>
         <div class="card-body">
-            <form action="<?= base_url('pemeliharaan/update/' . $enc_id_pemeliharaan); ?>" method="post">
+            <form action="<?= base_url('pemeliharaan/update/' . $enc_id_pemeliharaan); ?>" method="post" enctype="multipart/form-data">
                 <?= csrf_field(); ?>
 
                 <div class="row">
@@ -90,7 +90,14 @@
                         class="form-control"
                         placeholder="Contoh: 150000"
                         required
-                        value="<?= number_format($pemeliharaan['biaya'], 0, ',', '.'); ?>">
+                        value="<?= esc(intval($pemeliharaan['biaya'])); ?>">
+                </div>
+
+                <!-- Nota -->
+                <div class="mb-3">
+                    <label for="nota" class="form-label">Upload Nota (Opsional)</label>
+                    <input type="file" name="nota" id="nota" class="form-control">
+                    <input type="hidden" name="nota_lama" value="<?= esc($pemeliharaan['nota']); ?>">
                 </div>
 
                 <!-- Dibuat Oleh -->
@@ -113,6 +120,22 @@
 <script>
     document.getElementById('biaya').addEventListener('input', function(e) {
         e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    });
+
+    function toTitleCase(str) {
+        return str
+            .toLowerCase()
+            .replace(/\b\w/g, function(char) {
+                return char.toUpperCase();
+            });
+    }
+
+    document.getElementById('bengkel').addEventListener('input', function(e) {
+        e.target.value = toTitleCase(e.target.value);
+    });
+
+    document.getElementById('tindakan_perbaikan').addEventListener('input', function(e) {
+        e.target.value = toTitleCase(e.target.value);
     });
 </script>
 

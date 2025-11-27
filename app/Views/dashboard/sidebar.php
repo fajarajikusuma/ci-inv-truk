@@ -8,7 +8,7 @@ $segment1 = $uri->getSegment(1); // contoh: 'kendaraan' dari /kendaraan
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <span class="fs-5 text-bg-primary p-2 rounded-3">V-MARS</span>
+                    <span class="fs-5 text-primary">V-MARS</span>
                 </div>
                 <div class="theme-toggle d-flex gap-2 align-items-center mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="20" height="20" viewBox="0 0 21 21"

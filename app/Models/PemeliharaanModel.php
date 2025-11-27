@@ -12,7 +12,7 @@ class PemeliharaanModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_kendaraan', 'id_sopir', 'tanggal_keluhan', 'bengkel', 'tindakan_perbaikan', 'biaya', 'dibuat_oleh'];
+    protected $allowedFields    = ['id_kendaraan', 'id_sopir', 'tanggal_keluhan', 'bengkel', 'tindakan_perbaikan', 'biaya', 'dibuat_oleh', 'nota'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -77,6 +77,7 @@ class PemeliharaanModel extends Model
                 tb_pemeliharaan.tindakan_perbaikan,
                 tb_pemeliharaan.biaya,
                 tb_pemeliharaan.dibuat_oleh,
+                tb_pemeliharaan.nota,
                 tb_user.nama as nama_user,
                 tb_sopir.nama_sopir as nama_sopir
             ')

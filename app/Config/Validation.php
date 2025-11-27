@@ -49,6 +49,8 @@ class Validation extends BaseConfig
     public $user_simpan;
     public $user_edit;
     public $login;
+    public $pemeliharaan_simpan;
+    public $pemeliharaan_edit;
 
     public function __construct()
     {
@@ -109,6 +111,22 @@ class Validation extends BaseConfig
         $this->login = [
             'username' => 'required',
             'password' => 'required',
+        ];
+
+        $this->pemeliharaan_simpan = [
+            'nopol' => 'required',
+            'bengkel' => 'required',
+            'tindakan_perbaikan' => 'required',
+            'biaya' => 'required|integer',
+            'nota' => 'permit_empty|uploaded[nota]|is_image[nota]|max_size[nota,2048]|mime_in[nota,image/jpg,image/jpeg,image/png]',
+            'dibuat_oleh' => 'required',
+        ];
+
+        $this->pemeliharaan_edit = [
+            'bengkel' => 'required',
+            'tindakan_perbaikan' => 'required',
+            'biaya' => 'required',
+            'nota' => 'permit_empty|uploaded[nota]|is_image[nota]|max_size[nota,2048]|mime_in[nota,image/jpg,image/jpeg,image/png]',
         ];
     }
 }
