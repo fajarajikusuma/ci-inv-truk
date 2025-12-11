@@ -46,24 +46,31 @@ class PemeliharaanModel extends Model
 
     public function getKendaraanWithTotalPemeliharaan()
     {
-        return $this->select('
-                tb_kendaraan.id_kendaraan,
-                tb_kendaraan.nopol,
-                tb_kendaraan.jenis_kendaraan,
-                tb_kendaraan.merk,
-                tb_kendaraan.tipe,
-                tb_kendaraan.tahun_pembuatan,
-                COALESCE(SUM(tb_pemeliharaan.biaya), 0) AS total_biaya,
-                COUNT(tb_pemeliharaan.id_pemeliharaan) AS jumlah_record,
-                GROUP_CONCAT(DISTINCT tb_kendaraan.id_sopir) AS id_sopir
-            ')
-            ->join('tb_kendaraan', 'tb_kendaraan.id_kendaraan = tb_pemeliharaan.id_kendaraan', 'right')
-            // atau gunakan left dari tb_kendaraan: ubah model referensi jadi kendaraan utama
-            // alternatif safer: mulai query dari tb_kendaraan (lebih jelas)
-            ->groupBy('tb_kendaraan.id_kendaraan')
-            ->orderBy('tb_kendaraan.nopol', 'DESC')
-            ->findAll();
+        return $this->db->table('tb_kendaraan k')
+            ->select('
+            k.id_kendaraan,
+            k.nopol,
+            k.jenis_kendaraan,
+            k.merk,
+            k.tipe,
+            k.tahun_pembuatan,
+            COALESCE(GROUP_CONCAT(DISTINCT s.nama_sopir), "") AS nama_sopir,
+            COALESCE(SUM(p.biaya), 0) AS total_biaya,
+            COUNT(p.id_pemeliharaan) AS jumlah_record,
+            k.id_sopir
+        ')
+            ->join(
+                'tb_pemeliharaan p',
+                'p.id_kendaraan = k.id_kendaraan AND YEAR(p.tanggal_keluhan) = ' . date('Y'),
+                'left'
+            )
+            ->join('tb_sopir s', 's.id_sopir = k.id_sopir', 'left')
+            ->groupBy('k.id_kendaraan')
+            ->orderBy('k.nopol', 'DESC')
+            ->get()
+            ->getResultArray();
     }
+
 
     // getPemeliharaanByKendaraan 
     public function getPemeliharaanByKendaraan($id_kendaraan)
@@ -109,5 +116,70 @@ class PemeliharaanModel extends Model
             ->join('tb_user', 'tb_user.id_user = tb_pemeliharaan.dibuat_oleh', 'left')
             ->where('id_user', $id_user)
             ->first();
+    }
+
+    // filter data pemeliharaan by tahun and bulan
+    public function getKendaraanWithTotalPemeliharaanByTahunBulan($tahun = null, $bulan = null)
+    {
+        $builder = $this->db->table('tb_kendaraan k')
+            ->select('
+            k.id_kendaraan,
+            k.nopol,
+            k.jenis_kendaraan,
+            k.merk,
+            k.tipe,
+            k.tahun_pembuatan,
+            COALESCE(GROUP_CONCAT(DISTINCT s.nama_sopir), "") AS nama_sopir,
+            COALESCE(SUM(p.biaya), 0) AS total_biaya,
+            COUNT(p.id_pemeliharaan) AS jumlah_record,
+            k.id_sopir
+        ')
+            ->join('tb_pemeliharaan p', 'p.id_kendaraan = k.id_kendaraan', 'left')
+            ->join('tb_sopir s', 's.id_sopir = k.id_sopir', 'left')
+            ->groupBy('k.id_kendaraan')
+            ->orderBy('k.nopol', 'DESC');
+
+        // ==============================
+        //   FILTER LOGIC BENAR
+        // ==============================
+
+        // Jika tahun diisi
+        if (!empty($tahun)) {
+            $builder->where('YEAR(p.tanggal_keluhan)', $tahun);
+
+            // Jika bulan = all → tidak filter bulan
+            if ($bulan === 'all') {
+                // tidak ada filter bulan
+            }
+            // Jika bulan diisi angka → filter bulan
+            else if (!empty($bulan) && ctype_digit((string)$bulan)) {
+                $builder->where('MONTH(p.tanggal_keluhan)', $bulan);
+            }
+            // Jika bulan kosong → tetap hanya filter tahun
+        }
+
+        return $builder->get()->getResultArray();
+    }
+
+    public function getPemeliharaanByKendaraanFilter($id_kendaraan, $tahun = null)
+    {
+        return $this->select('
+                tb_pemeliharaan.id_pemeliharaan,
+                tb_pemeliharaan.id_kendaraan,
+                tb_pemeliharaan.id_sopir,
+                tb_pemeliharaan.tanggal_keluhan,
+                tb_pemeliharaan.bengkel,
+                tb_pemeliharaan.tindakan_perbaikan,
+                tb_pemeliharaan.biaya,
+                tb_pemeliharaan.dibuat_oleh,
+                tb_pemeliharaan.nota,
+                tb_user.nama as nama_user,
+                tb_sopir.nama_sopir as nama_sopir
+            ')
+            ->join('tb_user', 'tb_user.id_user = tb_pemeliharaan.dibuat_oleh', 'left')
+            ->join('tb_sopir', 'tb_sopir.id_sopir = tb_pemeliharaan.id_sopir', 'left')
+            ->where('tb_pemeliharaan.id_kendaraan', $id_kendaraan)
+            ->where('YEAR(tanggal_keluhan)', $tahun)
+            ->findAll();
     }
 }

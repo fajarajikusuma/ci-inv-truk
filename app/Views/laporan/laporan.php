@@ -2,15 +2,14 @@
 <?= $this->section('content'); ?>
 
 <div class="page-heading">
-    <h3>Data Pemeliharaan Kendaraan</h3>
+    <h3><?= $title; ?></h3>
 </div>
 
 <section class="section">
     <div class="card">
         <div class="card-body">
-            <form action="<?= base_url('pemeliharaan/filter') ?>" method="get">
+            <form action="<?= base_url('laporan/filter') ?>" method="get" onchange="submitForm()">
                 <div class="row align-items-end">
-
                     <div class="col-md-4">
                         <div class="form-group mb-0">
                             <label for="tahun">Tahun</label>
@@ -43,11 +42,16 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4 d-flex align-items-end mt-3 mt-md-0">
-                        <button type="submit" class="btn btn-primary w-100 me-2">
-                            Filter
-                        </button>
-                        <a href="<?= base_url('pemeliharaan'); ?>" class="btn btn-success w-100 mt-3">
+                    <div class="col-md-4 d-flex align-items-end mt-3 mt-md-0 gap-2">
+                        <?php
+                        $request = \Config\Services::request();
+                        $tahun = $request->getGet('tahun');
+                        $bulan = $request->getGet('bulan');
+                        ?>
+                        <a href="<?= base_url('laporan/export?tahun=' . $tahun . '&bulan=' . $bulan); ?>" class="btn btn-warning w-100 mt-3">
+                            Export
+                        </a>
+                        <a href="<?= base_url('laporan'); ?>" class="btn btn-success w-100 mt-3">
                             Reset
                         </a>
                     </div>
@@ -89,7 +93,7 @@
                         <th>Tipe</th>
                         <th>Tahun Pembuatan</th>
                         <th>Total Biaya Pemeliharaan</th>
-                        <th>Aksi</th>
+                        <th>Nama Sopir</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,18 +108,7 @@
                                 <td><?= esc($row['tipe']); ?></td>
                                 <td><?= esc($row['tahun_pembuatan']); ?></td>
                                 <td>Rp <?= number_format($row['total_biaya'], 0, ',', '.'); ?></td>
-                                <td>
-                                    <div class="d-flex justify-content-center align-items-center gap-1">
-                                        <?php if ($row['sopir_nonaktif']) : ?>
-                                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#danger"><i class="bi bi-x-circle"></i> Nonaktif</button>
-                                        <?php else : ?>
-                                            <a href="<?= base_url('pemeliharaan/detail/' . $row['enc_id']); ?>" class="btn btn-sm btn-primary">
-                                                <i class="bi bi-search"></i> Detail
-                                            </a>
-                                        <?php endif; ?>
-                                    </div>
-                                </td>
+                                <td><?= esc($row['nama_sopir']); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -158,4 +151,12 @@
         </div>
     </div>
 <?php endforeach; ?>
+
+<script>
+    function submitForm() {
+        if (document.getElementById('tahun').value !== '' && document.getElementById('bulan').value !== '') {
+            document.forms[0].submit();
+        }
+    }
+</script>
 <?= $this->endSection(); ?>

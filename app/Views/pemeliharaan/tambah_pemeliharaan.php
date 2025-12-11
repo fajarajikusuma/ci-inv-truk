@@ -45,26 +45,26 @@
                     <!-- Tanggal Keluhan -->
                     <div class="col-md-6 mb-3">
                         <label for="tanggal_keluhan" class="form-label">Tanggal Keluhan</label>
-                        <input type="date" name="tanggal_keluhan" id="tanggal_keluhan" class="form-control" required>
+                        <input type="date" name="tanggal_keluhan" id="tanggal_keluhan" class="form-control" required value="<?= old('tanggal_keluhan'); ?>">
                     </div>
 
                     <!-- Bengkel -->
                     <div class="col-md-6 mb-3">
                         <label for="bengkel" class="form-label">Nama Bengkel</label>
-                        <input type="text" name="bengkel" id="bengkel" class="form-control" placeholder="Masukkan nama bengkel" required>
+                        <input type="text" name="bengkel" id="bengkel" class="form-control" placeholder="Masukkan nama bengkel" required value="<?= old('bengkel'); ?>">
                     </div>
                 </div>
 
                 <!-- Tindakan Perbaikan -->
                 <div class="mb-3">
                     <label for="tindakan_perbaikan" class="form-label">Tindakan Perbaikan</label>
-                    <textarea name="tindakan_perbaikan" id="tindakan_perbaikan" class="form-control" rows="3" placeholder="Deskripsikan tindakan perbaikan yang dilakukan" required></textarea>
+                    <textarea name="tindakan_perbaikan" id="tindakan_perbaikan" class="form-control" rows="3" placeholder="Deskripsikan tindakan perbaikan yang dilakukan" required><?= old('tindakan_perbaikan'); ?></textarea>
                 </div>
 
                 <!-- Biaya -->
                 <div class="mb-3">
                     <label for="biaya" class="form-label">Biaya (Rp)</label>
-                    <input type="text" name="biaya" id="biaya" class="form-control" placeholder="Contoh: 150000" required>
+                    <input type="text" name="biaya" id="biaya" class="form-control" placeholder="Contoh: 150000" required value="<?= old('biaya'); ?>">
                 </div>
 
                 <!-- Nota -->

@@ -21,6 +21,8 @@ class Pemeliharaan extends BaseController
     {
         $data['title'] = 'Data Pemeliharaan Kendaraan';
         $data['pemeliharaan'] = $this->pemeliharaanModel->getKendaraanWithTotalPemeliharaan();
+        $data['tahun'] = null;
+        $data['bulan'] = null;
 
         foreach ($data['pemeliharaan'] as &$p) {
             $p['enc_id'] = encode_id($p['id_kendaraan']);
@@ -42,11 +44,23 @@ class Pemeliharaan extends BaseController
     public function detail($enc_id)
     {
         $id_kendaraan = decode_id($enc_id);
+
+        $tahun_filter = $this->request->getPost('tahun_filter') ?? date('Y');
+        // dd($tahun_filter);
+        if ($tahun_filter == 'all') {
+            // tampilkan semua data pemeliharaan
+            $pemeliharaan = $this->pemeliharaanModel->getPemeliharaanByKendaraan($id_kendaraan);
+        } else {
+            // tampilkan data pemeliharaan berdasarkan tahun
+            $pemeliharaan = $this->pemeliharaanModel->getPemeliharaanByKendaraanFilter($id_kendaraan, $tahun_filter);
+        }
+
         $data = [
             'title' => 'Detail Pemeliharaan Kendaraan',
-            'pemeliharaan' => $this->pemeliharaanModel->getPemeliharaanByKendaraan($id_kendaraan),
+            'pemeliharaan' => $pemeliharaan,
             'kendaraan' => $this->kendaraanModel->getKendaraanDetail($id_kendaraan),
             'enc_id' => $enc_id,
+            'tahun' => $tahun_filter,
         ];
 
         foreach ($data['pemeliharaan'] as &$p) {
@@ -182,5 +196,36 @@ class Pemeliharaan extends BaseController
         ];
 
         return view('pemeliharaan/cetak_qrcode', $data);
+    }
+
+    public function filter()
+    {
+        $tahun = $this->request->getGet('tahun');
+        $bulan = $this->request->getGet('bulan');
+
+        if (!$tahun || !$bulan) {
+            return redirect()->to(base_url('pemeliharaan'))->with('error', 'Mohon pilih tahun dan bulan');
+        }
+
+        $data['title'] = 'Data Pemeliharaan Kendaraan';
+        $data['pemeliharaan'] = $this->pemeliharaanModel->getKendaraanWithTotalPemeliharaanByTahunBulan($tahun, $bulan);
+        $data['tahun'] = $tahun;
+        $data['bulan'] = $bulan;
+
+        foreach ($data['pemeliharaan'] as &$p) {
+            $p['enc_id'] = encode_id($p['id_kendaraan']);
+        }
+
+        foreach ($data['pemeliharaan'] as &$p) {
+            $sopir = null;
+            if (!empty($p['id_sopir'])) {
+                $sopir = $this->sopirModel->find($p['id_sopir']);
+            }
+            $sopir_nonaktif = (!$sopir || empty($sopir['status_sopir'])) ? true : false;
+            $p['sopir_nonaktif'] = $sopir_nonaktif;
+        }
+        unset($p);
+
+        return view('pemeliharaan/pemeliharaan', $data);
     }
 }

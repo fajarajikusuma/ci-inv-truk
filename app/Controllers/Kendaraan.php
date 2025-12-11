@@ -14,6 +14,7 @@ class Kendaraan extends BaseController
     {
         $this->kendaraanModel = new \App\Models\KendaraanModel();
         $this->sopirModel = new \App\Models\SopirModel();
+        $this->pemeliharaanModel = new \App\Models\PemeliharaanModel();
         helper(['id_helper']);
     }
 
@@ -115,7 +116,7 @@ class Kendaraan extends BaseController
         }
 
         $this->kendaraanModel->update($id, [
-            'nomor_polisi'    => strtoupper($post['nopol']),
+            'nopol'    => strtoupper($post['nopol']),
             'id_sopir'        => $post['sopir'],
             'jenis_kendaraan' => $post['jenis'],
             'merk'            => $post['merk'],
@@ -142,7 +143,14 @@ class Kendaraan extends BaseController
             return redirect()->to(base_url('kendaraan'))->with('error', 'Data kendaraan tidak ditemukan.');
         }
 
-        $this->kendaraanModel->delete($id);
+        // cek apakah kendaraan sudah terpakai di pemeliharaan
+        $pemeliharaan = $this->pemeliharaanModel->getPemeliharaanByKendaraan($id);
+        if ($pemeliharaan) {
+            return redirect()->to(base_url('kendaraan'))->with('error', 'Data kendaraan sudah terpakai di pemeliharaan.');
+        } else {
+            $this->kendaraanModel->delete($id);
+        }
+
         return redirect()->to(base_url('kendaraan'))->with('success', 'Data kendaraan berhasil dihapus.');
     }
 

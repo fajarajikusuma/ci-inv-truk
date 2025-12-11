@@ -33,8 +33,9 @@ $routes->get('/pemeliharaan/edit/(:any)', 'Pemeliharaan::edit/$1');
 $routes->post('/pemeliharaan/update/(:any)', 'Pemeliharaan::update/$1', ['filter' => 'validate:pemeliharaan_edit']);
 $routes->get('/pemeliharaan/hapus/(:any)', 'Pemeliharaan::hapus/$1');
 $routes->get('/pemeliharaan/detail/(:any)', 'Pemeliharaan::detail/$1');
+$routes->post('/pemeliharaan/detail/(:any)', 'Pemeliharaan::detail/$1');
 $routes->get('/pemeliharaan/cetak_qrcode/(:any)', 'Pemeliharaan::cetak_qrcode/$1');
-
+$routes->get('/pemeliharaan/filter', 'Pemeliharaan::filter');
 
 // User Routes
 $routes->get('/user', 'User::index');
@@ -49,5 +50,20 @@ $routes->get('/login', 'Auth::index');
 $routes->post('/auth/login', 'Auth::login', ['filter' => 'validate:login']);
 $routes->get('/logout', 'Auth::logout');
 
-// CEK RIWAYAT KENDARAAN
+// Riwayat Kendaraan
 $routes->get('/cek_riwayat_kendaraan/(:any)', 'Auth::cek_riwayat_kendaraan/$1');
+
+// Laporan Routes
+$routes->get('/laporan', 'Laporan::index');
+$routes->get('/laporan/pemeliharaan', 'Laporan::pemeliharaan');
+$routes->get('/laporan/pemeliharaan/cetak', 'Laporan::cetak_pemeliharaan');
+$routes->get('/laporan/filter', 'Laporan::filter');
+$routes->get('/laporan/export', 'Laporan::export');
+
+// Pajak Kendaraan
+$routes->get('/pajak_kendaraan', 'Pajak::index');
+$routes->get('/pajak_kendaraan/tambah/(:any)', 'Pajak::tambah/$1');
+$routes->post('/pajak_kendaraan/simpan/(:any)', 'Pajak::simpan/$1', ['filter' => 'validate:pajak_kendaraan_simpan']);
+$routes->get('/pajak_kendaraan/edit/(:any)', 'Pajak::edit/$1');
+$routes->post('/pajak_kendaraan/update/(:any)', 'Pajak::update/$1', ['filter' => 'validate:pajak_kendaraan_edit']);
+$routes->get('/pajak_kendaraan/ajax_detail_pajak', 'Pajak::ajaxDetailPajak');

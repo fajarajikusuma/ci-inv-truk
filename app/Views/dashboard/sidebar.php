@@ -83,6 +83,25 @@ $segment1 = $uri->getSegment(1); // contoh: 'kendaraan' dari /kendaraan
                         <span>Pemeliharaan</span>
                     </a>
                 </li>
+
+                <!-- Pajak -->
+                <li class="sidebar-item <?= ($segment1 == 'pajak_kendaraan') ? 'active' : '' ?>">
+                    <a href="<?= site_url('pajak_kendaraan') ?>" class='sidebar-link'>
+                        <i class="bi bi-receipt-cutoff"></i>
+                        <span>Pajak Kendaraan</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-title">Report</li>
+
+                <!-- Laporan -->
+                <li class="sidebar-item <?= ($segment1 == 'laporan') ? 'active' : '' ?>">
+                    <a href="<?= site_url('laporan') ?>" class='sidebar-link'>
+                        <i class="bi bi-file-earmark-post-fill"></i>
+                        <span>Laporan Pemeliharaan</span>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>

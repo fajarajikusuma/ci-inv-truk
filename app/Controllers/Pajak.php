@@ -1,0 +1,292 @@
+<?php
+
+namespace App\Controllers;
+
+use App\Controllers\BaseController;
+use CodeIgniter\HTTP\ResponseInterface;
+
+class Pajak extends BaseController
+{
+    protected $pemeliharaanModel;
+
+    public function __construct()
+    {
+        $this->pajakModel = new \App\Models\PajakModel();
+        $this->kendaraanModel = new \App\Models\KendaraanModel();
+        helper(['id_helper']);
+    }
+
+    public function index()
+    {
+        session();
+        // updateStatusOtomatisPajakKendaraan();
+        $this->pajakModel->updateStatusPajakOtomatis();
+        $tahun = $this->request->getVar('tahun') ?? date('Y');
+
+        // Ambil data pajak kendaraan pada tahun tersebut
+        $data_pajak = $this->pajakModel->getDataPajakByTahun($tahun);
+
+        // Daftar bulan
+        $nama_bulan = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember'
+        ];
+
+        // Siapkan array bulanan (default total = 0)
+        $data_bulanan = [];
+        foreach ($nama_bulan as $key => $nama) {
+            $data_bulanan[$key] = [
+                'nama_bulan' => $nama,
+                'total' => 0,
+                'data' => [],
+            ];
+        }
+
+        // Hitung total per bulan berdasarkan tanggal STNK
+        foreach ($data_pajak as $p) {
+            $bulan = date('m', strtotime($p['tanggal_stnk']));
+            // jika status pajak sudah terbayar, lewati
+            if ($p['status_pajak'] == 'Sudah Terbayar') {
+                continue;
+            }
+
+            $data_bulanan[$bulan]['total']++;
+            $data_bulanan[$bulan]['data'][] = $p;
+        }
+
+        foreach ($data_pajak as $p) {
+            $tahun_tnkb = date('Y', strtotime($p['tanggal_tnkb']));
+            $bulan_tnkb = date('m', strtotime($p['tanggal_tnkb']));
+            // $tanggal_tnkb = date('Y-m-d', strtotime($p['tanggal_tnkb']));
+            $today = date('Y-m-d');
+
+            // Hitung TNKB hanya jika:
+            // 1. Tahun sama dengan tahun yang dicari
+            // 2. ATAU mendekati 30 hari lagi
+            $minus_30 = date('Y-m-d', strtotime('-30 days', strtotime($p['tanggal_tnkb'])));
+
+            if ($tahun_tnkb == $tahun || $today >= $minus_30) {
+
+                // Masukkan ke bulan TNKB
+                $data_bulanan[$bulan_tnkb]['total']++;
+                $data_bulanan[$bulan_tnkb]['data'][] = $p;
+            }
+        }
+
+        // Hitung total kendaraan yang harus bayar pajak pada tahun tersebut
+        $total_kendaraan = 0;
+        foreach ($data_bulanan as $bulan_data) {
+            $total_kendaraan += $bulan_data['total'];
+        }
+
+        $data = [
+            'title' => 'Data Pajak Kendaraan',
+            'tahun' => $tahun,
+            'data_bulanan' => $data_bulanan,
+            'total_kendaraan' => $total_kendaraan,
+            'pajak' => $this->pajakModel->getKendaraanWithDataPajak(),
+        ];
+        // dd($data);
+        // enc_id untuk setiap kendaraan
+        foreach ($data['pajak'] as &$p) {
+            $p['enc_id'] = encode_id($p['id_kendaraan']);
+        }
+
+        return view('pajak/pajak', $data);
+    }
+
+    public function tambah($enc_id)
+    {
+        session()->set('page', 'tambah_pajak');
+        $id = decode_id($enc_id);
+
+        $data = [
+            'title' => 'Tambah Data Pajak Kendaraan',
+            'kendaraan' => $this->kendaraanModel->where('id_kendaraan', $id)->first(),
+            'enc_id_pajak' => $enc_id,
+            'pajak' => $this->pajakModel->where('id_kendaraan', $id)->first(),
+        ];
+
+        return view('pajak/edit_pajak', $data);
+    }
+
+    public function simpan($enc_id)
+    {
+        $id = decode_id($enc_id);
+
+        $tanggal_stnk = $this->request->getVar('tanggal_stnk');
+        $tanggal_tnkb = $this->request->getVar('tanggal_tnkb');
+
+        $today = date('Y-m-d');
+        $currentYear = date('Y');
+
+        $status = '';
+
+        // Jika salah satu tanggal < hari ini => sudah lewat jatuh tempo
+        if (
+            $tanggal_stnk < $today ||
+            $tanggal_tnkb < $today
+        ) {
+            $status = 'Sudah Melewati Jatuh Tempo';
+
+            // Jika salah satu tanggal = hari ini
+        } elseif (
+            $tanggal_stnk == $today ||
+            $tanggal_tnkb == $today
+        ) {
+            $status = 'Jatuh Tempo';
+
+            // Jika tahun tanggal pajak lebih kecil dari tahun sekarang → dianggap sudah bayar
+        } elseif (
+            date('Y', strtotime($tanggal_stnk)) < $currentYear ||
+            date('Y', strtotime($tanggal_tnkb)) < $currentYear
+        ) {
+            $status = 'Sudah Terbayar';
+        } else {
+            // Cek 1 bulan sebelum jatuh tempo
+            $stnk_minus_1_month = date('Y-m-d', strtotime('-1 month', strtotime($tanggal_stnk)));
+            $tnkb_minus_1_month = date('Y-m-d', strtotime('-1 month', strtotime($tanggal_tnkb)));
+
+            if (
+                $today >= $stnk_minus_1_month ||
+                $today >= $tnkb_minus_1_month
+            ) {
+                $status = 'Akan Jatuh Tempo';
+            }
+        }
+
+        // simpan
+        $data = [
+            'id_kendaraan' => $id,
+            'tanggal_stnk' => $tanggal_stnk,
+            'tanggal_tnkb' => $tanggal_tnkb,
+            'status_pajak' => $status,
+            'keterangan_pajak' => $this->request->getVar('keterangan'),
+        ];
+
+        $this->pajakModel->insert($data);
+
+        return redirect()->to(base_url('pajak_kendaraan'))->with('success', 'Data pajak kendaraan berhasil ditambahkan');
+    }
+
+    public function edit($enc_id)
+    {
+        session()->set('page', 'edit_pajak');
+        $id = decode_id($enc_id);
+
+        $id_pajak = $this->pajakModel->where('id_kendaraan', $id)->first()['id_pajak'];
+        $enc_id_pajak = encode_id($id_pajak);
+
+        $data = [
+            'title' => 'Edit Data Pajak Kendaraan',
+            'pajak' => $this->pajakModel->where('id_kendaraan', $id)->first(),
+            'enc_id_pajak' => $enc_id_pajak,
+            'kendaraan' => $this->kendaraanModel->where('id_kendaraan', $id)->first(),
+        ];
+
+        return view('pajak/edit_pajak', $data);
+    }
+
+    public function update($enc_id)
+    {
+        $id = decode_id($enc_id);
+
+        $tanggal_stnk = $this->request->getVar('tanggal_stnk');
+        $tanggal_tnkb = $this->request->getVar('tanggal_tnkb');
+
+        $today = date('Y-m-d');
+        $currentYear = date('Y');
+
+        $status = 'Sudah Terbayar';
+
+        // Jika salah satu tanggal < hari ini => sudah lewat jatuh tempo
+        if (
+            $tanggal_stnk < $today ||
+            $tanggal_tnkb < $today
+        ) {
+            $status = 'Sudah Melewati Jatuh Tempo';
+
+            // Jika salah satu tanggal = hari ini
+        } elseif (
+            $tanggal_stnk == $today ||
+            $tanggal_tnkb == $today
+        ) {
+            $status = 'Jatuh Tempo';
+
+            // Jika tahun tanggal pajak lebih kecil dari tahun sekarang → dianggap sudah bayar
+        } elseif (
+            date('Y', strtotime($tanggal_stnk)) < $currentYear ||
+            date('Y', strtotime($tanggal_tnkb)) < $currentYear
+        ) {
+            $status = 'Sudah Terbayar';
+        } else {
+            // Cek 1 bulan sebelum jatuh tempo
+            $stnk_minus_1_month = date('Y-m-d', strtotime('-1 month', strtotime($tanggal_stnk)));
+            $tnkb_minus_1_month = date('Y-m-d', strtotime('-1 month', strtotime($tanggal_tnkb)));
+
+            if (
+                $today >= $stnk_minus_1_month ||
+                $today >= $tnkb_minus_1_month
+            ) {
+                $status = 'Akan Jatuh Tempo';
+            }
+        }
+
+        // simpan
+        $data = [
+            'id_kendaraan' => $this->request->getVar('id_kendaraan'),
+            'tanggal_stnk' => $tanggal_stnk,
+            'tanggal_tnkb' => $tanggal_tnkb,
+            'status_pajak' => $status,
+            'keterangan_pajak' => $this->request->getVar('keterangan'),
+        ];
+
+        $this->pajakModel->update($id, $data);
+
+        return redirect()->to(base_url('pajak_kendaraan'))->with('success', 'Data pajak kendaraan berhasil diupdate');
+    }
+
+    public function ajaxDetailPajak()
+    {
+        $bulan = $this->request->getGet('bulan');
+        $tahun = $this->request->getGet('tahun');
+
+
+        $data = $this->pajakModel->getKendaraanWithDataPajak();
+
+        $hasil = [];
+
+        foreach ($data as $row) {
+            $bulan_stnk = date('m', strtotime($row['tanggal_stnk']));
+            $tahun_stnk = date('Y', strtotime($row['tanggal_stnk']));
+
+            $bulan_tnkb = date('m', strtotime($row['tanggal_tnkb']));
+            $tahun_tnkb = date('Y', strtotime($row['tanggal_tnkb']));
+
+            if ($bulan_stnk == $bulan && $tahun_stnk == $tahun) {
+                $hasil[] = $row;
+            }
+
+            if ($bulan_tnkb == $bulan && $tahun_tnkb == $tahun) {
+                $hasil[] = $row;
+            }
+        }
+
+        $data_response = [
+            'data' => $hasil,
+            'nama_bulan' => $bulan
+        ];
+
+        return view('pajak/ajax_detail_pajak', $data_response);
+    }
+}

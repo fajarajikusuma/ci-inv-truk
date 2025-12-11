@@ -69,7 +69,7 @@ class Validation extends BaseConfig
         ];
 
         $this->kendaraan_edit = [
-            'nopol' => 'required|min_length[5]',
+            'nopol' => 'required|min_length[6]',
             'jenis' => 'required',
             'merk'  => 'required',
             'tipe'  => 'required',
@@ -114,12 +114,10 @@ class Validation extends BaseConfig
         ];
 
         $this->pemeliharaan_simpan = [
-            'nopol' => 'required',
             'bengkel' => 'required',
             'tindakan_perbaikan' => 'required',
             'biaya' => 'required|integer',
             'nota' => 'permit_empty|uploaded[nota]|is_image[nota]|max_size[nota,2048]|mime_in[nota,image/jpg,image/jpeg,image/png]',
-            'dibuat_oleh' => 'required',
         ];
 
         $this->pemeliharaan_edit = [

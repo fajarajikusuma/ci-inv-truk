@@ -8,6 +8,10 @@
     <title><?= $title ?></title>
 
     <link rel="shortcut icon" href="dist/assets/compiled/svg/favicon.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="dist/assets/extensions/flatpickr/flatpickr.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/flatpickr-year-select-plugin/dist/yearSelectPlugin.min.css" />
     <link rel="stylesheet" href="dist/assets/compiled/css/app.css" />
     <link rel="stylesheet" href="dist/assets/compiled/css/app-dark.css" />
 
@@ -157,19 +161,18 @@
             </div>
 
             <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                        <p>2023 &copy; Mazer</p>
-                    </div>
-                    <div class="float-end">
-                        <p>
-                            Crafted with
-                            <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
-                            by <a href="https://saugi.me">Saugi</a>
-                        </p>
-                    </div>
+                <div class="footer text-muted py-3 d-flex justify-content-between align-items-center flex-wrap">
+                    <p class="m-0 footer-left">
+                        <?= date('Y') ?> &copy; V-MARS
+                    </p>
+
+                    <p class="m-0 footer-right">
+                        Created with <span class="text-danger"><i class="bi bi-heart-fill"></i></span>
+                        by <a href="https://fajarajikusuma.vercel.app">Fajar Aji Kusuma, S.Kom.</a>
+                    </p>
                 </div>
             </footer>
+
         </div>
     </div>
 
@@ -177,6 +180,9 @@
     <script src="dist/assets/static/js/components/dark.js"></script>
     <script src="dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="dist/assets/compiled/js/app.js"></script>
+    <script src="dist/assets/extensions/flatpickr/flatpickr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr-year-select-plugin/dist/flatpickr-year-select-plugin.umd.js"></script>
+    <script src="dist/assets/static/js/pages/date-picker.js"></script>
     <script src="custom.js"></script>
 </body>
 

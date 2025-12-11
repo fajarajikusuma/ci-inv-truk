@@ -1,6 +1,30 @@
 <?= $this->extend('dashboard/main'); ?>
 <?= $this->section('content'); ?>
 
+<style>
+    .header-responsive {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Mobile: ubah jadi vertikal */
+    @media (max-width: 768px) {
+        .header-responsive {
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-actions {
+            flex-direction: column !important;
+            align-items: center !important;
+            width: 100%;
+            gap: 10px;
+        }
+    }
+</style>
+
 <div class="page-heading mb-3">
     <div class="d-flex justify-content-between">
         <h3>Detail Riwayat Pemeliharaan Kendaraan</h3>
@@ -97,11 +121,28 @@
     </div>
 
     <div class="card mt-4">
-        <div class="card-header bg-light d-flex justify-content-between align-items-center mb-4">
+        <div class="card-header bg-light header-responsive mb-4">
+
             <h5 class="mb-0">Riwayat Pemeliharaan</h5>
-            <a href="<?= base_url('pemeliharaan/tambah/' . $enc_id); ?>" class="btn btn-success btn-sm">
-                <i class="bi bi-plus-circle"></i> Tambah Pemeliharaan
-            </a>
+
+            <div class="d-flex align-items-center gap-2 header-actions" style="overflow-x: auto;">
+                <form action="<?= base_url('pemeliharaan/detail/' . $enc_id); ?>" method="post">
+                    <div class="input-group">
+                        <button class="btn btn-primary" disabled>Filter</button>
+                        <select name="tahun_filter" id="tahun" class="form-select" onchange="this.form.submit()">
+                            <?php for ($i = date('Y'); $i >= date('Y') - 5; $i--) : ?>
+                                <option value="<?= $i; ?>" <?= $tahun == $i ? 'selected' : ''; ?>><?= $i; ?></option>
+                            <?php endfor; ?>
+                            <option value="all" <?= $tahun == 'all' ? 'selected' : ''; ?>>Semua Tahun</option>
+                        </select>
+                    </div>
+                </form>
+
+                <a href="<?= base_url('pemeliharaan/tambah/' . $enc_id); ?>" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Tambah Pemeliharaan
+                </a>
+            </div>
+
         </div>
 
         <div class="card-body table-responsive">
