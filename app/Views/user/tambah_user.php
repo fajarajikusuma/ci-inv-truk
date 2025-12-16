@@ -54,9 +54,11 @@
                         <select name="role" id="role" class="form-select" required>
                             <option value="">-- Pilih Role --</option>
                             <option value="admin" <?= old('role') == 'admin' ? 'selected' : '' ?>>Admin</option>
-                            <option value="operator" <?= old('role') == 'operator' ? 'selected' : '' ?>>Operator</option>
+                            <option value="operator_pemeliharaan" <?= old('role') == 'operator_pemeliharaan' ? 'selected' : '' ?>>Operator Pemeliharaan</option>
+                            <option value="operator_pajak" <?= old('role') == 'operator_pajak' ? 'selected' : '' ?>>Operator Pajak</option>
                             <option value="kasubag_umpeg" <?= old('role') == 'kasubag_umpeg' ? 'selected' : '' ?>>Kasubag Umpeg</option>
                             <option value="sekdin" <?= old('role') == 'sekdin' ? 'selected' : '' ?>>Sekdin</option>
+                            <option value="kepala_dinas" <?= old('role') == 'kepala_dinas' ? 'selected' : '' ?>>Kepala Dinas</option>
                         </select>
                     </div>
 

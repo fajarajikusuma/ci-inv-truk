@@ -129,7 +129,9 @@
                                     <div class="user-menu d-flex">
                                         <div class="user-name text-end me-3">
                                             <h6 class="mb-0 text-gray-600"><?= session()->get('nama') ?></h6>
-                                            <p class="mb-0 text-sm text-gray-600"><?= session()->get('role') ?></p>
+                                            <p class="mb-0 text-sm text-gray-600">
+                                                <?= ucwords(str_replace('_', ' ', session()->get('role'))) ?>
+                                            </p>
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar avatar-md">
@@ -176,6 +178,28 @@
         </div>
     </div>
 
+    <!-- Toast Error -->
+    <?php if (session()->getFlashdata('toast_error')) : ?>
+        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index:9999">
+            <div class="toast align-items-center text-bg-danger border-0 show">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <?= session()->getFlashdata('toast_error') ?>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            setTimeout(() => {
+                document.querySelector('.toast')?.classList.remove('show');
+            }, 4000);
+        </script>
+    <?php endif; ?>
+    <!-- End Toast Error -->
 
     <script src="dist/assets/static/js/components/dark.js"></script>
     <script src="dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>

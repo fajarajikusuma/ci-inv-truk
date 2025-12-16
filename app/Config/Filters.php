@@ -37,6 +37,7 @@ class Filters extends BaseFilters
         'logActivity'   => \App\Filters\ActivityLogFilter::class,
         'validate'      => \App\Filters\ValidationFilter::class,
         'login'         => \App\Filters\LoginFilter::class,
+        'role' => \App\Filters\RoleFilter::class,
     ];
 
     /**

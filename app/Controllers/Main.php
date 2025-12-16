@@ -52,7 +52,7 @@ class Main extends BaseController
             ->findAll();
 
         $data['title'] = 'Dashboard';
-
+        // dd(session()->get());
         return view('admin/home', $data);
     }
 }

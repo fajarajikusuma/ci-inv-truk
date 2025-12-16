@@ -46,6 +46,10 @@ $segment1 = $uri->getSegment(1); // contoh: 'kendaraan' dari /kendaraan
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
 
+                <?php
+                $role_session = session()->get('role');
+                ?>
+
                 <!-- Dashboard -->
                 <li class="sidebar-item <?= ($segment1 == '' || $segment1 == 'dashboard') ? 'active' : '' ?>">
                     <a href="<?= base_url('/') ?>" class='sidebar-link'>
@@ -68,39 +72,47 @@ $segment1 = $uri->getSegment(1); // contoh: 'kendaraan' dari /kendaraan
                         <li class="submenu-item <?= ($segment1 == 'sopir') ? 'active' : '' ?>">
                             <a href="<?= site_url('sopir') ?>" class="submenu-link">Sopir</a>
                         </li>
-                        <li class="submenu-item <?= ($segment1 == 'user') ? 'active' : '' ?>">
-                            <a href="<?= site_url('user') ?>" class="submenu-link">User</a>
-                        </li>
+                        <?php if ($role_session == 'admin') : ?>
+                            <li class="submenu-item <?= ($segment1 == 'user') ? 'active' : '' ?>">
+                                <a href="<?= site_url('user') ?>" class="submenu-link">User</a>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </li>
 
                 <li class="sidebar-title">Transactional</li>
 
-                <!-- Pemeliharaan -->
-                <li class="sidebar-item <?= ($segment1 == 'pemeliharaan') ? 'active' : '' ?>">
-                    <a href="<?= site_url('pemeliharaan') ?>" class='sidebar-link'>
-                        <i class="bi bi-file-earmark-medical-fill"></i>
-                        <span>Pemeliharaan</span>
-                    </a>
-                </li>
+                <?php if ($role_session == 'admin' || $role_session == 'operator_pemeliharaan') : ?>
+                    <!-- Pemeliharaan -->
+                    <li class="sidebar-item <?= ($segment1 == 'pemeliharaan') ? 'active' : '' ?>">
+                        <a href="<?= site_url('pemeliharaan') ?>" class='sidebar-link'>
+                            <i class="bi bi-file-earmark-medical-fill"></i>
+                            <span>Pemeliharaan</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
 
-                <!-- Pajak -->
-                <li class="sidebar-item <?= ($segment1 == 'pajak_kendaraan') ? 'active' : '' ?>">
-                    <a href="<?= site_url('pajak_kendaraan') ?>" class='sidebar-link'>
-                        <i class="bi bi-receipt-cutoff"></i>
-                        <span>Pajak Kendaraan</span>
-                    </a>
-                </li>
+                <?php if ($role_session == 'admin' || $role_session == 'operator_pajak') : ?>
+                    <!-- Pajak -->
+                    <li class="sidebar-item <?= ($segment1 == 'pajak_kendaraan') ? 'active' : '' ?>">
+                        <a href="<?= site_url('pajak_kendaraan') ?>" class='sidebar-link'>
+                            <i class="bi bi-receipt-cutoff"></i>
+                            <span>Pajak Kendaraan</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
 
-                <li class="sidebar-title">Report</li>
+                <?php if ($role_session == 'admin') : ?>
+                    <li class="sidebar-title">Report</li>
 
-                <!-- Laporan -->
-                <li class="sidebar-item <?= ($segment1 == 'laporan') ? 'active' : '' ?>">
-                    <a href="<?= site_url('laporan') ?>" class='sidebar-link'>
-                        <i class="bi bi-file-earmark-post-fill"></i>
-                        <span>Laporan Pemeliharaan</span>
-                    </a>
-                </li>
+                    <!-- Laporan -->
+                    <li class="sidebar-item <?= ($segment1 == 'laporan') ? 'active' : '' ?>">
+                        <a href="<?= site_url('laporan') ?>" class='sidebar-link'>
+                            <i class="bi bi-file-earmark-post-fill"></i>
+                            <span>Laporan Pemeliharaan</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
 
             </ul>
         </div>
