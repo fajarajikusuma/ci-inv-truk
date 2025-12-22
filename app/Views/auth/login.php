@@ -54,6 +54,9 @@
                             </label>
                         </div> -->
                         <button class="btn btn-primary btn-block btn-lg shadow-lg mt-3" type="submit">Log in</button>
+                        <a id="back-home-btn" class="btn btn-secondary btn-block btn-lg shadow-lg mt-3">
+                            <i class="bi bi-arrow-left"></i> Back to Home
+                        </a>
                     </form>
                     <!-- <div class="text-center mt-5 text-lg fs-4">
                         <p class="text-gray-600">Don't have an account? <a href="auth-register.html" class="font-bold">Sign
@@ -70,6 +73,19 @@
         </div>
 
     </div>
+    <script>
+        const backBtn = document.getElementById('back-home-btn');
+
+        // Buat URL dinamis: ambil protocol + host
+        const baseUrl = window.location.origin;
+
+        // Tambah path jika perlu
+        backBtn.href = baseUrl;
+        // Kalau mau selalu ke / beranda: baseUrl + '/'
+
+        // Debug (opsional)
+        console.log('Back URL:', backBtn.href);
+    </script>
 </body>
 
 </html>

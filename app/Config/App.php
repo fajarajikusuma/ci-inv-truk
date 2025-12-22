@@ -18,6 +18,24 @@ class App extends BaseConfig
      */
     public string $baseURL = 'http://localhost:8080/';
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $protocol = 'http://';
+        if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] === 'on' || $_SERVER['SERVER_PORT'] == 443)) {
+            $protocol = 'https://';
+        }
+
+        // Gunakan fallback kalau HTTP_HOST tidak ada
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+
+        $this->baseURL = $protocol . $host . '/pemeliharaan/';
+
+        // Debug log kalau mau cek
+        // error_log("BaseURL: " . $this->baseURL);
+    }
+
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
      * If you want to accept multiple Hostnames, set this.
