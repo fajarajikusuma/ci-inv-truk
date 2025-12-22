@@ -42,7 +42,9 @@
                             <th>Merk</th>
                             <th>Tipe</th>
                             <th>Tahun Pembuatan</th>
-                            <th>Sopir</th>
+                            <?php if (session()->get('role') == 'admin' || session()->get('role') == 'operator_pemeliharaan') : ?>
+                                <th>Nama Sopir</th>
+                            <?php endif; ?>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -58,7 +60,10 @@
                                     <td><?= esc($row['merk']) ?></td>
                                     <td><?= esc($row['tipe']) ?></td>
                                     <td><?= esc($row['tahun_pembuatan']) ?></td>
-                                    <td><?= esc($row['nama_sopir']) ?></td>
+                                    <?php if (session()->get('role') == 'admin' || session()->get('role') == 'operator_pemeliharaan') : ?>
+                                        <!-- Jika status sopir tidak aktif, kosongkan nama sopir -->
+                                        <td><?= $row['status_sopir'] == 'aktif' ? esc($row['nama_sopir']) : '-' ?></td>
+                                    <?php endif; ?>
                                     <td>
                                         <span class="badge <?= $row['status'] == 'aktif' ? 'bg-success' : 'bg-secondary' ?>">
                                             <?= ucfirst($row['status']) ?>

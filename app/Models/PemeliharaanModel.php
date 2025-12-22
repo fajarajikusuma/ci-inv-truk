@@ -57,7 +57,8 @@ class PemeliharaanModel extends Model
             COALESCE(GROUP_CONCAT(DISTINCT s.nama_sopir), "") AS nama_sopir,
             COALESCE(SUM(p.biaya), 0) AS total_biaya,
             COUNT(p.id_pemeliharaan) AS jumlah_record,
-            k.id_sopir
+            k.id_sopir,
+            k.source
         ')
             ->join(
                 'tb_pemeliharaan p',

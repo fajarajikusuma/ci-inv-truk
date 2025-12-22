@@ -28,6 +28,10 @@ class Laporan extends BaseController
             $p['enc_id'] = encode_id($p['id_kendaraan']);
         }
 
+        $data['pemeliharaan'] = array_filter($data['pemeliharaan'], function ($p) {
+            return $p['source'] == 'operator_pemeliharaan';
+        });
+
         return view('laporan/laporan', $data);
     }
 

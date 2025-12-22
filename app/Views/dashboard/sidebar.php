@@ -52,33 +52,45 @@ $segment1 = $uri->getSegment(1); // contoh: 'kendaraan' dari /kendaraan
 
                 <!-- Dashboard -->
                 <li class="sidebar-item <?= ($segment1 == '' || $segment1 == 'dashboard') ? 'active' : '' ?>">
-                    <a href="<?= base_url('/') ?>" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
+                    <a href="<?= base_url('/') ?>" class="sidebar-link">
+                        <i class="bi bi-speedometer2"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
 
-                <!-- Master Data -->
-                <li class="sidebar-item has-sub <?= ($segment1 == 'kendaraan' || $segment1 == 'sopir' || $segment1 == 'user') ? 'active' : '' ?>">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-stack"></i>
-                        <span>Master Data</span>
-                    </a>
+                <?php if ($role_session == 'operator_pajak') : ?>
+                    <!-- Kendaraan -->
+                    <li class="sidebar-item <?= ($segment1 == 'kendaraan') ? 'active' : '' ?>">
+                        <a href="<?= base_url('/kendaraan') ?>" class="sidebar-link">
+                            <i class="bi bi-truck"></i>
+                            <span>Kendaraan</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
 
-                    <ul class="submenu <?= ($segment1 == 'kendaraan' || $segment1 == 'sopir' || $segment1 == 'user') ? 'active' : '' ?>">
-                        <li class="submenu-item <?= ($segment1 == 'kendaraan') ? 'active' : '' ?>">
-                            <a href="<?= site_url('kendaraan') ?>" class="submenu-link">Kendaraan</a>
-                        </li>
-                        <li class="submenu-item <?= ($segment1 == 'sopir') ? 'active' : '' ?>">
-                            <a href="<?= site_url('sopir') ?>" class="submenu-link">Sopir</a>
-                        </li>
-                        <?php if ($role_session == 'admin') : ?>
-                            <li class="submenu-item <?= ($segment1 == 'user') ? 'active' : '' ?>">
-                                <a href="<?= site_url('user') ?>" class="submenu-link">User</a>
+                <?php if ($role_session == 'admin' || $role_session == 'operator_pemeliharaan') : ?>
+                    <!-- Master Data -->
+                    <li class="sidebar-item has-sub <?= ($segment1 == 'kendaraan' || $segment1 == 'sopir' || $segment1 == 'user') ? 'active' : '' ?>">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
+                            <span>Master Data</span>
+                        </a>
+
+                        <ul class="submenu <?= ($segment1 == 'kendaraan' || $segment1 == 'sopir' || $segment1 == 'user') ? 'active' : '' ?>">
+                            <li class="submenu-item <?= ($segment1 == 'kendaraan') ? 'active' : '' ?>">
+                                <a href="<?= site_url('kendaraan') ?>" class="submenu-link">Kendaraan</a>
                             </li>
-                        <?php endif; ?>
-                    </ul>
-                </li>
+                            <li class="submenu-item <?= ($segment1 == 'sopir') ? 'active' : '' ?>">
+                                <a href="<?= site_url('sopir') ?>" class="submenu-link">Sopir</a>
+                            </li>
+                            <?php if ($role_session == 'admin') : ?>
+                                <li class="submenu-item <?= ($segment1 == 'user') ? 'active' : '' ?>">
+                                    <a href="<?= site_url('user') ?>" class="submenu-link">User</a>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </li>
+                <?php endif; ?>
 
                 <li class="sidebar-title">Transactional</li>
 

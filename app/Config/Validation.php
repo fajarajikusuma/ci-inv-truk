@@ -64,7 +64,7 @@ class Validation extends BaseConfig
             'tahun' => "required|integer|greater_than_equal_to[1960]|less_than_equal_to[{$tahunSekarang}]",
             'no_rangka' => 'required|is_unique[tb_kendaraan.no_rangka]',
             'no_mesin' => 'required|is_unique[tb_kendaraan.no_mesin]',
-            'foto' => 'uploaded[foto]|is_image[foto]|max_size[foto,2048]|mime_in[foto,image/jpg,image/jpeg,image/png]',
+            'foto' => 'permit_empty|is_image[foto]|max_size[foto,2048]|mime_in[foto,image/jpg,image/jpeg,image/png]',
             'status' => 'required',
         ];
 

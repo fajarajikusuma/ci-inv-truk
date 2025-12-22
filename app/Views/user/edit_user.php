@@ -57,9 +57,9 @@
                             <option value="admin" <?= old('role', $user['role']) == 'admin' ? 'selected' : '' ?>>Admin</option>
                             <option value="operator_pemeliharaan" <?= old('role', $user['role']) == 'operator_pemeliharaan' ? 'selected' : '' ?>>Operator Pemeliharaan</option>
                             <option value="operator_pajak" <?= old('role', $user['role']) == 'operator_pajak' ? 'selected' : '' ?>>Operator Pajak</option>
-                            <option value="kasubag_umpeg" <?= old('role', $user['role']) == 'kasubag_umpeg' ? 'selected' : '' ?>>Kasubag Umpeg</option>
-                            <option value="sekdin" <?= old('role', $user['role']) == 'sekdin' ? 'selected' : '' ?>>Sekdin</option>
-                            <option value="kepala_dinas" <?= old('role', $user['role']) == 'kepala_dinas' ? 'selected' : '' ?>>Kepala Dinas</option>
+                            <option disabled value="kasubag_umpeg" <?= old('role', $user['role']) == 'kasubag_umpeg' ? 'selected' : '' ?>>Kasubag Umpeg</option>
+                            <option disabled value="sekdin" <?= old('role', $user['role']) == 'sekdin' ? 'selected' : '' ?>>Sekdin</option>
+                            <option disabled value="kepala_dinas" <?= old('role', $user['role']) == 'kepala_dinas' ? 'selected' : '' ?>>Kepala Dinas</option>
                         </select>
                     </div>
 

@@ -17,16 +17,25 @@
         <div class="card-body">
             <div class="row">
                 <!-- Foto Kendaraan -->
+                <?php
+                $pathFoto = FCPATH . 'uploads/kendaraan/' . $kendaraan['foto_kendaraan'];
+                ?>
+
                 <div class="col-md-4 text-center mb-3">
-                    <?php if (!empty($kendaraan['foto_kendaraan']) && file_exists('uploads/kendaraan/' . $kendaraan['foto_kendaraan'])) : ?>
-                        <img src="<?= base_url('uploads/kendaraan/' . $kendaraan['foto_kendaraan']) ?>" alt="Foto Kendaraan"
-                            class="img-fluid rounded shadow-sm border p-2" style="max-height: 250px;">
+                    <?php if (!empty($kendaraan['foto_kendaraan']) && file_exists($pathFoto)) : ?>
+                        <img src="<?= base_url('uploads/kendaraan/' . $kendaraan['foto_kendaraan']) ?>"
+                            alt="Foto Kendaraan"
+                            class="img-fluid rounded shadow-sm border p-2"
+                            style="max-height: 250px;">
                     <?php else : ?>
-                        <img src="<?= base_url('uploads/kendaraan/default_truck.jpg') ?>" alt="Foto Kendaraan Default"
-                            class="img-fluid rounded shadow-sm border" style="max-height: 250px;">
+                        <img src="<?= base_url('assets/kendaraan_default/dumtruck.png') ?>"
+                            alt="Foto Kendaraan Default"
+                            class="img-fluid rounded shadow-sm border"
+                            style="max-height: 250px;">
                     <?php endif; ?>
                     <p class="mt-2 text-muted small">Foto Kendaraan</p>
                 </div>
+
 
                 <!-- Detail Informasi -->
                 <div class="col-md-8 table-responsive">
@@ -60,10 +69,12 @@
                                 <th>Nomor Rangka</th>
                                 <td><?= esc($kendaraan['no_rangka']) ?></td>
                             </tr>
-                            <tr>
-                                <th>Sopir</th>
-                                <td><?= esc($kendaraan['nama_sopir']) ?></td>
-                            </tr>
+                            <?php if (session()->get('role') == 'admin' || session()->get('role') == 'operator_pemeliharaan') : ?>
+                                <tr>
+                                    <th>Sopir</th>
+                                    <td><?= esc($kendaraan['nama_sopir']) ?></td>
+                                </tr>
+                            <?php endif; ?>
                             <tr>
                                 <th>Status</th>
                                 <td>

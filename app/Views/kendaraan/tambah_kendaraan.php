@@ -62,33 +62,36 @@
                         <input type="text" class="form-control" id="nomor_mesin" name="no_mesin" placeholder="Masukkan Nomor Mesin" required value="<?= old('no_mesin') ?>">
                     </div>
 
-                    <!-- sopir -->
-                    <div class="col-md-6 mb-3">
-                        <label for="sopir" class="form-label">Sopir</label>
-                        <select name="sopir" id="sopir" class="form-select" required>
-                            <option value="">-- Pilih Sopir --</option>
-                            <?php foreach ($sopirList as $sopir): ?>
-                                <?php if ($sopir['status_sopir'] == 'aktif') : ?>
-                                    <option value="<?= $sopir['id_sopir'] ?>" <?= old('sopir', $data['id_sopir'] ?? '') == $sopir['id_sopir'] ? 'selected' : '' ?>>
-                                        <?= $sopir['nama_sopir'] ?>
-                                    </option>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                    <?php if (session()->get('role') == 'admin' || session()->get('role') == 'operator_pemeliharaan') : ?>
+                        <!-- sopir -->
+                        <div class="col-md-6 mb-3">
+                            <label for="sopir" class="form-label">Sopir</label>
+                            <select name="sopir" id="sopir" class="form-select" required>
+                                <option value="">-- Pilih Sopir --</option>
+                                <?php foreach ($sopirList as $sopir): ?>
+                                    <?php if ($sopir['status_sopir'] == 'aktif') : ?>
+                                        <option value="<?= $sopir['id_sopir'] ?>" <?= old('sopir', $data['id_sopir'] ?? '') == $sopir['id_sopir'] ? 'selected' : '' ?>>
+                                            <?= $sopir['nama_sopir'] ?>
+                                        </option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php endif; ?>
 
                     <div class="col-md-6 mb-3">
                         <label for="status" class="form-label">Status</label>
-                        <select name="status" id="status" class="form-select" required>
+                        <select name="status" id="status" class="form-select" required disabled>
                             <option value="">-- Pilih Status --</option>
-                            <option value="aktif" <?= old('status', $data['status'] ?? '') == 'aktif' ? 'selected' : '' ?>>Aktif</option>
+                            <option selected value="aktif" <?= old('status', $data['status'] ?? '') == 'aktif' ? 'selected' : '' ?>>Aktif</option>
                             <option value="tidak aktif" <?= old('status', $data['status'] ?? '') == 'tidak aktif' ? 'selected' : '' ?>>Tidak Aktif</option>
                         </select>
+                        <input type="hidden" name="status" value="aktif">
                     </div>
 
                     <!-- foto kendaraan dan preview js -->
                     <div class="col-md-6 mb-3">
-                        <label for="foto" class="form-label">Foto Kendaraan</label>
+                        <label for="foto" class="form-label">Foto Kendaraan <small>(opsional)</small></label>
                         <input type="file" class="form-control" id="foto" name="foto" accept="image/*" value="<?= old('foto') ?>">
                     </div>
 

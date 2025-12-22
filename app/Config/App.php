@@ -30,7 +30,7 @@ class App extends BaseConfig
         // Gunakan fallback kalau HTTP_HOST tidak ada
         $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
-        $this->baseURL = $protocol . $host . '/pemeliharaan/';
+        $this->baseURL = $protocol . $host . '/';
 
         // Debug log kalau mau cek
         // error_log("BaseURL: " . $this->baseURL);

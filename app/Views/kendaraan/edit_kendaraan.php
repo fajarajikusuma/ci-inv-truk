@@ -70,20 +70,22 @@
                             value="<?= esc($kendaraan['no_mesin']) ?>" required>
                     </div>
 
-                    <!-- sopir -->
-                    <div class="col-md-6 mb-3">
-                        <label for="sopir" class="form-label">Sopir</label>
-                        <select name="sopir" id="sopir" class="form-select" required>
-                            <option value="">-- Pilih Sopir --</option>
-                            <?php foreach ($sopirList as $sopir): ?>
-                                <?php if ($sopir['status_sopir'] == 'aktif') : ?>
-                                    <option value="<?= $sopir['id_sopir'] ?>" <?= old('sopir', $kendaraan['id_sopir'] ?? '') == $sopir['id_sopir'] ? 'selected' : '' ?>>
-                                        <?= $sopir['nama_sopir'] ?>
-                                    </option>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                    <?php if (session()->get('role') == 'admin' || session()->get('role') == 'operator_pemeliharaan') : ?>
+                        <!-- sopir -->
+                        <div class="col-md-6 mb-3">
+                            <label for="sopir" class="form-label">Sopir</label>
+                            <select name="sopir" id="sopir" class="form-select" required>
+                                <option value="">-- Pilih Sopir --</option>
+                                <?php foreach ($sopirList as $sopir): ?>
+                                    <?php if ($sopir['status_sopir'] == 'aktif') : ?>
+                                        <option value="<?= $sopir['id_sopir'] ?>" <?= old('sopir', $kendaraan['id_sopir'] ?? '') == $sopir['id_sopir'] ? 'selected' : '' ?>>
+                                            <?= $sopir['nama_sopir'] ?>
+                                        </option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php endif; ?>
 
                     <div class="col-md-6 mb-3">
                         <label for="status" class="form-label">Status</label>

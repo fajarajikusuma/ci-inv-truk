@@ -38,6 +38,13 @@ class Pemeliharaan extends BaseController
         }
         unset($p);
 
+        // jika role operator_pemeliharaan, filter hanya data dari source operator_pemeliharaan
+
+        $data['pemeliharaan'] = array_filter($data['pemeliharaan'], function ($p) {
+            return $p['source'] == 'operator_pemeliharaan';
+        });
+
+
         return view('pemeliharaan/pemeliharaan', $data);
     }
 

@@ -15,27 +15,43 @@ class Kendaraan extends BaseController
         $this->kendaraanModel = new \App\Models\KendaraanModel();
         $this->sopirModel = new \App\Models\SopirModel();
         $this->pemeliharaanModel = new \App\Models\PemeliharaanModel();
+        $this->pajakModel = new \App\Models\PajakModel();
         helper(['id_helper']);
     }
 
     public function index()
     {
-        $data['title'] = 'Data Kendaraan';
-        $data['kendaraan'] = $this->kendaraanModel->getKendaraanWithSopir();
+        $role = session()->get('role');
 
-        foreach ($data['kendaraan'] as &$k) {
+        $data = [
+            'title'     => 'Data Kendaraan',
+            'kendaraan' => $this->kendaraanModel->getKendaraanWithSopir()
+        ];
+
+        foreach ($data['kendaraan'] as $key => &$k) {
+
+            // encode id
             $k['enc_id'] = encode_id($k['id_kendaraan']);
-        }
 
-        // Jika sopir tidak aktif, kosongkan nama sopir
-        foreach ($data['kendaraan'] as &$k) {
+            // tampilkan nama sopir untuk role tertentu
+            if (in_array($role, ['operator_pemeliharaan', 'admin'])) {
+                $k['nama_sopir'] = $k['nama_sopir'] ?? '-';
+            }
+
+            // jika sopir tidak aktif, kosongkan nama sopir
             if ($k['status_sopir'] !== 'aktif') {
-                $k['nama_sopir'] = null; // atau bisa diganti jadi tanda “-”
+                $k['nama_sopir'] = null;
+            }
+
+            // filter data untuk operator pemeliharaan
+            if ($role === 'operator_pemeliharaan' && $k['source'] !== 'operator_pemeliharaan') {
+                unset($data['kendaraan'][$key]);
             }
         }
 
         return view('kendaraan/kendaraan', $data);
     }
+
 
     public function tambah()
     {
@@ -69,6 +85,7 @@ class Kendaraan extends BaseController
             'no_mesin' => $this->request->getPost('no_mesin'),
             'foto_kendaraan' => $fotoPath,
             'status' => $this->request->getPost('status'),
+            'source' => session()->get('role') == 'admin' ? 'operator_pemeliharaan' : session()->get('role')
         ];
 
         $this->kendaraanModel->insert($data);
@@ -115,9 +132,15 @@ class Kendaraan extends BaseController
             $fotoPath = $newName;
         }
 
+        if (isset($post['sopir'])) {
+            $post['id_sopir'] = $post['sopir'];
+        } else {
+            $post['id_sopir'] = null;
+        }
+
         $this->kendaraanModel->update($id, [
             'nopol'    => strtoupper($post['nopol']),
-            'id_sopir'        => $post['sopir'],
+            'id_sopir'       => $post['id_sopir'],
             'jenis_kendaraan' => $post['jenis'],
             'merk'            => $post['merk'],
             'tipe'            => $post['tipe'],
@@ -126,6 +149,8 @@ class Kendaraan extends BaseController
             'no_mesin'       => $post['no_mesin'],
             'foto_kendaraan'  => isset($fotoPath) ? $fotoPath : $this->request->getPost('existing_foto'),
             'status'          => $post['status'],
+            'source' => session()->get('role') == 'admin' ? 'operator_pemeliharaan' : session()->get('role')
+
         ]);
 
         return redirect()->to(base_url('kendaraan'))->with('success', 'Data kendaraan berhasil diperbarui.');
@@ -145,8 +170,9 @@ class Kendaraan extends BaseController
 
         // cek apakah kendaraan sudah terpakai di pemeliharaan
         $pemeliharaan = $this->pemeliharaanModel->getPemeliharaanByKendaraan($id);
-        if ($pemeliharaan) {
-            return redirect()->to(base_url('kendaraan'))->with('error', 'Data kendaraan sudah terpakai di pemeliharaan.');
+        $pajak = $this->pajakModel->where('id_kendaraan', $id)->first();
+        if ($pemeliharaan || $pajak) {
+            return redirect()->to(base_url('kendaraan'))->with('error', 'Data kendaraan sudah terpakai di pemeliharaan atau pajak.');
         } else {
             $this->kendaraanModel->delete($id);
         }

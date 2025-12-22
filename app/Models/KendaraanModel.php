@@ -8,7 +8,7 @@ class KendaraanModel extends Model
 {
     protected $table = 'tb_kendaraan';
     protected $primaryKey = 'id_kendaraan';
-    protected $allowedFields = ['nopol', 'jenis_kendaraan', 'merk', 'tipe', 'tahun_pembuatan', 'no_rangka', 'no_mesin', 'status', 'foto_kendaraan', 'id_sopir'];
+    protected $allowedFields = ['nopol', 'jenis_kendaraan', 'merk', 'tipe', 'tahun_pembuatan', 'no_rangka', 'no_mesin', 'status', 'foto_kendaraan', 'id_sopir', 'source'];
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;

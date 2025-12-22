@@ -56,20 +56,21 @@
                             <option value="admin" <?= old('role') == 'admin' ? 'selected' : '' ?>>Admin</option>
                             <option value="operator_pemeliharaan" <?= old('role') == 'operator_pemeliharaan' ? 'selected' : '' ?>>Operator Pemeliharaan</option>
                             <option value="operator_pajak" <?= old('role') == 'operator_pajak' ? 'selected' : '' ?>>Operator Pajak</option>
-                            <option value="kasubag_umpeg" <?= old('role') == 'kasubag_umpeg' ? 'selected' : '' ?>>Kasubag Umpeg</option>
-                            <option value="sekdin" <?= old('role') == 'sekdin' ? 'selected' : '' ?>>Sekdin</option>
-                            <option value="kepala_dinas" <?= old('role') == 'kepala_dinas' ? 'selected' : '' ?>>Kepala Dinas</option>
+                            <option disabled value="kasubag_umpeg" <?= old('role') == 'kasubag_umpeg' ? 'selected' : '' ?>>Kasubag Umpeg</option>
+                            <option disabled value="sekdin" <?= old('role') == 'sekdin' ? 'selected' : '' ?>>Sekdin</option>
+                            <option disabled value="kepala_dinas" <?= old('role') == 'kepala_dinas' ? 'selected' : '' ?>>Kepala Dinas</option>
                         </select>
                     </div>
 
                     <!-- status -->
                     <div class="col-md-6 mb-3">
                         <label for="status" class="form-label">Status</label>
-                        <select name="status" id="status" class="form-select" required>
+                        <select name="status" id="status" class="form-select" required disabled>
                             <option value="">-- Pilih Status --</option>
-                            <option value="aktif" <?= old('status') == 'aktif' ? 'selected' : '' ?>>Aktif</option>
+                            <option value="aktif" selected <?= old('status') == 'aktif' ? 'selected' : '' ?>>Aktif</option>
                             <option value="nonaktif" <?= old('status') == 'nonaktif' ? 'selected' : '' ?>>Nonaktif</option>
                         </select>
+                        <input type="hidden" name="status" value="aktif">
                     </div>
 
                 </div>
