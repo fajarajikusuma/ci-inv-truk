@@ -52,36 +52,50 @@ class Pajak extends BaseController
             ];
         }
 
-        // Hitung total per bulan berdasarkan tanggal STNK
         foreach ($data_pajak as $p) {
-            $bulan = date('m', strtotime($p['tanggal_stnk']));
-            // jika status pajak sudah terbayar, lewati
-            if ($p['status_pajak'] == 'Sudah Terbayar') {
-                continue;
-            }
 
-            $data_bulanan[$bulan]['total']++;
-            $data_bulanan[$bulan]['data'][] = $p;
+            // lewati jika sudah terbayar
+            // if ($p['status_pajak'] == 'Sudah Terbayar') {
+            //     continue;
+            // }
+
+            $tgl_stnk  = $p['tanggal_stnk'];
+            $tgl_tnkb  = $p['tanggal_tnkb'];
+
+            $bulan_stnk = date('m', strtotime($tgl_stnk));
+            $tahun_stnk = date('Y', strtotime($tgl_stnk));
+
+            $bulan_tnkb = date('m', strtotime($tgl_tnkb));
+            $tahun_tnkb = date('Y', strtotime($tgl_tnkb));
+
+            $today   = date('Y-m-d');
+            $minus_30 = date('Y-m-d', strtotime('-30 days', strtotime($tgl_tnkb)));
+
+            // 🔹 JIKA STNK == TNKB → HITUNG STNK SAJA
+            if ($tgl_stnk == $tgl_tnkb) {
+
+                if ($tahun_stnk == $tahun) {
+                    $data_bulanan[$bulan_stnk]['total']++;
+                    $data_bulanan[$bulan_stnk]['data'][] = $p;
+                }
+            }
+            // 🔹 JIKA BERBEDA
+            else {
+
+                // STNK
+                if ($tahun_stnk == $tahun) {
+                    $data_bulanan[$bulan_stnk]['total']++;
+                    $data_bulanan[$bulan_stnk]['data'][] = $p;
+                }
+
+                // TNKB (tahun sama ATAU mendekati 30 hari)
+                if ($tahun_tnkb == $tahun || $today >= $minus_30) {
+                    $data_bulanan[$bulan_tnkb]['total']++;
+                    $data_bulanan[$bulan_tnkb]['data'][] = $p;
+                }
+            }
         }
 
-        foreach ($data_pajak as $p) {
-            $tahun_tnkb = date('Y', strtotime($p['tanggal_tnkb']));
-            $bulan_tnkb = date('m', strtotime($p['tanggal_tnkb']));
-            // $tanggal_tnkb = date('Y-m-d', strtotime($p['tanggal_tnkb']));
-            $today = date('Y-m-d');
-
-            // Hitung TNKB hanya jika:
-            // 1. Tahun sama dengan tahun yang dicari
-            // 2. ATAU mendekati 30 hari lagi
-            $minus_30 = date('Y-m-d', strtotime('-30 days', strtotime($p['tanggal_tnkb'])));
-
-            if ($tahun_tnkb == $tahun || $today >= $minus_30) {
-
-                // Masukkan ke bulan TNKB
-                $data_bulanan[$bulan_tnkb]['total']++;
-                $data_bulanan[$bulan_tnkb]['data'][] = $p;
-            }
-        }
 
         // Hitung total kendaraan yang harus bayar pajak pada tahun tersebut
         $total_kendaraan = 0;
@@ -261,32 +275,40 @@ class Pajak extends BaseController
         $bulan = $this->request->getGet('bulan');
         $tahun = $this->request->getGet('tahun');
 
-
         $data = $this->pajakModel->getKendaraanWithDataPajak();
 
         $hasil = [];
 
         foreach ($data as $row) {
-            $bulan_stnk = date('m', strtotime($row['tanggal_stnk']));
-            $tahun_stnk = date('Y', strtotime($row['tanggal_stnk']));
 
-            $bulan_tnkb = date('m', strtotime($row['tanggal_tnkb']));
-            $tahun_tnkb = date('Y', strtotime($row['tanggal_tnkb']));
+            $tgl_stnk = $row['tanggal_stnk'];
+            $tgl_tnkb = $row['tanggal_tnkb'];
 
-            if ($bulan_stnk == $bulan && $tahun_stnk == $tahun) {
-                $hasil[] = $row;
+            $bulan_stnk = date('m', strtotime($tgl_stnk));
+            $tahun_stnk = date('Y', strtotime($tgl_stnk));
+
+            $bulan_tnkb = date('m', strtotime($tgl_tnkb));
+            $tahun_tnkb = date('Y', strtotime($tgl_tnkb));
+
+            // 🔹 JIKA TANGGAL STNK == TNKB → CEK STNK SAJA
+            if ($tgl_stnk == $tgl_tnkb) {
+                if ($bulan_stnk == $bulan && $tahun_stnk == $tahun) {
+                    $hasil[] = $row;
+                }
             }
-
-            if ($bulan_tnkb == $bulan && $tahun_tnkb == $tahun) {
-                $hasil[] = $row;
+            // 🔹 JIKA BERBEDA → CEK KEDUANYA (TAPI TIDAK DOBEL)
+            else {
+                if ($bulan_stnk == $bulan && $tahun_stnk == $tahun) {
+                    $hasil[] = $row;
+                } else if ($bulan_tnkb == $bulan && $tahun_tnkb == $tahun) {
+                    $hasil[] = $row;
+                }
             }
         }
 
-        $data_response = [
+        return view('pajak/ajax_detail_pajak', [
             'data' => $hasil,
             'nama_bulan' => $bulan
-        ];
-
-        return view('pajak/ajax_detail_pajak', $data_response);
+        ]);
     }
 }
