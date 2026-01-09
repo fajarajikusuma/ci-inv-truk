@@ -79,16 +79,6 @@
                         </div>
                     <?php endif; ?>
 
-                    <div class="col-md-6 mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select name="status" id="status" class="form-select" required disabled>
-                            <option value="">-- Pilih Status --</option>
-                            <option selected value="aktif" <?= old('status', $data['status'] ?? '') == 'aktif' ? 'selected' : '' ?>>Aktif</option>
-                            <option value="tidak aktif" <?= old('status', $data['status'] ?? '') == 'tidak aktif' ? 'selected' : '' ?>>Tidak Aktif</option>
-                        </select>
-                        <input type="hidden" name="status" value="aktif">
-                    </div>
-
                     <!-- foto kendaraan dan preview js -->
                     <div class="col-md-6 mb-3">
                         <label for="foto" class="form-label">Foto Kendaraan <small>(opsional)</small></label>
@@ -101,7 +91,6 @@
                     </div>
 
                 </div>
-
 
                 <div class="d-flex justify-content-end mt-4">
                     <a href="<?= base_url('kendaraan') ?>" class="btn btn-secondary me-2">
@@ -141,19 +130,19 @@
         });
     });
 
-    // setiap menulis di semua inputan huruf pertama akan otomatis menjadi kapital dan setiap kata dipisah spasi langsung kapital
-    document.addEventListener('DOMContentLoaded', function() {
-        const inputs = document.querySelectorAll('input[type="text"]');
+    document.addEventListener('input', function(e) {
 
-        inputs.forEach(function(input) {
-            input.addEventListener('input', function(e) {
-                let val = e.target.value;
-                val = val.replace(/\b\w/g, function(char) {
-                    return char.toUpperCase();
-                });
-                e.target.value = val;
-            });
-        });
+        // KHUSUS jenis & tipe → SEMUA HURUF BESAR
+        if (e.target.id === 'jenis' || e.target.id === 'tipe' || e.target.id === 'nomor_rangka' || e.target.id === 'nomor_mesin' || e.target.id === 'nomor_rangka') {
+            e.target.value = e.target.value.toUpperCase();
+            return;
+        }
+
+        // INPUT TEXT LAIN → kapital awal kata
+        if (e.target.matches('input[type="text"]')) {
+            e.target.value = e.target.value.replace(/\b\w/g, c => c.toUpperCase());
+        }
+
     });
 
     // preview foto kendaraan sebelum diupload

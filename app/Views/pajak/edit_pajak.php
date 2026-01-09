@@ -86,4 +86,19 @@
     </div>
 </section>
 
+<script>
+    // ketika isi keterangan huruf perbesar di awal kata
+    document.addEventListener('DOMContentLoaded', function() {
+        const keteranganInput = document.querySelector('input[name="keterangan"]');
+
+        keteranganInput.addEventListener('input', function() {
+            let words = this.value.split(' ');
+            for (let i = 0; i < words.length; i++) {
+                words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+            }
+            this.value = words.join(' ');
+        });
+    });
+</script>
+
 <?= $this->endSection(); ?>

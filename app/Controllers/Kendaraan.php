@@ -132,10 +132,38 @@ class Kendaraan extends BaseController
             $fotoPath = $newName;
         }
 
-        if (isset($post['sopir'])) {
+        $dataLama = $this->kendaraanModel
+            ->select('id_sopir, source')
+            ->where('id_kendaraan', $id)
+            ->first();
+
+        $sourceBaru = $dataLama['source']; // default: pertahankan
+        if ($dataLama['source'] === 'operator_pemeliharaan') {
+            // terkunci, tidak boleh diubah
+            $sourceBaru = 'operator_pemeliharaan';
+        } elseif ($dataLama['source'] === 'operator_pajak') {
+            // tetap milik pajak
+            $sourceBaru = 'operator_pajak';
+        } else {
+            // selain itu (misal input baru / umum)
+            if (session()->get('role') === 'admin') {
+                $sourceBaru = 'operator_pemeliharaan';
+            }
+        }
+
+
+        if (!empty($post['sopir'])) {
+            // user pilih sopir baru
             $post['id_sopir'] = $post['sopir'];
         } else {
-            $post['id_sopir'] = null;
+            // user tidak pilih sopir
+            if (!empty($dataLama['id_sopir'])) {
+                // sebelumnya ada sopir → pertahankan
+                $post['id_sopir'] = $dataLama['id_sopir'];
+            } else {
+                // sebelumnya memang tidak ada → null
+                $post['id_sopir'] = null;
+            }
         }
 
         $this->kendaraanModel->update($id, [
@@ -149,7 +177,7 @@ class Kendaraan extends BaseController
             'no_mesin'       => $post['no_mesin'],
             'foto_kendaraan'  => isset($fotoPath) ? $fotoPath : $this->request->getPost('existing_foto'),
             'status'          => $post['status'],
-            'source' => session()->get('role') == 'admin' ? 'operator_pemeliharaan' : session()->get('role')
+            'source' => $sourceBaru
 
         ]);
 

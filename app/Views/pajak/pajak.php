@@ -55,39 +55,39 @@
             <span style="font-size: 14px;">Total Kendaraan yang Harus Bayar Pajak Tahun <?= $tahun ?>: <?= $total_kendaraan ?> Kendaraan</span>
         </div>
 
-        <div class="card-body table-responsive">
-
-            <table class="table table-bordered">
-                <thead class="table-light">
-                    <tr>
-                        <th style="width: 200px;">Bulan</th>
-                        <th style="width: 150px;">Total</th>
-                        <th style="width: 120px;">Aksi</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <?php foreach ($data_bulanan as $key => $item): ?>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-light">
                         <tr>
-                            <td><?= $item['nama_bulan'] ?></td>
-                            <td><?= $item['total'] ?></td>
-                            <td class="text-center">
-                                <?php if ($item['total'] > 0): ?>
-                                    <button class="btn btn-primary btn-sm btn-lihat-pajak"
-                                        data-bulan="<?= $key ?>"
-                                        data-tahun="<?= $tahun == NULL ? date('Y') : $tahun ?>"
-                                        data-nama="<?= $item['nama_bulan'] ?>">
-                                        Lihat
-                                    </button>
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </td>
+                            <th style="width: 200px;">Bulan</th>
+                            <th style="width: 150px;">Total</th>
+                            <th style="width: 120px;">Aksi</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
 
+                    <tbody>
+                        <?php foreach ($data_bulanan as $key => $item): ?>
+                            <tr>
+                                <td><?= $item['nama_bulan'] ?></td>
+                                <td><?= $item['total'] ?></td>
+                                <td class="text-center">
+                                    <?php if ($item['total'] > 0): ?>
+                                        <button class="btn btn-primary btn-sm btn-lihat-pajak"
+                                            data-bulan="<?= $key ?>"
+                                            data-tahun="<?= $tahun == NULL ? date('Y') : $tahun ?>"
+                                            data-nama="<?= $item['nama_bulan'] ?>">
+                                            Lihat
+                                        </button>
+                                    <?php else: ?>
+                                        -
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -97,56 +97,75 @@
                 <h4 class="card-title">Tabel Pajak Kendaraan</h4>
             </div>
         </div>
-        <div class="card-body table-responsive">
-            <table class="table table-striped" id="table-pajak">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>No. Polisi</th>
-                        <th>Jenis Kendaraan</th>
-                        <th>Merk</th>
-                        <th>Tipe</th>
-                        <th>Tahun Pembuatan</th>
-                        <th>Tanggal STNK</th>
-                        <th>Tanggal TNKB</th>
-                        <th>Keterangan</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($pajak)) : ?>
-                        <?php $no = 1;
-                        foreach ($pajak as $row) : ?>
-                            <tr>
-                                <td><?= $no++; ?></td>
-                                <td><?= esc($row['nopol']); ?></td>
-                                <td><?= esc($row['jenis_kendaraan']); ?></td>
-                                <td><?= esc($row['merk']); ?></td>
-                                <td><?= esc($row['tipe']); ?></td>
-                                <td><?= esc($row['tahun_pembuatan']); ?></td>
-                                <td><?= esc($row['tanggal_stnk']) ? date('d-m-Y', strtotime($row['tanggal_stnk'])) : '-'; ?></td>
-                                <td><?= esc($row['tanggal_tnkb']) ? date('d-m-Y', strtotime($row['tanggal_tnkb'])) : '-'; ?></td>
-                                <td><?= esc($row['keterangan']) ?: '-'; ?></td>
-                                <td><?= esc($row['status']) ?: '-'; ?></td>
-                                <td>
-                                    <div class="d-flex justify-content-center align-items-center gap-1">
-                                        <?php if (esc($row['tanggal_stnk']) == '' && esc($row['tanggal_tnkb']) == '') : ?>
-                                            <a href="<?= base_url('pajak_kendaraan/tambah/' . $row['enc_id']); ?>" class="btn btn-sm btn-primary">
-                                                <i class="bi bi-plus-square"></i> Tambah
-                                            </a>
-                                        <?php else : ?>
-                                            <a href="<?= base_url('pajak_kendaraan/edit/' . $row['enc_id']); ?>" class="btn btn-sm btn-warning">
-                                                <i class="bi bi-pencil-square"></i> Edit
-                                            </a>
-                                        <?php endif; ?>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped" id="table-pajak">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>No. Polisi</th>
+                            <th>Jenis Kendaraan</th>
+                            <th>Merk</th>
+                            <th>Tipe</th>
+                            <th>Tahun Pembuatan</th>
+                            <th>Tanggal STNK</th>
+                            <th>Tanggal TNKB</th>
+                            <th>Keterangan</th>
+                            <th class="text-center">Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($pajak)) : ?>
+                            <?php $no = 1;
+                            foreach ($pajak as $row) : ?>
+                                <tr>
+                                    <td><?= $no++; ?></td>
+                                    <td><?= esc($row['nopol']); ?></td>
+                                    <td><?= esc($row['jenis_kendaraan']); ?></td>
+                                    <td><?= esc($row['merk']); ?></td>
+                                    <td><?= esc($row['tipe']); ?></td>
+                                    <td><?= esc($row['tahun_pembuatan']); ?></td>
+                                    <td><?= esc($row['tanggal_stnk']) ? date('d-m-Y', strtotime($row['tanggal_stnk'])) : '-'; ?></td>
+                                    <td><?= esc($row['tanggal_tnkb']) ? date('d-m-Y', strtotime($row['tanggal_tnkb'])) : '-'; ?></td>
+                                    <td><?= esc($row['keterangan']) ?: '-'; ?></td>
+                                    <td class="text-center">
+                                        <?php
+                                        $status = strtolower(trim($row['status'] ?? ''));
+                                        // dd($status);
+                                        if ($status === 'sudah terbayar') {
+                                            $class = 'bg-success';
+                                        } elseif ($status === 'tatuh tempo') {
+                                            $class = 'bg-danger';
+                                        } elseif ($status === 'akan jatuh tempo') {
+                                            $class = 'bg-warning text-dark';
+                                        } else {
+                                            $class = 'bg-secondary';
+                                        }
+                                        ?>
+                                        <span class="badge <?= $class ?>">
+                                            <?= esc($row['status']) ?: '-' ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center align-items-center gap-1">
+                                            <?php if (esc($row['tanggal_stnk']) == '' && esc($row['tanggal_tnkb']) == '') : ?>
+                                                <a href="<?= base_url('pajak_kendaraan/tambah/' . $row['enc_id']); ?>" class="btn btn-sm btn-primary">
+                                                    <i class="bi bi-plus-square"></i> Tambah
+                                                </a>
+                                            <?php else : ?>
+                                                <a href="<?= base_url('pajak_kendaraan/edit/' . $row['enc_id']); ?>" class="btn btn-sm btn-warning">
+                                                    <i class="bi bi-pencil-square"></i> Edit
+                                                </a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

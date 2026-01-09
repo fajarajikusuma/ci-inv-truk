@@ -93,7 +93,9 @@ class PajakModel extends Model
             ->join('tb_pajak_kendaraan p', 'p.id_kendaraan = k.id_kendaraan', 'left')
             ->join('tb_sopir s', 's.id_sopir = k.id_sopir', 'left')
             ->groupBy('k.id_kendaraan')
-            ->orderBy('k.nopol', 'DESC')
+            // ->orderBy('k.nopol', 'DESC')
+            // 🔥 URUTKAN PAJAK TERDEKAT KE HARI INI
+            ->orderBy('ABS(DATEDIFF(MAX(p.tanggal_stnk), CURDATE()))', 'ASC', false)
             ->get()
             ->getResultArray();
     }

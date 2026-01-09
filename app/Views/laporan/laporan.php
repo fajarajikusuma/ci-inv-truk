@@ -82,38 +82,40 @@
         <div class="card-header">
             <h4 class="card-title">Tabel Pemeliharaan Kendaraan</h4>
         </div>
-        <div class="card-body table-responsive">
-            <table class="table table-striped" id="table-pemeliharaan">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>No. Polisi</th>
-                        <th>Jenis Kendaraan</th>
-                        <th>Merk</th>
-                        <th>Tipe</th>
-                        <th>Tahun Pembuatan</th>
-                        <th>Total Biaya Pemeliharaan</th>
-                        <th>Nama Sopir</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($pemeliharaan)) : ?>
-                        <?php $no = 1;
-                        foreach ($pemeliharaan as $row) : ?>
-                            <tr>
-                                <td><?= $no++; ?></td>
-                                <td><?= esc($row['nopol']); ?></td>
-                                <td><?= esc($row['jenis_kendaraan']); ?></td>
-                                <td><?= esc($row['merk']); ?></td>
-                                <td><?= esc($row['tipe']); ?></td>
-                                <td><?= esc($row['tahun_pembuatan']); ?></td>
-                                <td>Rp <?= number_format($row['total_biaya'], 0, ',', '.'); ?></td>
-                                <td><?= esc($row['nama_sopir']); ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped" id="table-pemeliharaan">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>No. Polisi</th>
+                            <th>Jenis Kendaraan</th>
+                            <th>Merk</th>
+                            <th>Tipe</th>
+                            <th>Tahun Pembuatan</th>
+                            <th>Total Biaya Pemeliharaan</th>
+                            <th>Nama Sopir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($pemeliharaan)) : ?>
+                            <?php $no = 1;
+                            foreach ($pemeliharaan as $row) : ?>
+                                <tr>
+                                    <td><?= $no++; ?></td>
+                                    <td><?= esc($row['nopol']); ?></td>
+                                    <td><?= esc($row['jenis_kendaraan']); ?></td>
+                                    <td><?= esc($row['merk']); ?></td>
+                                    <td><?= esc($row['tipe']); ?></td>
+                                    <td><?= esc($row['tahun_pembuatan']); ?></td>
+                                    <td>Rp <?= number_format($row['total_biaya'], 0, ',', '.'); ?></td>
+                                    <td><?= esc($row['nama_sopir']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </section>
