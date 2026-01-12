@@ -89,7 +89,8 @@
                         <label for="preview_foto" class="form-label">Preview Foto</label>
                         <img id="preview_foto" src="" alt="Preview Foto" class="img-thumbnail form-control" style="max-width: 200px; height: auto;">
                     </div>
-
+                    <!-- status hidden -->
+                    <input type="hidden" name="status" value="aktif">
                 </div>
 
                 <div class="d-flex justify-content-end mt-4">
