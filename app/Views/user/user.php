@@ -55,11 +55,13 @@
                                     <td>
                                         <?php
                                         $badgeClass = match ($row['role']) {
-                                            'admin' => 'bg-danger',
-                                            'operator' => 'bg-primary',
-                                            'kasubag_umpeg' => 'bg-warning text-dark',
-                                            'sekdin' => 'bg-success',
-                                            default => 'bg-secondary'
+                                            'admin'                 => 'bg-dark',      
+                                            'operator_pemeliharaan' => 'bg-primary',   
+                                            'operator_pajak'        => 'bg-info',      
+                                            'kasubag_umpeg'         => 'bg-warning text-dark', 
+                                            'sekdin'                => 'bg-success',   
+                                            'kepala_dinas'          => 'bg-secondary', 
+                                            default                 => 'bg-secondary'  
                                         };
                                         ?>
                                         <span class="badge <?= $badgeClass ?>">
@@ -67,7 +69,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="badge <?= $row['status'] == 'aktif' ? 'bg-success' : 'bg-secondary' ?>">
+                                        <span class="badge <?= $row['status'] == 'aktif' ? 'bg-success' : 'bg-danger' ?>">
                                             <?= ucfirst($row['status']) ?>
                                         </span>
                                     </td>
