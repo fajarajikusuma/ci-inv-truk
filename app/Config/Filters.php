@@ -37,7 +37,8 @@ class Filters extends BaseFilters
         'logActivity'   => \App\Filters\ActivityLogFilter::class,
         'validate'      => \App\Filters\ValidationFilter::class,
         'login'         => \App\Filters\LoginFilter::class,
-        'role' => \App\Filters\RoleFilter::class,
+        'role'          => \App\Filters\RoleFilter::class,
+        'authCheck'     => \App\Filters\AuthCheck::class,
     ];
 
     /**
@@ -81,6 +82,7 @@ class Filters extends BaseFilters
             // 'invalidchars',
             'logActivity',
             'login' => ['except' => ['login', 'auth/*', 'cek_riwayat_kendaraan/*']],
+            'authCheck',
         ],
         'after' => [
             // 'honeypot',
