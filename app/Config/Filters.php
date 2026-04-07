@@ -82,7 +82,7 @@ class Filters extends BaseFilters
             // 'invalidchars',
             'logActivity',
             'login' => ['except' => ['login', 'auth/*', 'cek_riwayat_kendaraan/*']],
-            'authCheck',
+            'authCheck' => ['except' => ['login', 'auth/*', 'cek_riwayat_kendaraan/*']],
         ],
         'after' => [
             // 'honeypot',

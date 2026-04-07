@@ -5,185 +5,300 @@
     <base href="<?= base_url() ?>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cek Riwayat Kendaraan - V-MARS</title>
-
-
+    <title>Riwayat Kendaraan - V-MARS</title>
 
     <link rel="shortcut icon" href="dist/assets/compiled/svg/favicon.svg" type="image/x-icon">
-    <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAiCAYAAADRcLDBAAAEs2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS41LjAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iCiAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIKICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgZXhpZjpQaXhlbFhEaW1lbnNpb249IjMzIgogICBleGlmOlBpeGVsWURpbWVuc2lvbj0iMzQiCiAgIGV4aWY6Q29sb3JTcGFjZT0iMSIKICAgdGlmZjpJbWFnZVdpZHRoPSIzMyIKICAgdGlmZjpJbWFnZUxlbmd0aD0iMzQiCiAgIHRpZmY6UmVzb2x1dGlvblVuaXQ9IjIiCiAgIHRpZmY6WFJlc29sdXRpb249Ijk2LjAiCiAgIHRpZmY6WVJlc29sdXRpb249Ijk2LjAiCiAgIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiCiAgIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIKICAgeG1wOk1vZGlmeURhdGU9IjIwMjItMDMtMzFUMTA6NTA6MjMrMDI6MDAiCiAgIHhtcDpNZXRhZGF0YURhdGU9IjIwMjItMDMtMzFUMTA6NTA6MjMrMDI6MDAiPgogICA8eG1wTU06SGlzdG9yeT4KICAgIDxyZGY6U2VxPgogICAgIDxyZGY6bGkKICAgICAgc3RFdnQ6YWN0aW9uPSJwcm9kdWNlZCIKICAgICAgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWZmaW5pdHkgRGVzaWduZXIgMS4xMC4xIgogICAgICBzdEV2dDp3aGVuPSIyMDIyLTAzLTMxVDEwOjUwOjIzKzAyOjAwIi8+CiAgICA8L3JkZjpTZXE+CiAgIDwveG1wTU06SGlzdG9yeT4KICA8L3JkZjpEZXNjcmlwdGlvbj4KIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+Cjw/eHBhY2tldCBlbmQ9InIiPz5V57uAAAABgmlDQ1BzUkdCIElFQzYxOTY2LTIuMQAAKJF1kc8rRFEUxz9maORHo1hYKC9hISNGTWwsRn4VFmOUX5uZZ36oeTOv954kW2WrKLHxa8FfwFZZK0WkZClrYoOe87ypmWTO7dzzud97z+nec8ETzaiaWd4NWtYyIiNhZWZ2TvE946WZSjqoj6mmPjE1HKWkfdxR5sSbgFOr9Ll/rXoxYapQVik8oOqGJTwqPL5i6Q5vCzeo6dii8KlwpyEXFL519LjLLw6nXP5y2IhGBsFTJ6ykijhexGra0ITl5bRqmWU1fx/nJTWJ7PSUxBbxJkwijBBGYYwhBgnRQ7/MIQIE6ZIVJfK7f/MnyUmuKrPOKgZLpEhj0SnqslRPSEyKnpCRYdXp/9++msneoFu9JgwVT7b91ga+LfjetO3PQ9v+PgLvI1xkC/m5A+h7F32zoLXug38dzi4LWnwHzjeg8UGPGbFfySvuSSbh9QRqZ6H+Gqrm3Z7l9zm+h+iafNUV7O5Bu5z3L/wAdthn7QIme0YAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAJTSURBVFiF7Zi9axRBGIefEw2IdxFBRQsLWUTBaywSK4ubdSGVIY1Y6HZql8ZKCGIqwX/AYLmCgVQKfiDn7jZeEQMWfsSAHAiKqPiB5mIgELWYOW5vzc3O7niHhT/YZvY37/swM/vOzJbIqVq9uQ04CYwCI8AhYAlYAB4Dc7HnrOSJWcoJcBS4ARzQ2F4BZ2LPmTeNuykHwEWgkQGAet9QfiMZjUSt3hwD7psGTWgs9pwH1hC1enMYeA7sKwDxBqjGnvNdZzKZjqmCAKh+U1kmEwi3IEBbIsugnY5avTkEtIAtFhBrQCX2nLVehqyRqFoCAAwBh3WGLAhbgCRIYYinwLolwLqKUwwi9pxV4KUlxKKKUwxC6ZElRCPLYAJxGfhSEOCz6m8HEXvOB2CyIMSk6m8HoXQTmMkJcA2YNTHm3congOvATo3tE3A29pxbpnFzQSiQPcB55IFmFNgFfEQeahaAGZMpsIJIAZWAHcDX2HN+2cT6r39GxmvC9aPNwH5gO1BOPFuBVWAZue0vA9+A12EgjPadnhCuH1WAE8ivYAQ4ohKaagV4gvxi5oG7YSA2vApsCOH60WngKrA3R9IsvQUuhIGY00K4flQG7gHH/mLytB4C42EgfrQb0mV7us8AAMeBS8mGNMR4nwHamtBB7B4QRNdaS0M8GxDEog7iyoAguvJ0QYSBuAOcAt71Kfl7wA8DcTvZ2KtOlJEr+ByyQtqqhTyHTIeB+ONeqi3brh+VgIN0fohUgWGggizZFTplu12yW8iy/YLOGWMpDMTPXnl+Az9vj2HERYqPAAAAAElFTkSuQmCC" type="image/png">
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
-
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <link rel="stylesheet" href="dist/assets/compiled/css/app.css">
     <link rel="stylesheet" href="dist/assets/compiled/css/app-dark.css">
     <link rel="stylesheet" href="dist/assets/compiled/css/iconly.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bs-body-bg);
+        }
+
+        /* Header Adaptif dengan Glassmorphism */
+        .header-top {
+            background: var(--bs-body-bg) !important;
+            opacity: 0.95;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--bs-border-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand-title {
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: #435ebe;
+        }
+
+        /* Card yang menyesuaikan warna border & shadow berdasarkan tema */
+        .card {
+            border: 1px solid var(--bs-border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            background-color: var(--bs-card-bg);
+        }
+
+        /* Label Info menggunakan warna muted yang adaptif */
+        .info-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--bs-secondary-color);
+            font-weight: 700;
+            margin-bottom: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            color: var(--bs-body-color);
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+
+        /* Merapikan Search Box DataTables agar tidak nabrak di Dark Mode */
+        .dataTables_filter input {
+            background-color: var(--bs-body-bg) !important;
+            color: var(--bs-body-color) !important;
+            border: 1px solid var(--bs-border-color) !important;
+            border-radius: 6px;
+            padding: 4px 10px;
+        }
+
+        /* Styling Tombol Export */
+        .dt-buttons {
+            margin-bottom: 1rem;
+        }
+
+        .buttons-pdf {
+            background-color: #eb3b5a !important;
+            color: #fff !important;
+            border: none !important;
+            border-radius: 6px !important;
+        }
+
+        .buttons-excel {
+            background-color: #20bf6b !important;
+            color: #fff !important;
+            border: none !important;
+            border-radius: 6px !important;
+        }
+
+        /* Memastikan baris tabel kontras */
+        .table {
+            color: var(--bs-body-color) !important;
+        }
+
+        .table-striped>tbody>tr:nth-of-type(odd)>* {
+            --bs-table-accent-bg: rgba(var(--bs-primary-rgb), 0.05) !important;
+        }
+    </style>
 </head>
 
 <body>
     <script src="dist/assets/static/js/initTheme.js"></script>
+
     <div id="app">
         <div id="main" class="layout-horizontal">
-            <header class="mb-5">
+            <header>
                 <div class="header-top">
-                    <div class="d-flex align-items-center">
-                        <div class="container">
-                            <h1 class="">V-MARS</h1>
-                            <small class="text-gray-600 fw-bold">( Vehicle Maintenance and Recording System )</small>
+                    <div class="container d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="brand-title mb-0">V-MARS</h2>
+                            <small class="text-muted fw-bold">Vehicle Maintenance & Recording System</small>
+                        </div>
+                        <div class="theme-toggle d-flex align-items-center gap-2">
+                            <span class="badge bg-light-primary text-primary d-none d-md-inline-block px-3 py-2">Sistem Aktif</span>
                         </div>
                     </div>
-
+                </div>
             </header>
 
-            <div class="content-wrapper container">
-
-                <div class="page-heading mb-3">
-                    <div class="d-flex justify-content-between">
-                        <h3>Detail Riwayat Pemeliharaan Kendaraan</h3>
+            <div class="content-wrapper container py-4 mt-2">
+                <div class="page-heading mb-4">
+                    <div class="d-flex align-items-center">
+                        <div class="iconly-boldInfo-Square me-3 text-primary" style="font-size: 2rem;"></div>
+                        <div>
+                            <h3 class="mb-0">Detail Pemeliharaan</h3>
+                            <p class="text-muted mb-0">Informasi lengkap aset dan riwayat perbaikan</p>
+                        </div>
                     </div>
                 </div>
 
-                <section class="section">
-                    <div class="card">
-                        <div class="card-header bg-light">
-                            <h5 class="mb-0">Data Kendaraan</h5>
+                <section class="section mt-4">
+                    <div class="row">
+                        <div class="col-lg-8 mb-3">
+                            <div class="card mb-4 h-100 shadow-sm" style="border-top: 4px solid #435ebe !important;">
+                                <div class="card-header d-flex align-items-center border-bottom py-3">
+                                    <h5 class="mb-0"><i class="bi bi-truck me-2 text-primary"></i>Data Kendaraan</h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    <div class="row">
+                                        <div class="col-6 col-md-4">
+                                            <div class="info-label">Nomor Polisi</div>
+                                            <div class="info-value"><span class="badge bg-dark text-white p-2 px-3 shadow-sm"><?= esc($kendaraan['nopol']); ?></span></div>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <div class="info-label">Merk & Tipe</div>
+                                            <div class="info-value"><?= esc($kendaraan['merk']); ?> - <?= esc($kendaraan['tipe']); ?></div>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <div class="info-label">Jenis</div>
+                                            <div class="info-value"><?= esc($kendaraan['jenis_kendaraan']); ?></div>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <div class="info-label">Tahun</div>
+                                            <div class="info-value"><?= esc($kendaraan['tahun_pembuatan']); ?></div>
+                                        </div>
+                                        <div class="col-12 col-md-8">
+                                            <div class="info-label">No. Mesin / Rangka</div>
+                                            <div class="info-value text-break text-primary small fw-bold">
+                                                <?= esc($kendaraan['no_mesin']); ?> / <?= esc($kendaraan['no_rangka']); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body p-4">
-                            <div class="row">
-                                <!-- Kolom Tabel -->
-                                <div class="col-lg-12 col-md-12 col-12">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered mt-3">
-                                            <tr>
-                                                <th width="200">Nomor Polisi</th>
-                                                <td><?= esc($kendaraan['nopol']); ?></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Merk</th>
-                                                <td><?= esc($kendaraan['merk']); ?></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Tipe</th>
-                                                <td><?= esc($kendaraan['tipe']); ?></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Jenis Kendaraan</th>
-                                                <td><?= esc($kendaraan['jenis_kendaraan']); ?></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Tahun Pembuatan</th>
-                                                <td><?= esc($kendaraan['tahun_pembuatan']); ?></td>
-                                            </tr>
-                                            <tr>
-                                                <th>No. Mesin</th>
-                                                <td><?= esc($kendaraan['no_mesin']); ?></td>
-                                            </tr>
-                                            <tr>
-                                                <th>No. Rangka</th>
-                                                <td><?= esc($kendaraan['no_rangka']); ?></td>
-                                            </tr>
-                                        </table>
+
+                        <div class="col-lg-4 mb-3">
+                            <div class="card mb-4 h-100 shadow-sm" style="border-top: 4px solid #435ebe !important;">
+                                <div class="card-header border-bottom py-3">
+                                    <h5 class="mb-0 text-primary">
+                                        <i class="bi bi-person-check me-2"></i>Penanggung Jawab
+                                    </h5>
+                                </div>
+                                <div class="card-body p-4 text-md-start">
+                                    <div class="info-label opacity-75">Nama Sopir</div>
+                                    <div class="info-value text-primary fw-bold mb-3" style="font-size: 1.25rem;">
+                                        <?= esc($kendaraan['nama_sopir']); ?>
+                                    </div>
+
+                                    <div class="info-label opacity-75">No. Telepon</div>
+                                    <div class="info-value mb-3 text-muted">
+                                        <i class="bi bi-telephone me-1"></i> <?= esc($kendaraan['no_hp']); ?>
+                                    </div>
+
+                                    <div class="info-label opacity-75">Status Unit</div>
+                                    <div class="info-value mb-0">
+                                        <span class="badge bg-light-success text-success px-3 py-2 fw-bold rounded-pill">
+                                            <i class="bi bi-check2-circle me-1"></i> <?= esc(strtoupper($kendaraan['status_sopir'])); ?>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-
                     <div class="card mt-4">
-                        <div class="card-header bg-light">
-                            <h5 class="mb-0">Data Sopir</h5>
+                        <div class="card-header d-flex justify-content-between align-items-center flex-wrap border-bottom py-3" style="border-top: 4px solid #435ebe !important;">
+                            <h5 class="mb-2 mb-md-0"><i class="bi bi-clock-history me-2 text-primary"></i>Riwayat Pemeliharaan</h5>
                         </div>
-                        <div class="card-body table-responsive">
-                            <table class="table table-bordered mt-4">
-                                <tr>
-                                    <th width="200">Nama Sopir</th>
-                                    <td><?= esc($kendaraan['nama_sopir']); ?></td>
-                                </tr>
-                                <tr>
-                                    <th>No. Telepon</th>
-                                    <td><?= esc($kendaraan['no_hp']); ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Status</th>
-                                    <td><?= esc($kendaraan['status_sopir']); ?></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="card mt-4">
-                        <div class="card-header bg-light d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="mb-0">Riwayat Pemeliharaan</h5>
-                        </div>
-
-                        <div class="card-body table-responsive">
-                            <table class="table table-striped" id="table-riwayat">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Tanggal Keluhan</th>
-                                        <th>Tindakan Perbaikan</th>
-                                        <th>Bengkel</th>
-                                        <th>Biaya</th>
-                                        <th>Nama Sopir</th>
-                                        <th>Dibuat Oleh</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if (!empty($pemeliharaan)) : ?>
-                                        <?php $no = 1;
-                                        foreach ($pemeliharaan as $row) : ?>
-                                            <tr>
-                                                <td><?= $no++; ?></td>
-                                                <td><?= date('d-m-Y', strtotime($row['tanggal_keluhan'])); ?></td>
-                                                <td><?= esc($row['tindakan_perbaikan']); ?></td>
-                                                <td><?= esc($row['bengkel']); ?></td>
-                                                <td>Rp <?= number_format($row['biaya'], 0, ',', '.'); ?></td>
-                                                <td><?= esc($row['nama_sopir']); ?></td>
-                                                <td><?= esc($row['nama_user']); ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
+                        <div class="card-body p-4">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover" id="table-riwayat" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th>Tanggal</th>
+                                            <th>Tindakan Perbaikan</th>
+                                            <th>Bengkel</th>
+                                            <th>Biaya (Rp)</th>
+                                            <th>Petugas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (!empty($pemeliharaan)) : ?>
+                                            <?php $no = 1;
+                                            foreach ($pemeliharaan as $row) : ?>
+                                                <tr>
+                                                    <td class="text-center fw-bold"><?= $no++; ?></td>
+                                                    <td class="text-nowrap"><i class="bi bi-calendar-event me-1 text-primary small"></i> <?= date('d M Y', strtotime($row['tanggal_keluhan'])); ?></td>
+                                                    <td><?= esc($row['tindakan_perbaikan']); ?></td>
+                                                    <td><span class="badge bg-light-secondary text-dark-50 small"><?= esc($row['bengkel']); ?></span></td>
+                                                    <td class="fw-bold">Rp <?= number_format($row['biaya'], 0, ',', '.'); ?></td>
+                                                    <td>
+                                                        <div class="small fw-bold"><?= esc($row['nama_user']); ?></div>
+                                                        <div class="text-muted" style="font-size: 0.7rem;">Sopir: <?= esc($row['nama_sopir']); ?></div>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
 
             <footer>
-                <div class="container">
-                    <div class="footer clearfix mb-0 text-muted">
-                        <div class="float-start">
-                            <p>2023 &copy; Mazer</p>
+                <div class="container py-4">
+                    <div class="footer d-flex flex-column flex-md-row align-items-center justify-content-md-between text-muted border-top pt-4 text-center text-md-start">
+                        <div class="mb-2 mb-md-0">
+                            <p class="mb-0">2026 &copy; <span class="fw-bold text-primary">V-MARS</span></p>
                         </div>
-                        <div class="float-end">
-                            <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                                    href="https://fajarajikusuma.vercel.app">Fajar Aji Kusuma</a></p>
+                        <div>
+                            <p class="mb-0">Created with <i class="bi bi-heart-fill text-danger small"></i> by <a href="https://fajarajikusuma.vercel.app" class="text-primary fw-bold text-decoration-none">Fajar Aji Kusuma, S.Kom.</a></p>
                         </div>
                     </div>
                 </div>
             </footer>
         </div>
     </div>
-    <script src="assets/static/js/components/dark.js"></script>
-    <script src="assets/static/js/pages/horizontal-layout.js"></script>
-    <script src="assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/compiled/js/app.js"></script>
 
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 
-    <script src="assets/extensions/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/static/js/pages/dashboard.js"></script>
-    <script src="custom.js"></script>
-
+    <script>
+        $(document).ready(function() {
+            var table = $('#table-riwayat').DataTable({
+                responsive: true,
+                dom: '<"d-flex flex-column flex-md-row justify-content-between mb-4"Bf>rt<"d-flex flex-column flex-md-row justify-content-between mt-4"ip>',
+                buttons: [{
+                        extend: 'pdfHtml5',
+                        text: '<i class="bi bi-file-earmark-pdf me-1"></i> Export PDF',
+                        className: 'buttons-pdf shadow-sm',
+                        title: 'Riwayat_V-MARS_<?= esc($kendaraan['nopol']); ?>',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="bi bi-file-earmark-excel me-1"></i> Excel',
+                        className: 'buttons-excel shadow-sm',
+                        title: 'Riwayat_V-MARS_<?= esc($kendaraan['nopol']); ?>',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }
+                ],
+                language: {
+                    search: "",
+                    searchPlaceholder: "Cari riwayat perbaikan...",
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
