@@ -10,6 +10,7 @@ class Auth extends BaseController
     protected $userModel;
     protected $kendaraanModel;
     protected $pemeliharaanModel;
+
     public function __construct()
     {
         $this->userModel = new \App\Models\UserModel();
@@ -17,12 +18,13 @@ class Auth extends BaseController
         $this->pemeliharaanModel = new \App\Models\PemeliharaanModel();
         helper(['id_helper']);
     }
+
     public function index()
     {
         if (session()->get('id_user')) {
             return redirect()->to('/');
         }
-        $title = 'Login - Inventory Truk';
+        $title = 'Login - Inventory Kendaraan';
         return view('auth/login', compact('title'));
     }
 
@@ -32,13 +34,24 @@ class Auth extends BaseController
         $password = $this->request->getPost('password');
 
         $user = $this->userModel->where('username', $username)->first();
+
         if ($user) {
+            // 1. Cek apakah status user aktif
+            if ($user['status'] !== 'aktif') {
+                return redirect()->to('/login')->with('error', 'Akun Anda nonaktif. Akses ditolak.');
+            }
+
+            // 2. Verifikasi password
             if (password_verify($password, $user['password'])) {
                 $session = session();
-                $session->set('id_user', $user['id_user']);
-                $session->set('nama', $user['nama']);
-                $session->set('role', $user['role']);
-                return redirect()->to('/');
+                $session->set([
+                    'id_user' => $user['id_user'],
+                    'nama'    => $user['nama'],
+                    'role'    => $user['role'], // Tetap disimpan di session untuk keperluan lain
+                    'logged_in' => true
+                ]);
+
+                return redirect()->to('/'); // Langsung ke dashboard utama
             }
         }
 
