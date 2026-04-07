@@ -14,6 +14,16 @@ class AuthCheck implements FilterInterface
         $session = session();
         $userId = $session->get('id_user');
 
+        // Jika sedang mengakses halaman login, abaikan filter
+        if (in_array(uri_string(), ['login', 'auth/login'])) {
+            return;
+        }
+
+        // 1. Cek jika sesi hilang (karena sudah lewat 15 menit)
+        if (!$userId) {
+            return redirect()->to(base_url('login'))->with('error', 'Sesi Anda telah berakhir karena tidak ada aktivitas.');
+        }
+
         if ($userId) {
             $model = new UserModel();
             $user = $model->find($userId);
