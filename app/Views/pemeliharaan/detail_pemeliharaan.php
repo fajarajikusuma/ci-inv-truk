@@ -84,8 +84,10 @@
                         <div class="card-header bg-light">
                             <h5 class="mb-0">QR Code Kendaraan</h5>
                         </div>
-                        <div class="card-body border border-secondary rounded-bottom-4 d-flex justify-content-center align-items-center p-3" style="min-height: 200px;">
-                            <img src="<?= $qrcode ?>" alt="QR Code Kendaraan" class="img-fluid" style="max-width: 150px;">
+                        <div class="card-body border border-secondary rounded-bottom-4 d-flex justify-content-center align-items-center p-3"
+                            style="min-height: 200px;">
+                            <img src="<?= $qrcode ?>" alt="QR Code Kendaraan" class="img-fluid"
+                                style="max-width: 150px;">
                         </div>
                     </div>
                 </div>
@@ -114,7 +116,7 @@
                 </tr>
                 <tr>
                     <th>Status</th>
-                    <td><?= esc($kendaraan['status_sopir']); ?></td>
+                    <td><?= esc(strtoupper($kendaraan['status_sopir'])); ?></td>
                 </tr>
             </table>
         </div>
@@ -130,7 +132,7 @@
                     <div class="input-group">
                         <button class="btn btn-primary" disabled>Filter</button>
                         <select name="tahun_filter" id="tahun" class="form-select" onchange="this.form.submit()">
-                            <?php for ($i = date('Y'); $i >= date('Y') - 5; $i--) : ?>
+                            <?php for ($i = date('Y'); $i >= date('Y') - 5; $i--): ?>
                                 <option value="<?= $i; ?>" <?= $tahun == $i ? 'selected' : ''; ?>><?= $i; ?></option>
                             <?php endfor; ?>
                             <option value="all" <?= $tahun == 'all' ? 'selected' : ''; ?>>Semua Tahun</option>
@@ -145,59 +147,63 @@
 
         </div>
 
-        <div class="card-body table-responsive">
-            <table class="table table-striped" id="table-riwayat">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Tanggal Keluhan</th>
-                        <th>Tindakan Perbaikan</th>
-                        <th>Bengkel</th>
-                        <th>Biaya</th>
-                        <th>Nama Sopir</th>
-                        <th>Nota</th>
-                        <th>Dibuat Oleh</th>
-                        <th class="text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($pemeliharaan)) : ?>
-                        <?php $no = 1;
-                        foreach ($pemeliharaan as $row) : ?>
-                            <tr>
-                                <td><?= $no++; ?></td>
-                                <td><?= date('d-m-Y', strtotime($row['tanggal_keluhan'])); ?></td>
-                                <td><?= esc($row['tindakan_perbaikan']); ?></td>
-                                <td><?= esc($row['bengkel']); ?></td>
-                                <td>Rp <?= number_format($row['biaya'], 0, ',', '.'); ?></td>
-                                <td><?= esc($row['nama_sopir']); ?></td>
-                                <td>
-                                    <?php if (!empty($row['nota'])) : ?>
-                                        <a href="<?= base_url('assets/img/nota/' . $row['nota']); ?>" class="btn btn-sm btn-primary">
-                                            <i class="bi bi-eye"></i> Lihat
-                                        </a>
-                                    <?php else : ?>
-                                        <span class="text-danger">Tidak Ada Nota</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?= esc($row['nama_user']); ?></td>
-                                <td>
-                                    <div class="d-flex justify-content-center align-items-center gap-1">
-                                        <a href="<?= base_url('pemeliharaan/edit/' . $row['enc_id_pemeliharaan']); ?>" class="btn btn-sm btn-warning">
-                                            <i class="bi bi-pencil-square"></i> Edit
-                                        </a>
-                                        <a href="<?= base_url('pemeliharaan/hapus/' . $row['enc_id_pemeliharaan']); ?>"
-                                            onclick="return confirm('Yakin ingin menghapus data ini?')"
-                                            class="btn btn-sm btn-danger">
-                                            <i class="bi bi-trash"></i> Hapus
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped" id="table-riwayat">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Tanggal Keluhan</th>
+                            <th>Tindakan Perbaikan</th>
+                            <th>Bengkel</th>
+                            <th>Biaya</th>
+                            <th>Nama Sopir</th>
+                            <th>Nota</th>
+                            <th>Dibuat Oleh</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($pemeliharaan)): ?>
+                            <?php $no = 1;
+                            foreach ($pemeliharaan as $row): ?>
+                                <tr>
+                                    <td><?= $no++; ?></td>
+                                    <td><?= date('d-m-Y', strtotime($row['tanggal_keluhan'])); ?></td>
+                                    <td><?= esc($row['tindakan_perbaikan']); ?></td>
+                                    <td><?= esc($row['bengkel']); ?></td>
+                                    <td>Rp <?= number_format($row['biaya'], 0, ',', '.'); ?></td>
+                                    <td><?= esc($row['nama_sopir']); ?></td>
+                                    <td>
+                                        <?php if (!empty($row['nota'])): ?>
+                                            <a href="<?= base_url('assets/img/nota/' . $row['nota']); ?>"
+                                                class="btn btn-sm btn-primary">
+                                                <i class="bi bi-eye"></i> Lihat
+                                            </a>
+                                        <?php else: ?>
+                                            <span class="text-danger">Tidak Ada Nota</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><?= esc($row['nama_user']); ?></td>
+                                    <td>
+                                        <div class="d-flex justify-content-center align-items-center gap-1">
+                                            <a href="<?= base_url('pemeliharaan/edit/' . $row['enc_id_pemeliharaan']); ?>"
+                                                class="btn btn-sm btn-warning">
+                                                <i class="bi bi-pencil-square"></i> Edit
+                                            </a>
+                                            <a href="<?= base_url('pemeliharaan/hapus/' . $row['enc_id_pemeliharaan']); ?>"
+                                                onclick="return confirm('Yakin ingin menghapus data ini?')"
+                                                class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i> Hapus
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </section>

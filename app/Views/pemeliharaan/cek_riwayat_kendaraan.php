@@ -119,7 +119,8 @@
                             <small class="text-muted fw-bold">Vehicle Maintenance & Recording System</small>
                         </div>
                         <div class="theme-toggle d-flex align-items-center gap-2">
-                            <span class="badge bg-light-primary text-primary d-none d-md-inline-block px-3 py-2">Sistem Aktif</span>
+                            <span class="badge bg-light-primary text-primary d-none d-md-inline-block px-3 py-2">Sistem
+                                Aktif</span>
                         </div>
                     </div>
                 </div>
@@ -147,11 +148,15 @@
                                     <div class="row">
                                         <div class="col-6 col-md-4">
                                             <div class="info-label">Nomor Polisi</div>
-                                            <div class="info-value"><span class="badge bg-dark text-white p-2 px-3 shadow-sm"><?= esc($kendaraan['nopol']); ?></span></div>
+                                            <div class="info-value"><span
+                                                    class="badge bg-dark text-white p-2 px-3 shadow-sm"><?= esc($kendaraan['nopol']); ?></span>
+                                            </div>
                                         </div>
                                         <div class="col-6 col-md-4">
                                             <div class="info-label">Merk & Tipe</div>
-                                            <div class="info-value"><?= esc($kendaraan['merk']); ?> - <?= esc($kendaraan['tipe']); ?></div>
+                                            <div class="info-value"><?= esc($kendaraan['merk']); ?> -
+                                                <?= esc($kendaraan['tipe']); ?>
+                                            </div>
                                         </div>
                                         <div class="col-6 col-md-4">
                                             <div class="info-label">Jenis</div>
@@ -164,7 +169,8 @@
                                         <div class="col-12 col-md-8">
                                             <div class="info-label">No. Mesin / Rangka</div>
                                             <div class="info-value text-break text-primary small fw-bold">
-                                                <?= esc($kendaraan['no_mesin']); ?> / <?= esc($kendaraan['no_rangka']); ?>
+                                                <?= esc($kendaraan['no_mesin']); ?> /
+                                                <?= esc($kendaraan['no_rangka']); ?>
                                             </div>
                                         </div>
                                     </div>
@@ -192,8 +198,10 @@
 
                                     <div class="info-label opacity-75">Status Unit</div>
                                     <div class="info-value mb-0">
-                                        <span class="badge bg-light-success text-success px-3 py-2 fw-bold rounded-pill">
-                                            <i class="bi bi-check2-circle me-1"></i> <?= esc(strtoupper($kendaraan['status_sopir'])); ?>
+                                        <span
+                                            class="badge bg-light-success text-success px-3 py-2 fw-bold rounded-pill">
+                                            <i class="bi bi-check2-circle me-1"></i>
+                                            <?= esc(strtoupper($kendaraan['status_sopir'])); ?>
                                         </span>
                                     </div>
                                 </div>
@@ -202,8 +210,28 @@
                     </div>
 
                     <div class="card mt-4">
-                        <div class="card-header d-flex justify-content-between align-items-center flex-wrap border-bottom py-3" style="border-top: 4px solid #435ebe !important;">
-                            <h5 class="mb-2 mb-md-0"><i class="bi bi-clock-history me-2 text-primary"></i>Riwayat Pemeliharaan</h5>
+                        <div class="card-header d-flex justify-content-between align-items-center flex-wrap border-bottom py-3"
+                            style="border-top: 4px solid #435ebe !important;">
+                            <h5 class="mb-2 mb-md-0"><i class="bi bi-clock-history me-2 text-primary"></i>Riwayat
+                                Pemeliharaan</h5>
+
+                            <form action="<?= base_url('auth/cek_riwayat_kendaraan/' . $enc_id); ?>" method="post">
+                                <?= csrf_field(); ?>
+                                <div class="input-group">
+                                    <button class="btn btn-primary" type="button" disabled>Filter Tahun</button>
+                                    <select name="tahun_filter" id="tahun" class="form-select"
+                                        onchange="this.form.submit()">
+                                        <?php
+                                        $currentYear = date('Y');
+                                        for ($i = $currentYear; $i >= $currentYear - 5; $i--):
+                                            ?>
+                                            <option value="<?= $i; ?>" <?= $tahun == $i ? 'selected' : ''; ?>><?= $i; ?>
+                                            </option>
+                                        <?php endfor; ?>
+                                        <option value="all" <?= $tahun == 'all' ? 'selected' : ''; ?>>Semua Tahun</option>
+                                    </select>
+                                </div>
+                            </form>
                         </div>
                         <div class="card-body p-4">
                             <div class="table-responsive">
@@ -219,18 +247,25 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php if (!empty($pemeliharaan)) : ?>
+                                        <?php if (!empty($pemeliharaan)): ?>
                                             <?php $no = 1;
-                                            foreach ($pemeliharaan as $row) : ?>
+                                            foreach ($pemeliharaan as $row): ?>
                                                 <tr>
                                                     <td class="text-center fw-bold"><?= $no++; ?></td>
-                                                    <td class="text-nowrap"><i class="bi bi-calendar-event me-1 text-primary small"></i> <?= date('d M Y', strtotime($row['tanggal_keluhan'])); ?></td>
+                                                    <td class="text-nowrap"><i
+                                                            class="bi bi-calendar-event me-1 text-primary small"></i>
+                                                        <?= date('d M Y', strtotime($row['tanggal_keluhan'])); ?></td>
                                                     <td><?= esc($row['tindakan_perbaikan']); ?></td>
-                                                    <td><span class="badge bg-light-secondary text-dark-50 small"><?= esc($row['bengkel']); ?></span></td>
-                                                    <td class="fw-bold">Rp <?= number_format($row['biaya'], 0, ',', '.'); ?></td>
+                                                    <td><span
+                                                            class="badge bg-light-secondary text-dark-50 small"><?= esc($row['bengkel']); ?></span>
+                                                    </td>
+                                                    <td class="fw-bold">Rp <?= number_format($row['biaya'], 0, ',', '.'); ?>
+                                                    </td>
                                                     <td>
                                                         <div class="small fw-bold"><?= esc($row['nama_user']); ?></div>
-                                                        <div class="text-muted" style="font-size: 0.7rem;">Sopir: <?= esc($row['nama_sopir']); ?></div>
+                                                        <div class="text-muted" style="font-size: 0.7rem;">Sopir:
+                                                            <?= esc($row['nama_sopir']); ?>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
@@ -245,12 +280,15 @@
 
             <footer>
                 <div class="container py-4">
-                    <div class="footer d-flex flex-column flex-md-row align-items-center justify-content-md-between text-muted border-top pt-4 text-center text-md-start">
+                    <div
+                        class="footer d-flex flex-column flex-md-row align-items-center justify-content-md-between text-muted border-top pt-4 text-center text-md-start">
                         <div class="mb-2 mb-md-0">
                             <p class="mb-0">2026 &copy; <span class="fw-bold text-primary">V-MARS</span></p>
                         </div>
                         <div>
-                            <p class="mb-0">Created with <i class="bi bi-heart-fill text-danger small"></i> by <a href="https://fajarajikusuma.vercel.app" class="text-primary fw-bold text-decoration-none">Fajar Aji Kusuma, S.Kom.</a></p>
+                            <p class="mb-0">Created with <i class="bi bi-heart-fill text-danger small"></i> by <a
+                                    href="https://fajarajikusuma.vercel.app"
+                                    class="text-primary fw-bold text-decoration-none">Fajar Aji Kusuma, S.Kom.</a></p>
                         </div>
                     </div>
                 </div>
@@ -269,28 +307,28 @@
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             var table = $('#table-riwayat').DataTable({
                 responsive: true,
                 dom: '<"d-flex flex-column flex-md-row justify-content-between mb-4"Bf>rt<"d-flex flex-column flex-md-row justify-content-between mt-4"ip>',
                 buttons: [{
-                        extend: 'pdfHtml5',
-                        text: '<i class="bi bi-file-earmark-pdf me-1"></i> Export PDF',
-                        className: 'buttons-pdf shadow-sm',
-                        title: 'Riwayat_V-MARS_<?= esc($kendaraan['nopol']); ?>',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    },
-                    {
-                        extend: 'excelHtml5',
-                        text: '<i class="bi bi-file-earmark-excel me-1"></i> Excel',
-                        className: 'buttons-excel shadow-sm',
-                        title: 'Riwayat_V-MARS_<?= esc($kendaraan['nopol']); ?>',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
+                    extend: 'pdfHtml5',
+                    text: '<i class="bi bi-file-earmark-pdf me-1"></i> Export PDF',
+                    className: 'buttons-pdf shadow-sm',
+                    title: 'Riwayat_V-MARS_<?= esc($kendaraan['nopol']); ?>',
+                    exportOptions: {
+                        columns: ':visible'
                     }
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="bi bi-file-earmark-excel me-1"></i> Excel',
+                    className: 'buttons-excel shadow-sm',
+                    title: 'Riwayat_V-MARS_<?= esc($kendaraan['nopol']); ?>',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                }
                 ],
                 language: {
                     search: "",
