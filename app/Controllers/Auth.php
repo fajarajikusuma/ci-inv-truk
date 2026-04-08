@@ -66,18 +66,6 @@ class Auth extends BaseController
     }
 
     // CEK RIWAYAT KENDARAAN
-    // public function cek_riwayat_kendaraan($enc_id)
-    // {
-    //     $id_kendaraan = decode_id($enc_id);
-    //     $data = [
-    //         'title' => 'Detail Pemeliharaan Kendaraan',
-    //         'pemeliharaan' => $this->pemeliharaanModel->getPemeliharaanByKendaraan($id_kendaraan),
-    //         'kendaraan' => $this->kendaraanModel->getKendaraanDetail($id_kendaraan),
-    //         'enc_id' => $enc_id,
-    //     ];
-    //     return view('pemeliharaan/cek_riwayat_kendaraan', $data);
-    // }
-
     public function cek_riwayat_kendaraan($enc_id)
     {
         $id_kendaraan = decode_id($enc_id);

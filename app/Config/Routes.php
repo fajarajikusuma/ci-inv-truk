@@ -15,7 +15,7 @@ $routes->get('/logout', 'Auth::logout');
 
 // Riwayat Kendaraan (PUBLIK)
 $routes->get('/cek_riwayat_kendaraan/(:any)', 'Auth::cek_riwayat_kendaraan/$1');
-$routes->post('auth/cek_riwayat_kendaraan/(:any)', 'Auth::cek_riwayat_kendaraan/$1');
+$routes->post('/cek_riwayat_kendaraan/(:any)', 'Auth::cek_riwayat_kendaraan/$1');
 
 
 /* ==============================

@@ -219,7 +219,7 @@
 
                             <div class="d-flex flex-column flex-sm-row align-items-center gap-2">
 
-                                <form action="<?= base_url('auth/cek_riwayat_kendaraan/' . $enc_id); ?>" method="post"
+                                <form action="<?= base_url('cek_riwayat_kendaraan/' . $enc_id); ?>" method="post"
                                     class="m-0">
                                     <?= csrf_field(); ?>
                                     <div class="input-group">
