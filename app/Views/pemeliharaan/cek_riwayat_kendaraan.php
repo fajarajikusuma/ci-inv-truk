@@ -210,28 +210,37 @@
                     </div>
 
                     <div class="card mt-4">
-                        <div class="card-header d-flex justify-content-between align-items-center flex-wrap border-bottom py-3"
+                        <div class="card-header d-flex justify-content-center justify-content-md-between align-items-center flex-wrap border-bottom py-3"
                             style="border-top: 4px solid #435ebe !important;">
-                            <h5 class="mb-2 mb-md-0"><i class="bi bi-clock-history me-2 text-primary"></i>Riwayat
-                                Pemeliharaan</h5>
 
-                            <form action="<?= base_url('auth/cek_riwayat_kendaraan/' . $enc_id); ?>" method="post">
-                                <?= csrf_field(); ?>
-                                <div class="input-group">
-                                    <button class="btn btn-primary" type="button" disabled>Filter Tahun</button>
-                                    <select name="tahun_filter" id="tahun" class="form-select"
-                                        onchange="this.form.submit()">
-                                        <?php
-                                        $currentYear = date('Y');
-                                        for ($i = $currentYear; $i >= $currentYear - 5; $i--):
-                                            ?>
-                                            <option value="<?= $i; ?>" <?= $tahun == $i ? 'selected' : ''; ?>><?= $i; ?>
+                            <h5 class="mb-3 mb-md-0 text-center text-md-start">
+                                <i class="bi bi-clock-history me-2 text-primary"></i>Riwayat Pemeliharaan
+                            </h5>
+
+                            <div class="d-flex flex-column flex-sm-row align-items-center gap-2">
+
+                                <form action="<?= base_url('auth/cek_riwayat_kendaraan/' . $enc_id); ?>" method="post"
+                                    class="m-0">
+                                    <?= csrf_field(); ?>
+                                    <div class="input-group">
+                                        <button class="btn btn-primary" type="button" disabled>
+                                            <i class="bi bi-filter"></i> <span class="d-none d-lg-inline"></span>
+                                        </button>
+                                        <select name="tahun_filter" id="tahun" class="form-select"
+                                            onchange="this.form.submit()">
+                                            <?php
+                                            $currentYear = date('Y');
+                                            for ($i = $currentYear; $i >= $currentYear - 5; $i--):
+                                                ?>
+                                                <option value="<?= $i; ?>" <?= $tahun == $i ? 'selected' : ''; ?>><?= $i; ?>
+                                                </option>
+                                            <?php endfor; ?>
+                                            <option value="all" <?= $tahun == 'all' ? 'selected' : ''; ?>>Semua Tahun
                                             </option>
-                                        <?php endfor; ?>
-                                        <option value="all" <?= $tahun == 'all' ? 'selected' : ''; ?>>Semua Tahun</option>
-                                    </select>
-                                </div>
-                            </form>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                         <div class="card-body p-4">
                             <div class="table-responsive">
