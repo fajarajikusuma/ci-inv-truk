@@ -6,30 +6,43 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-/* ==============================
-   AUTH (TANPA LOGIN)
-================================ */
+/* ============================================================
+   LANDING PAGE (HALAMAN UTAMA / PUBLIK)
+   ============================================================ */
+// Mengatur root URL (/) agar langsung menampilkan Landing Page
+$routes->get('/', 'Landing::index');
+
+// Alias tambahan (opsional)
+$routes->get('/landing', 'Landing::index');
+
+
+/* ============================================================
+   AUTH (PROSES LOGIN & LOGOUT)
+   ============================================================ */
 $routes->get('/login', 'Auth::index');
 $routes->post('/auth/login', 'Auth::login', ['filter' => 'validate:login']);
 $routes->get('/logout', 'Auth::logout');
 
-// Riwayat Kendaraan (PUBLIK)
+
+/* ============================================================
+   CEK RIWAYAT (AKSES TANPA LOGIN / SCAN QR)
+   ============================================================ */
 $routes->get('/cek_riwayat_kendaraan/(:any)', 'Auth::cek_riwayat_kendaraan/$1');
 $routes->post('/cek_riwayat_kendaraan/(:any)', 'Auth::cek_riwayat_kendaraan/$1');
 
 
-/* ==============================
-   DASHBOARD (SEMUA ROLE LOGIN)
-================================ */
-$routes->get('/', 'Main::index', [
+/* ============================================================
+   DASHBOARD ADMIN (MEMERLUKAN LOGIN)
+   ============================================================ */
+// Pindahkan dashboard ke path /dashboard karena / sudah dipakai Landing
+$routes->get('/dashboard', 'Main::index', [
     'filter' => 'role:admin,operator_pemeliharaan,operator_pajak'
 ]);
 
 
-/* ==============================
-   MASTER DATA
-   admin, operator_pemeliharaan
-================================ */
+/* ============================================================
+   MASTER DATA (GROUP KENDARAAN)
+   ============================================================ */
 $routes->group('kendaraan', ['filter' => 'role:admin,operator_pemeliharaan,operator_pajak'], function ($routes) {
     $routes->get('/', 'Kendaraan::index');
     $routes->get('tambah', 'Kendaraan::tambah');
@@ -40,6 +53,10 @@ $routes->group('kendaraan', ['filter' => 'role:admin,operator_pemeliharaan,opera
     $routes->get('detail/(:any)', 'Kendaraan::detail/$1');
 });
 
+
+/* ============================================================
+   MASTER DATA (GROUP SOPIR)
+   ============================================================ */
 $routes->group('sopir', ['filter' => 'role:admin,operator_pemeliharaan,operator_pajak'], function ($routes) {
     $routes->get('/', 'Sopir::index');
     $routes->get('tambah', 'Sopir::tambah');
@@ -50,10 +67,9 @@ $routes->group('sopir', ['filter' => 'role:admin,operator_pemeliharaan,operator_
 });
 
 
-/* ==============================
-   PEMELIHARAAN
-   admin, operator_pemeliharaan
-================================ */
+/* ============================================================
+   TRANSAKSI PEMELIHARAAN
+   ============================================================ */
 $routes->group('pemeliharaan', ['filter' => 'role:admin,operator_pemeliharaan'], function ($routes) {
     $routes->get('/', 'Pemeliharaan::index');
     $routes->get('tambah/(:any)', 'Pemeliharaan::tambah/$1');
@@ -68,10 +84,9 @@ $routes->group('pemeliharaan', ['filter' => 'role:admin,operator_pemeliharaan'],
 });
 
 
-/* ==============================
-   PAJAK KENDARAAN
-   admin, operator_pajak
-================================ */
+/* ============================================================
+   TRANSAKSI PAJAK KENDARAAN
+   ============================================================ */
 $routes->group('pajak_kendaraan', ['filter' => 'role:admin,operator_pajak'], function ($routes) {
     $routes->get('/', 'Pajak::index');
     $routes->get('tambah/(:any)', 'Pajak::tambah/$1');
@@ -82,10 +97,9 @@ $routes->group('pajak_kendaraan', ['filter' => 'role:admin,operator_pajak'], fun
 });
 
 
-/* ==============================
-   USER MANAGEMENT
-   ADMIN ONLY
-================================ */
+/* ============================================================
+   USER MANAGEMENT (KHUSUS ADMIN)
+   ============================================================ */
 $routes->group('user', ['filter' => 'role:admin'], function ($routes) {
     $routes->get('/', 'User::index');
     $routes->get('tambah', 'User::tambah');
@@ -96,10 +110,9 @@ $routes->group('user', ['filter' => 'role:admin'], function ($routes) {
 });
 
 
-/* ==============================
-   LAPORAN
-   ADMIN ONLY
-================================ */
+/* ============================================================
+   LAPORAN & EXPORT
+   ============================================================ */
 $routes->group('laporan', ['filter' => 'role:admin,kasubag_umpeg'], function ($routes) {
     $routes->get('/', 'Laporan::index');
     $routes->get('pemeliharaan', 'Laporan::pemeliharaan');

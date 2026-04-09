@@ -29,7 +29,7 @@ class RoleFilter implements FilterInterface
             }
 
             if (!in_array($userRole, $roles, true)) {
-                return redirect()->to('/')
+                return redirect()->to('/dashboard')
                     ->with('toast_error', 'Anda tidak memiliki hak akses ke halaman tersebut');
             }
         }

@@ -25,20 +25,20 @@ class Filters extends BaseFilters
      * or [filter_name => [classname1, classname2, ...]]
      */
     public array $aliases = [
-        'csrf'          => CSRF::class,
-        'toolbar'       => DebugToolbar::class,
-        'honeypot'      => Honeypot::class,
-        'invalidchars'  => InvalidChars::class,
+        'csrf' => CSRF::class,
+        'toolbar' => DebugToolbar::class,
+        'honeypot' => Honeypot::class,
+        'invalidchars' => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
-        'cors'          => Cors::class,
-        'forcehttps'    => ForceHTTPS::class,
-        'pagecache'     => PageCache::class,
-        'performance'   => PerformanceMetrics::class,
-        'logActivity'   => \App\Filters\ActivityLogFilter::class,
-        'validate'      => \App\Filters\ValidationFilter::class,
-        'login'         => \App\Filters\LoginFilter::class,
-        'role'          => \App\Filters\RoleFilter::class,
-        'authCheck'     => \App\Filters\AuthCheck::class,
+        'cors' => Cors::class,
+        'forcehttps' => ForceHTTPS::class,
+        'pagecache' => PageCache::class,
+        'performance' => PerformanceMetrics::class,
+        'logActivity' => \App\Filters\ActivityLogFilter::class,
+        'validate' => \App\Filters\ValidationFilter::class,
+        'login' => \App\Filters\LoginFilter::class,
+        'role' => \App\Filters\RoleFilter::class,
+        'authCheck' => \App\Filters\AuthCheck::class,
     ];
 
     /**
@@ -81,8 +81,24 @@ class Filters extends BaseFilters
             // 'csrf',
             // 'invalidchars',
             'logActivity',
-            'login' => ['except' => ['login', 'auth/*', 'cek_riwayat_kendaraan/*']],
-            'authCheck' => ['except' => ['login', 'auth/*', 'cek_riwayat_kendaraan/*']],
+            'login' => [
+                'except' => [
+                    '/',             // Tambahkan ini agar halaman utama terbuka
+                    'landing',
+                    'login',
+                    'auth/*',
+                    'cek_riwayat_kendaraan/*'
+                ]
+            ],
+            'authCheck' => [
+                'except' => [
+                    '/',             // Tambahkan ini juga
+                    'landing',
+                    'login',
+                    'auth/*',
+                    'cek_riwayat_kendaraan/*'
+                ]
+            ],
         ],
         'after' => [
             // 'honeypot',

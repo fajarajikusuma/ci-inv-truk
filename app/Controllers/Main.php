@@ -111,15 +111,15 @@ class Main extends BaseController
         $tahun = $this->request->getGet('tahun') ?? date('Y');
 
         // ... (inisialisasi model tetap sama) ...
-        $kendaraanModel     = $this->kendaraanModel;
-        $supirModel         = $this->supirModel;
-        $userModel          = $this->userModel;
-        $pajakModel         = $this->pajakModel;
+        $kendaraanModel = $this->kendaraanModel;
+        $supirModel = $this->supirModel;
+        $userModel = $this->userModel;
+        $pajakModel = $this->pajakModel;
         $pemeliharaanModel = $this->pemeliharaanModel;
         // CARD DATA
         $data['total_kendaraan'] = $kendaraanModel->countAll();
-        $data['total_supir']     = $supirModel->countAll();
-        $data['total_user']      = $userModel->countAll();
+        $data['total_supir'] = $supirModel->countAll();
+        $data['total_user'] = $userModel->countAll();
 
         // 1. Grafik pemeliharaan (DIFILTER PER TAHUN)
         $data['grafik_pemeliharaan'] = $this->pemeliharaanModel

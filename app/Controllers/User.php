@@ -88,11 +88,35 @@ class User extends BaseController
         $user = $this->userModel->find($id_user);
 
         if (!$user) {
-            return redirect()->to('/user')->with('error', 'Data user tidak ditemukan');
+            return redirect()->to('/user')->with('error', 'Data user tidak ditemukan.');
         }
 
-        $this->userModel->delete($id_user);
+        $db = \Config\Database::connect();
 
-        return redirect()->to('/user')->with('success', 'User berhasil dihapus.');
+        // 1. Cek apakah user sudah pernah menginput data di tabel pemeliharaan
+        $cekPemeliharaan = $db->table('tb_pemeliharaan')->where('dibuat_oleh', $id_user)->countAllResults();
+
+        // 2. Cek apakah user terkait dengan data pajak (jika ada relasi)
+        $cekLog = $db->table('tb_log_aktivitas')->where('id_user', $id_user)->countAllResults();
+
+        // 3. Tambahkan cek tabel lain jika perlu (misal: tb_kendaraan jika ada kolom 'created_by')
+
+        // LOGIKA PROTEKSI:
+        if ($cekPemeliharaan > 0 || $cekLog > 0) {
+            return redirect()->to('/user')->with('error', 'Gagal: User "' . $user['nama'] . '" tidak bisa dihapus karena memiliki riwayat data pemeliharaan. Silakan nonaktifkan saja akunnya.');
+        }
+
+        // Jika lolos pengecekan (tidak ada riwayat data), baru boleh hapus log dan usernya
+        try {
+            // Hapus log aktivitas dulu agar tidak gagal Foreign Key
+            $db->table('tb_log_aktivitas')->where('id_user', $id_user)->delete();
+
+            // Hapus User
+            $this->userModel->delete($id_user);
+
+            return redirect()->to('/user')->with('success', 'User berhasil dihapus secara permanen.');
+        } catch (\Exception $e) {
+            return redirect()->to('/user')->with('error', 'Terjadi kesalahan sistem saat menghapus data.');
+        }
     }
 }

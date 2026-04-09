@@ -22,7 +22,7 @@ class Auth extends BaseController
     public function index()
     {
         if (session()->get('id_user')) {
-            return redirect()->to('/');
+            return redirect()->to('/dashboard');
         }
         $title = 'Login - Inventory Kendaraan';
         return view('auth/login', compact('title'));
@@ -51,7 +51,7 @@ class Auth extends BaseController
                     'logged_in' => true
                 ]);
 
-                return redirect()->to('/'); // Langsung ke dashboard utama
+                return redirect()->to('/dashboard'); // Langsung ke dashboard utama
             }
         }
 
@@ -62,7 +62,7 @@ class Auth extends BaseController
     {
         $session = session();
         $session->destroy();
-        return redirect()->to('/login');
+        return redirect()->to('/landing');
     }
 
     // CEK RIWAYAT KENDARAAN
