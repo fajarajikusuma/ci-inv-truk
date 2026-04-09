@@ -33,6 +33,12 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
+
+        /* Style untuk link yang aktif */
+        .nav-link-active {
+            color: #16a34a !important;
+            font-weight: 700;
+        }
     </style>
 </head>
 
@@ -57,9 +63,9 @@
 
                 <div class="flex items-center gap-2 sm:gap-6">
                     <div class="hidden md:flex space-x-8 text-sm font-semibold mr-4">
-                        <a href="#home" class="text-green-600">Dashboard</a>
-                        <a href="#about" class="hover:text-green-600 transition dark:text-slate-300">Tentang Kami</a>
-                        <a href="#contact" class="hover:text-green-600 transition dark:text-slate-300">Kontak</a>
+                        <a href="#home" class="nav-link transition dark:text-slate-300">Dashboard</a>
+                        <a href="#about" class="nav-link transition dark:text-slate-300">Tentang Kami</a>
+                        <a href="#contact" class="nav-link transition dark:text-slate-300">Kontak</a>
                     </div>
 
                     <button id="theme-toggle"
@@ -92,12 +98,12 @@
             class="hidden md:hidden bg-white dark:bg-darkCard border-b border-slate-200 dark:border-slate-800 transition-all duration-300">
             <div class="px-4 pt-2 pb-6 space-y-2">
                 <a href="#home"
-                    class="mobile-link block px-4 py-3 mt-5 rounded-xl bg-green-50 dark:bg-green-900/20 text-green-600 font-bold">Dashboard</a>
+                    class="nav-link mobile-link block px-4 py-3 mt-5 rounded-xl bg-green-50 dark:bg-green-900/20 text-green-600 font-bold">Dashboard</a>
                 <a href="#about"
-                    class="mobile-link block px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition text-slate-600 dark:text-slate-300">Tentang
+                    class="nav-link mobile-link block px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition text-slate-600 dark:text-slate-300">Tentang
                     Kami</a>
                 <a href="#contact"
-                    class="mobile-link block px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition text-slate-600 dark:text-slate-300">Kontak</a>
+                    class="nav-link mobile-link block px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition text-slate-600 dark:text-slate-300">Kontak</a>
                 <hr class="border-slate-100 dark:border-slate-800 my-2">
                 <?php if (!session()->get('id_user')): ?>
                     <a href="<?= base_url('login') ?>"
@@ -150,41 +156,47 @@
         </div>
 
         <div class="grid lg:grid-cols-3 gap-6 mb-20">
-            <div
-                class="lg:col-span-2 bg-white dark:bg-darkCard p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                <div class="flex justify-between items-center mb-8">
+            <div class="lg:col-span-2 bg-white dark:bg-darkCard p-4 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <div class="flex justify-between items-center mb-6">
                     <h3 class="font-bold text-lg">Intensitas Pemeliharaan <?= $tahun_pilih ?></h3>
-                    <form action="" method="get"><select name="tahun" onchange="this.form.submit()"
-                            class="bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-xs font-bold p-2 outline-none ring-1 ring-slate-200 dark:ring-slate-700"><?php for ($i = date('Y'); $i >= 2024; $i--): ?>
+                    <form action="" method="get">
+                        <select name="tahun" onchange="this.form.submit()"
+                            class="bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-xs font-bold p-2 outline-none ring-1 ring-slate-200 dark:ring-slate-700">
+                            <?php for ($i = date('Y'); $i >= 2024; $i--): ?>
                                 <option value="<?= $i ?>" <?= $tahun_pilih == $i ? 'selected' : '' ?>><?= $i ?></option>
-
                             <?php endfor; ?>
-                        </select></form>
+                        </select>
+                    </form>
                 </div>
-                <div class="relative h-[400px] w-full"><canvas id="chartPemeliharaanVertical"></canvas></div>
+
+                <div class="relative w-full h-[300px] md:h-[400px]">
+                    <canvas id="chartPemeliharaanVertical"></canvas>
+                </div>
             </div>
 
             <a href="<?= base_url('login') ?>"
-                class="group bg-green-600 dark:bg-green-700 p-8 rounded-[2.5rem] text-white relative overflow-hidden shadow-xl shadow-green-200 dark:shadow-none transition-all hover:scale-[1.02] active:scale-95 flex flex-col min-h-[450px]">
-                <i
-                    class="fas fa-leaf absolute -right-10 -bottom-10 text-9xl opacity-20 rotate-12 transition-transform group-hover:rotate-45 duration-700"></i>
+                class="group bg-green-600 dark:bg-green-700 p-8 rounded-[2.5rem] text-white relative overflow-hidden shadow-xl shadow-green-200 dark:shadow-none transition-all hover:scale-[1.02] active:scale-95 flex flex-col min-h-[400px] lg:min-h-[450px]">
+                <i class="fas fa-leaf absolute -right-10 -bottom-10 text-9xl opacity-20 rotate-12 transition-transform group-hover:rotate-45 duration-700"></i>
+
                 <div class="relative z-10">
                     <h3 class="font-bold text-2xl mb-4">Status Pajak</h3>
-                    <p class="text-green-100 text-base leading-relaxed mb-8 opacity-90">Monitoring realisasi pembayaran
-                        pajak armada operasional Dinas Lingkungan Hidup Kota Pekalongan.</p>
+                    <p class="text-green-100 text-sm md:text-base leading-relaxed mb-8 opacity-90">
+                        Monitoring realisasi pembayaran pajak armada operasional Dinas Lingkungan Hidup Kota Pekalongan.
+                    </p>
                 </div>
-                <div
-                    class="relative z-10 bg-white/10 p-8 rounded-3xl border border-white/20 backdrop-blur-md mb-8 flex-grow flex flex-col justify-center">
-                    <div class="text-xs uppercase font-bold opacity-80 mb-2 tracking-[0.2em]">Sudah Terbayar</div>
-                    <div class="flex items-baseline gap-2"><span
-                            class="text-6xl font-black tracking-tighter"><?= $sudah_bayar_pajak ?></span><span
-                            class="text-xl font-medium opacity-80 uppercase tracking-widest">Armada</span></div>
+
+                <div class="relative z-10 bg-white/10 p-6 md:p-8 rounded-3xl border border-white/20 backdrop-blur-md mb-8 flex-grow flex flex-col justify-center">
+                    <div class="text-[10px] uppercase font-bold opacity-80 mb-2 tracking-[0.2em]">Sudah Terbayar</div>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-5xl md:text-6xl font-black tracking-tighter"><?= $sudah_bayar_pajak ?></span>
+                        <span class="text-lg md:text-xl font-medium opacity-80 uppercase tracking-widest">Armada</span>
+                    </div>
                 </div>
+
                 <div class="relative z-10 mt-auto">
-                    <div
-                        class="w-full bg-white text-center text-green-700 font-extrabold py-4 rounded-2xl group-hover:bg-slate-50 transition-colors shadow-lg flex items-center justify-center gap-3">
-                        <span>Detail Dokumen</span><i
-                            class="fas fa-arrow-right text-sm transition-transform group-hover:translate-x-1"></i>
+                    <div class="w-full bg-white text-center text-green-700 font-extrabold py-4 rounded-2xl group-hover:bg-slate-50 transition-colors shadow-lg flex items-center justify-center gap-3">
+                        <span>Detail Dokumen</span>
+                        <i class="fas fa-arrow-right text-sm transition-transform group-hover:translate-x-1"></i>
                     </div>
                 </div>
             </a>
@@ -292,8 +304,9 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
-        // Hamburger Menu Logic
+        // --- 1. LOGIC HAMBURGER MENU ---
         const mobileMenuBtn = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         const menuIcon = mobileMenuBtn.querySelector('i');
@@ -308,16 +321,17 @@
         mobileMenuBtn.addEventListener('click', toggleMenu);
         mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
 
-        // Dark Mode Logic
+
+        // --- 2. LOGIC DARK MODE ---
         const themeBtn = document.getElementById('theme-toggle');
         const darkIcon = document.getElementById('theme-toggle-dark-icon');
         const lightIcon = document.getElementById('theme-toggle-light-icon');
 
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
-            lightIcon.classList.remove('hidden');
+            if (lightIcon) lightIcon.classList.remove('hidden');
         } else {
-            darkIcon.classList.remove('hidden');
+            if (darkIcon) darkIcon.classList.remove('hidden');
         }
 
         themeBtn.addEventListener('click', () => {
@@ -327,28 +341,132 @@
             localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
         });
 
-        // Chart Logic
+
+        // --- 3. LOGIC RESPONSIVE CHART ---
         const ctx = document.getElementById('chartPemeliharaanVertical').getContext('2d');
-        new Chart(ctx, {
+        const isMobileDevice = () => window.innerWidth < 768;
+
+        const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: [<?php foreach ($grafik_pemeliharaan as $row): ?>"<?= getNopolById($row['id_kendaraan']) ?>", <?php endforeach; ?>],
+                labels: [<?php foreach ($grafik_pemeliharaan as $row): ?> "<?= getNopolById($row['id_kendaraan']) ?>", <?php endforeach; ?>],
                 datasets: [{
                     label: 'Perbaikan',
                     data: [<?php foreach ($grafik_pemeliharaan as $row): ?><?= $row['total'] ?>, <?php endforeach; ?>],
-                    backgroundColor: '#10b981', borderRadius: 8, barThickness: 25
+                    backgroundColor: '#10b981',
+                    borderRadius: 8,
+                    barThickness: isMobileDevice() ? 12 : 25
                 }]
             },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(156, 163, 175, 0.1)', drawBorder: false } }, x: { grid: { display: false }, ticks: { font: { size: 10, weight: '600' } } } } }
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: true,
+                        external: function(context) {
+                            // Mencegah error jika context tidak lengkap
+                            if (!context) return;
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            font: {
+                                size: isMobileDevice() ? 9 : 11
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 45,
+                            minRotation: 45,
+                            font: {
+                                size: isMobileDevice() ? 7 : 10,
+                                weight: '600'
+                            }
+                        }
+                    }
+                }
+            }
         });
-    </script>
-    <script>
+
+        window.addEventListener('resize', () => {
+            myChart.options.scales.x.ticks.font.size = isMobileDevice() ? 7 : 10;
+            myChart.options.datasets[0].barThickness = isMobileDevice() ? 12 : 25;
+            myChart.update();
+        });
+
+
+        // --- 4. LOGIC BACK TO PORTAL ---
         function backToPortal() {
-            // Mengambil origin (http://dlh.ruijieddns.com) tanpa path /pemeliharaan/
-            const portalUrl = window.location.origin;
-            window.location.href = portalUrl;
+            window.location.href = window.location.origin;
         }
+
+
+        // --- 5. LOGIC SCROLL SPY (NAVBAR ACTIVE) ---
+        const sections = document.querySelectorAll('header[id], section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mLinks = document.querySelectorAll('.mobile-link');
+
+        const updateActiveMenu = () => {
+            let current = '';
+            const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+
+            // 1. Cek apakah ada Hash di URL (misal: #contact) saat pertama muat
+            const hash = window.location.hash;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                // Offset 150px agar lebih responsif saat perpindahan
+                if (scrollPos >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            // Jika posisi di paling atas sekali, paksa ke 'home'
+            if (scrollPos < 100) {
+                current = 'home';
+            }
+
+            // Update Desktop Navbar
+            navLinks.forEach(link => {
+                link.classList.remove('nav-link-active', 'text-green-600');
+                const href = link.getAttribute('href').replace('#', '');
+                if (href === current) {
+                    link.classList.add('nav-link-active', 'text-green-600');
+                }
+            });
+
+            // Update Mobile Navbar
+            mLinks.forEach(link => {
+                link.classList.remove('bg-green-50', 'dark:bg-green-900/20', 'text-green-600', 'font-bold');
+                const href = link.getAttribute('href').replace('#', '');
+                if (href === current) {
+                    link.classList.add('bg-green-50', 'dark:bg-green-900/20', 'text-green-600', 'font-bold');
+                }
+            });
+        };
+
+        // Jalankan saat scroll
+        window.addEventListener('scroll', updateActiveMenu);
+
+        // Jalankan saat pertama kali halaman dimuat (PENTING!)
+        window.addEventListener('load', updateActiveMenu);
+
+        // Jalankan saat hash URL berubah (misal klik link menu)
+        window.addEventListener('hashchange', updateActiveMenu);
     </script>
+
 </body>
 
 </html>
