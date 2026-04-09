@@ -39,6 +39,7 @@ class Filters extends BaseFilters
         'login' => \App\Filters\LoginFilter::class,
         'role' => \App\Filters\RoleFilter::class,
         'authCheck' => \App\Filters\AuthCheck::class,
+        'maintenance' => \App\Filters\MaintenanceFilter::class,
     ];
 
     /**
@@ -77,32 +78,35 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
-            // 'honeypot',
-            // 'csrf',
-            // 'invalidchars',
+            // 1. Maintenance harus paling atas
+            'maintenance' => ['except' => ['maintenance-mode']],
+
             'logActivity',
+
             'login' => [
                 'except' => [
-                    '/',             // Tambahkan ini agar halaman utama terbuka
+                    '/',
                     'landing',
                     'login',
                     'auth/*',
-                    'cek_riwayat_kendaraan/*'
+                    'cek_riwayat_kendaraan/*',
+                    'maintenance-mode' // TAMBAHKAN INI
                 ]
             ],
+
             'authCheck' => [
                 'except' => [
-                    '/',             // Tambahkan ini juga
+                    '/',
                     'landing',
                     'login',
                     'auth/*',
-                    'cek_riwayat_kendaraan/*'
+                    'cek_riwayat_kendaraan/*',
+                    'maintenance-mode' // TAMBAHKAN INI JUGA
                 ]
             ],
         ],
         'after' => [
-            // 'honeypot',
-            // 'secureheaders',
+            // 'toolbar',
         ],
     ];
 
