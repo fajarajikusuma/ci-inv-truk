@@ -136,30 +136,30 @@
     </div>
 
     <script>
-        // Menentukan target: 5 tahun dari saat ini
-        const targetDate = new Date();
-        targetDate.setFullYear(targetDate.getFullYear() + 5);
-        const countDownDate = targetDate.getTime();
+        // Tentukan tanggal target yang PASTI (statis)
+        // Format: "Month Day, Year Hours:Minutes:Seconds"
+        // Contoh: 10 April 2031 (5 tahun dari sekarang)
+        const targetDateString = "April 10, 2031 14:00:00";
+        const countDownDate = new Date(targetDateString).getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = countDownDate - now;
 
-            // Kalkulasi waktu untuk Hari, Jam, Menit, dan Detik
+            // Kalkulasi waktu
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Format tampilan (Hari d : Jam h : Menit m : Detik s)
-            // Watermark biasanya lebih bagus tanpa teks label agar tetap elegan
+            // Format tampilan watermark (Hari:Jam:Menit:Detik)
             const watermarkString = days + ":" +
                 (hours < 10 ? "0" + hours : hours) + ":" +
                 (minutes < 10 ? "0" + minutes : minutes) + ":" +
                 (seconds < 10 ? "0" + seconds : seconds);
 
-            // Tampilan utama di kartu (dengan label hari agar user tidak bingung)
-            const mainTimerString = `<span class="text-indigo-600">${days}</span> Hari ${hours}j ${minutes}m ${seconds}s`;
+            // Tampilan utama di kartu
+            const mainTimerString = `<span class="text-indigo-600 font-bold">${days}</span> Hari ${hours}j ${minutes}m ${seconds}s`;
 
             if (distance < 0) {
                 clearInterval(x);
@@ -171,7 +171,6 @@
             }
         }
 
-        // Jalankan setiap 1 detik
         const x = setInterval(updateCountdown, 1000);
         updateCountdown();
     </script>
