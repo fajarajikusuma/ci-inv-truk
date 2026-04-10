@@ -11,7 +11,14 @@ class MaintenanceFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         // Ubah jadi false jika ingin mematikan
+        // $isMaintenance = true;
         $isMaintenance = env('app.isMaintenance', false);
+
+        // if (!$isMaintenance) {
+        //     if (url_is('maintenance-mode')) {
+        //         return redirect()->to(site_url('/'));
+        //     }
+        // }
 
         if ($isMaintenance) {
             // Jika rute saat ini ADALAH maintenance-mode, BERHENTI (jangan redirect)

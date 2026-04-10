@@ -8,6 +8,7 @@ class Maintenance extends BaseController
     {
         // Cek status maintenance (samakan dengan cara Anda di Filter/.env)
         $isMaintenance = env('app.isMaintenance', false);
+        // $isMaintenance = env('maintenance.mode', false);
 
         // JIKA MAINTENANCE MATI (false), JANGAN KASIH AKSES HALAMAN INI
         if (!$isMaintenance) {
