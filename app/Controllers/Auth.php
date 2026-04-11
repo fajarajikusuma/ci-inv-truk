@@ -62,7 +62,7 @@ class Auth extends BaseController
     {
         $session = session();
         $session->destroy();
-        return redirect()->to('/landing');
+        return redirect()->to(base_url());
     }
 
     // CEK RIWAYAT KENDARAAN

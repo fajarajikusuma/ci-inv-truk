@@ -136,42 +136,42 @@
     </div>
 
     <script>
-        // Tentukan tanggal target yang PASTI (statis)
-        // Format: "Month Day, Year Hours:Minutes:Seconds"
-        // Contoh: 10 April 2031 (5 tahun dari sekarang)
-        const targetDateString = "April 10, 2031 14:00:00";
-        const countDownDate = new Date(targetDateString).getTime();
+        // Ambil tanggal dari PHP dan pastikan ada isinya
+        const targetPHP = "<?= $targetDate ?? '' ?>";
+
+        // Jika target kosong, berikan tanggal jauh di depan agar tidak 00:00:00
+        const finalTarget = targetPHP ? targetPHP.replace(/-/g, "/") : "";
+
+        const countDownDate = new Date(finalTarget).getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = countDownDate - now;
 
-            // Kalkulasi waktu
+            // Jika distance hasilnya NaN atau kurang dari 0
+            if (isNaN(distance) || distance < 0) {
+                document.getElementById("main-timer").innerHTML = "SISTEM SEGERA AKTIF";
+                document.getElementById("watermark").innerHTML = "V-MARS";
+                return;
+            }
+
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Format tampilan watermark (Hari:Jam:Menit:Detik)
-            const watermarkString = days + ":" +
+            const timeString = days + ":" +
                 (hours < 10 ? "0" + hours : hours) + ":" +
                 (minutes < 10 ? "0" + minutes : minutes) + ":" +
                 (seconds < 10 ? "0" + seconds : seconds);
 
-            // Tampilan utama di kartu
-            const mainTimerString = `<span class="text-indigo-600 font-bold">${days}</span> Hari ${hours}j ${minutes}m ${seconds}s`;
+            const mainDisplay = `<span class="text-indigo-600 font-bold">${days}</span> Hari ${hours}j ${minutes}m ${seconds}s`;
 
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("main-timer").innerHTML = "SISTEM AKTIF";
-                document.getElementById("watermark").innerHTML = "V-MARS";
-            } else {
-                document.getElementById("main-timer").innerHTML = mainTimerString;
-                document.getElementById("watermark").innerHTML = watermarkString;
-            }
+            document.getElementById("main-timer").innerHTML = mainDisplay;
+            document.getElementById("watermark").innerHTML = timeString;
         }
 
-        const x = setInterval(updateCountdown, 1000);
+        setInterval(updateCountdown, 1000);
         updateCountdown();
     </script>
 </body>

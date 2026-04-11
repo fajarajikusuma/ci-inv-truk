@@ -6,15 +6,21 @@ class Maintenance extends BaseController
 {
     public function index()
     {
-        // Cek status maintenance (samakan dengan cara Anda di Filter/.env)
         $isMaintenance = env('app.isMaintenance', false);
-        // $isMaintenance = env('maintenance.mode', false);
+        $isExpired = time() > strtotime(MAINTENANCE_UNTIL);
 
-        // JIKA MAINTENANCE MATI (false), JANGAN KASIH AKSES HALAMAN INI
-        if (!$isMaintenance) {
+        // Cek Bypass (Cookie)
+        $cookieName = md5("mas-ganteng-fajar-aji-kusuma085293617889" . $this->request->getIPAddress());
+        $hasBypass = isset($_COOKIE[$cookieName]);
+        // dd(!$isMaintenance || $isExpired || $hasBypass);
+
+        // JIKA SUDAH TIDAK MAINTENANCE (Sesuai alasan Anda tadi)
+        if (!$isMaintenance || $isExpired || $hasBypass) {
             return redirect()->to(site_url('/'));
         }
 
-        return view('maintenance');
+        return view('maintenance', [
+            'targetDate' => MAINTENANCE_UNTIL
+        ]);
     }
 }

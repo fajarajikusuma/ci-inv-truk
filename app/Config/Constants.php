@@ -77,3 +77,6 @@ defined('EXIT_USER_INPUT')     || define('EXIT_USER_INPUT', 7);     // invalid u
 defined('EXIT_DATABASE')       || define('EXIT_DATABASE', 8);       // database error
 defined('EXIT__AUTO_MIN')      || define('EXIT__AUTO_MIN', 9);      // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest automatically-assigned error code
+
+// Maintenance Target Time
+defined('MAINTENANCE_UNTIL') || define('MAINTENANCE_UNTIL', '2026-05-31 07:30:00');
