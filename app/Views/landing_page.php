@@ -2,6 +2,7 @@
 <html lang="id" class="scroll-smooth">
 
 <head>
+    <base href="<?= base_url() ?>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V-MARS | Monitoring Armada DLH</title>
@@ -207,8 +208,8 @@
         <section id="about" class="mb-24 py-10">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div class="order-2 lg:order-1">
-                    <img src="https://u7.uidownload.com/vector/264/324/vector-garbage-truck-vector-set-svg-ai.jpg"
-                        class="rounded-[2.5rem] shadow-2xl shadow-green-100 dark:shadow-none" alt="Waste Management">
+                    <img src="<?= base_url('/assets/kendaraan_default/hero-truk.jpg') ?>"
+                        class="w-full h-auto rounded-[2.5rem] lg:rounded-[2.5rem] shadow-2xl shadow-green-100 dark:shadow-none" alt="Waste Management">
                 </div>
                 <div class="order-1 lg:order-2">
                     <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
