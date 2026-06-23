@@ -371,8 +371,7 @@
                 <iframe id="pdf-iframe"
                         src=""
                         class="w-full h-full border-0"
-                        style="min-height: 65vh;"
-                        onload="hidePdfLoader()">
+                        style="min-height: 65vh;">
                 </iframe>
             </div>
 
@@ -593,7 +592,9 @@
 
         window.addEventListener('resize', () => {
             myChart.options.scales.x.ticks.font.size = isMobileDevice() ? 7 : 10;
-            myChart.options.datasets[0].barThickness = isMobileDevice() ? 12 : 25;
+            if (myChart.data.datasets && myChart.data.datasets[0]) {
+                myChart.data.datasets[0].barThickness = isMobileDevice() ? 12 : 25;
+            }
             myChart.update();
         });
 
@@ -638,6 +639,11 @@
 
         const PDF_URL = 'https://dlh.pekalongankota.go.id//upload/file/file_20260519111201.pdf';
 
+        function hidePdfLoader() {
+            const loader = document.getElementById('pdf-loader');
+            if (loader) loader.style.display = 'none';
+        }
+
         function openManualModal() {
             const modal   = document.getElementById('manual-modal');
             const box     = document.getElementById('manual-modal-box');
@@ -647,6 +653,7 @@
             // Lazy-load iframe src
             if (!iframe.src || iframe.src === window.location.href) {
                 loader.style.display = 'flex';
+                iframe.addEventListener('load', hidePdfLoader, { once: true });
                 iframe.src = PDF_URL;
             }
 
@@ -664,11 +671,6 @@
             modal.style.pointerEvents = 'none';
             box.style.transform = 'scale(0.95) translateY(16px)';
             document.body.style.overflow = '';
-        }
-
-        function hidePdfLoader() {
-            const loader = document.getElementById('pdf-loader');
-            if (loader) loader.style.display = 'none';
         }
 
         // Tutup modal dengan tombol Escape
