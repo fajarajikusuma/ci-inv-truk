@@ -30,6 +30,11 @@ class Auth extends BaseController
 
     public function login()
     {
+        // Honeypot anti-bot: field ini harus kosong
+        if ($this->request->getPost('website') !== null && $this->request->getPost('website') !== '') {
+            return redirect()->to('/login');
+        }
+
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 

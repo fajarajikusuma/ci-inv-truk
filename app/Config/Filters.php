@@ -78,6 +78,8 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
+            // CSRF protection untuk semua request POST
+            'csrf',
             // 1. Maintenance harus paling atas
             'maintenance' => ['except' => ['maintenance-mode']],
 
