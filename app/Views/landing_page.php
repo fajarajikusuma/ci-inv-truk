@@ -289,6 +289,196 @@
         </div>
     </main>
 
+    <!-- Floating Manual Book Button -->
+    <!-- Floating Manual Book Button -->
+    <button onclick="openManualModal()"
+        id="manual-fab"
+        class="fixed bottom-6 left-6 z-50 flex items-center justify-center
+               bg-slate-800 dark:bg-slate-700
+               text-white rounded-full shadow-2xl shadow-slate-400/30 dark:shadow-black/40
+               cursor-pointer select-none"
+        style="width: 3.5rem; height: 3.5rem; overflow: hidden; transition: width 0.4s cubic-bezier(0.4,0,0.2,1), background-color 0.3s ease, box-shadow 0.3s ease;"
+        onmouseenter="expandManualBtn(this)"
+        onmouseleave="collapseManualBtn(this)">
+        <i class="fas fa-book-open text-lg shrink-0" style="min-width:1.25rem; margin-left: 0; transition: margin 0.4s cubic-bezier(0.4,0,0.2,1);"></i>
+        <span id="manual-fab-label"
+              class="whitespace-nowrap text-sm font-bold"
+              style="opacity:0; max-width:0; overflow:hidden; margin-left:0; transition: opacity 0.25s ease 0.15s, max-width 0.4s cubic-bezier(0.4,0,0.2,1), margin-left 0.4s cubic-bezier(0.4,0,0.2,1);">
+            Manual Book
+        </span>
+        <span id="manual-fab-dot" class="absolute -top-1 -right-1 w-4 h-4 bg-sky-400 rounded-full border-2 border-white dark:border-slate-700"
+              style="transition: opacity 0.2s ease;"></span>
+    </button>
+
+    <!-- Modal Manual Book -->
+    <div id="manual-modal"
+         class="fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6"
+         style="opacity:0; pointer-events:none; transition: opacity 0.3s ease;">
+
+        <!-- Backdrop -->
+        <div id="manual-backdrop"
+             onclick="closeManualModal()"
+             class="absolute inset-0 bg-slate-900/70 dark:bg-black/80"
+             style="backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);"></div>
+
+        <!-- Modal Container -->
+        <div id="manual-modal-box"
+             class="relative z-10 w-full flex flex-col bg-white dark:bg-darkCard rounded-[2rem] shadow-2xl shadow-black/30 overflow-hidden"
+             style="max-width: 900px; max-height: calc(100vh - 3rem); transform: scale(0.95) translateY(16px); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);">
+
+            <!-- Modal Header -->
+            <div class="relative bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700/50 px-6 py-5 flex items-center gap-4 shrink-0">
+                <div class="absolute -top-8 -left-8 w-32 h-32 bg-green-500/5 dark:bg-white/5 rounded-full pointer-events-none"></div>
+                <div class="absolute -bottom-6 right-16 w-24 h-24 bg-sky-500/5 dark:bg-sky-500/10 rounded-full pointer-events-none"></div>
+
+                <div class="relative z-10 w-11 h-11 bg-sky-100 dark:bg-sky-500/20 border border-sky-200 dark:border-sky-400/30 rounded-2xl flex items-center justify-center shrink-0">
+                    <i class="fas fa-book-open text-sky-600 dark:text-sky-400 text-base"></i>
+                </div>
+
+                <div class="relative z-10 flex-1 min-w-0">
+                    <p class="text-slate-400 dark:text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em]">Dokumentasi</p>
+                    <h3 class="text-slate-900 dark:text-white font-black text-base leading-tight truncate">Manual Book V-MARS</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Vehicle Maintenance and Recording System</p>
+                </div>
+
+                <div class="relative z-10 flex items-center gap-2 shrink-0">
+                    <a href="https://dlh.pekalongankota.go.id//upload/file/file_20260519111201.pdf"
+                       target="_blank"
+                       title="Buka di tab baru"
+                       class="w-9 h-9 bg-slate-100 dark:bg-white/10 hover:bg-sky-100 dark:hover:bg-sky-500/30 border border-slate-200 dark:border-white/10 hover:border-sky-300 dark:hover:border-sky-400/40 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-300 transition-all duration-200">
+                        <i class="fas fa-external-link-alt text-xs"></i>
+                    </a>
+                    <a href="https://dlh.pekalongankota.go.id//upload/file/file_20260519111201.pdf"
+                       download
+                       title="Unduh PDF"
+                       class="w-9 h-9 bg-slate-100 dark:bg-white/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/30 border border-slate-200 dark:border-white/10 hover:border-emerald-300 dark:hover:border-emerald-400/40 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 transition-all duration-200">
+                        <i class="fas fa-download text-xs"></i>
+                    </a>
+                    <button onclick="closeManualModal()"
+                            title="Tutup"
+                            class="w-9 h-9 bg-slate-100 dark:bg-white/10 hover:bg-red-100 dark:hover:bg-red-500/30 border border-slate-200 dark:border-white/10 hover:border-red-300 dark:hover:border-red-400/40 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-300 transition-all duration-200">
+                        <i class="fas fa-times text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PDF Viewer -->
+            <div class="relative flex-1 bg-slate-100 dark:bg-slate-900 overflow-hidden" style="min-height: 0;">
+                <div id="pdf-loader" class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-slate-100 dark:bg-slate-900 z-10">
+                    <div class="w-12 h-12 rounded-full border-4 border-slate-200 dark:border-slate-700 border-t-sky-500 animate-spin"></div>
+                    <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">Memuat dokumen...</p>
+                </div>
+                <iframe id="pdf-iframe"
+                        src=""
+                        class="w-full h-full border-0"
+                        style="min-height: 65vh;"
+                        onload="hidePdfLoader()">
+                </iframe>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="shrink-0 px-6 py-3 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-700/50 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                    <span class="text-[11px] font-semibold text-slate-400 dark:text-slate-500">DLH Kota Pekalongan &mdash; Dokumen Resmi</span>
+                </div>
+                <button onclick="closeManualModal()"
+                        class="flex items-center gap-2 px-4 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-xl transition-colors">
+                    <i class="fas fa-times text-xs"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Contact Button -->
+    <button id="contact-fab"
+        onclick="toggleContactCard()"
+        class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-600 hover:bg-green-700 text-white rounded-full shadow-2xl shadow-green-400/40 dark:shadow-green-900/60 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 group">
+        <i id="fab-icon" class="fas fa-headset text-xl transition-transform duration-300"></i>
+        <span class="absolute -top-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-white dark:border-darkBg animate-pulse"></span>
+    </button>
+
+    <!-- Contact Person Card -->
+    <div id="contact-card"
+        class="fixed bottom-20 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] max-w-sm opacity-0 pointer-events-none translate-y-4 transition-all duration-300 ease-out"
+        style="max-height: calc(100vh - 6rem);">
+        <div class="bg-white dark:bg-darkCard rounded-3xl shadow-2xl shadow-slate-300/50 dark:shadow-black/40 border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col" style="max-height: inherit;">
+
+            <!-- Card Header -->
+            <div class="relative bg-gradient-to-br from-green-600 to-emerald-700 p-5 pb-12 shrink-0">
+                <div class="absolute inset-0 overflow-hidden">
+                    <div class="absolute -top-6 -right-6 w-32 h-32 bg-white/10 rounded-full"></div>
+                    <div class="absolute -bottom-8 -left-4 w-24 h-24 bg-white/5 rounded-full"></div>
+                </div>
+                <div class="relative z-10 flex justify-between items-start">
+                    <div>
+                        <p class="text-green-100 text-[10px] font-bold uppercase tracking-[0.2em] mb-1">Contact Person</p>
+                        <h3 class="text-white font-black text-base leading-tight">M. Ayub Najeb, S.Kom.</h3>
+                        <p class="text-green-200 text-xs mt-0.5 font-medium">DLH Kota Pekalongan</p>
+                    </div>
+                    <button onclick="toggleContactCard()"
+                        class="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center text-white transition-colors shrink-0">
+                        <i class="fas fa-times text-sm"></i>
+                    </button>
+                </div>
+                <!-- Avatar -->
+                <div class="absolute -bottom-7 left-6 w-14 h-14 bg-gradient-to-br from-emerald-400 to-green-600 rounded-2xl shadow-lg shadow-green-700/40 flex items-center justify-center border-4 border-white dark:border-darkCard">
+                    <i class="fas fa-user-tie text-white text-xl"></i>
+                </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="pt-10 px-5 pb-5 space-y-3 overflow-y-auto">
+
+                <!-- Phone -->
+                <a href="tel:+6285183113370"
+                    class="group flex items-center gap-4 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 hover:bg-green-50 dark:hover:bg-green-900/20 border border-transparent hover:border-green-200 dark:hover:border-green-800 transition-all duration-200">
+                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-green-600 group-hover:text-white transition-colors duration-200">
+                        <i class="fas fa-phone-alt text-sm"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Nomor HP</p>
+                        <p class="text-sm font-bold text-slate-800 dark:text-white truncate">0851 8311 3370</p>
+                    </div>
+                    <i class="fas fa-chevron-right text-xs text-slate-300 dark:text-slate-600 ml-auto group-hover:text-green-500 transition-colors"></i>
+                </a>
+
+                <!-- Email -->
+                <a href="mailto:dlhkotapekalongan@gmail.com"
+                    class="group flex items-center gap-4 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 hover:bg-green-50 dark:hover:bg-green-900/20 border border-transparent hover:border-green-200 dark:hover:border-green-800 transition-all duration-200">
+                    <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-200">
+                        <i class="fas fa-envelope text-sm"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Email</p>
+                        <p class="text-sm font-bold text-slate-800 dark:text-white truncate">dlhkotapekalongan@gmail.com</p>
+                    </div>
+                    <i class="fas fa-chevron-right text-xs text-slate-300 dark:text-slate-600 ml-auto group-hover:text-blue-500 transition-colors"></i>
+                </a>
+
+                <!-- Address -->
+                <a href="https://www.google.com/maps?ll=-6.877427,109.67131&z=20&t=m&hl=id&gl=ID&mapclient=embed&cid=17648168486778126017" target="_blank"
+                    class="group flex items-start gap-4 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 hover:bg-amber-50 dark:hover:bg-amber-900/20 border border-transparent hover:border-amber-200 dark:hover:border-amber-800 transition-all duration-200">
+                    <div class="w-10 h-10 bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 rounded-xl flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-200">
+                        <i class="fas fa-map-marker-alt text-sm"></i>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-0.5">Alamat</p>
+                        <p class="text-sm font-bold text-slate-800 dark:text-white leading-snug">Jl. Tentara Pelajar No. 1<br>Kota Pekalongan</p>
+                    </div>
+                    <i class="fas fa-chevron-right text-xs text-slate-300 dark:text-slate-600 ml-auto mt-3 group-hover:text-amber-500 transition-colors"></i>
+                </a>
+
+                <!-- WhatsApp CTA -->
+                <a href="https://wa.me/6285183113370" target="_blank"
+                    class="flex items-center justify-center gap-2.5 w-full py-3.5 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold text-sm rounded-2xl shadow-lg shadow-green-500/30 transition-all duration-200 hover:shadow-green-500/50 hover:-translate-y-0.5 active:translate-y-0">
+                    <i class="fab fa-whatsapp text-lg"></i>
+                    <span>Chat via WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <footer class="bg-white dark:bg-darkCard border-t border-slate-200 dark:border-slate-800 py-5 mt-auto">
         <div
             class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
@@ -412,6 +602,108 @@
         function backToPortal() {
             window.location.href = window.location.origin;
         }
+
+
+        // --- 5. LOGIC MANUAL BOOK BUTTON ---
+        function expandManualBtn(el) {
+            const label = document.getElementById('manual-fab-label');
+            const dot   = document.getElementById('manual-fab-dot');
+            const icon  = el.querySelector('i');
+            el.style.width = '10.5rem';
+            el.style.justifyContent = 'flex-start';
+            el.style.paddingLeft = '1.25rem';
+            el.style.paddingRight = '1.25rem';
+            el.style.backgroundColor = '#1e40af';
+            el.style.boxShadow = '0 20px 40px rgba(30,64,175,0.35)';
+            label.style.opacity = '1';
+            label.style.maxWidth = '8rem';
+            label.style.marginLeft = '0.625rem';
+            dot.style.opacity = '0';
+        }
+
+        function collapseManualBtn(el) {
+            const label = document.getElementById('manual-fab-label');
+            const dot   = document.getElementById('manual-fab-dot');
+            el.style.width = '3.5rem';
+            el.style.justifyContent = 'center';
+            el.style.paddingLeft = '0';
+            el.style.paddingRight = '0';
+            el.style.backgroundColor = '';
+            el.style.boxShadow = '';
+            label.style.opacity = '0';
+            label.style.maxWidth = '0';
+            label.style.marginLeft = '0';
+            dot.style.opacity = '1';
+        }
+
+        const PDF_URL = 'https://dlh.pekalongankota.go.id//upload/file/file_20260519111201.pdf';
+
+        function openManualModal() {
+            const modal   = document.getElementById('manual-modal');
+            const box     = document.getElementById('manual-modal-box');
+            const iframe  = document.getElementById('pdf-iframe');
+            const loader  = document.getElementById('pdf-loader');
+
+            // Lazy-load iframe src
+            if (!iframe.src || iframe.src === window.location.href) {
+                loader.style.display = 'flex';
+                iframe.src = PDF_URL;
+            }
+
+            document.body.style.overflow = 'hidden';
+            modal.style.opacity = '1';
+            modal.style.pointerEvents = 'auto';
+            box.style.transform = 'scale(1) translateY(0)';
+        }
+
+        function closeManualModal() {
+            const modal = document.getElementById('manual-modal');
+            const box   = document.getElementById('manual-modal-box');
+
+            modal.style.opacity = '0';
+            modal.style.pointerEvents = 'none';
+            box.style.transform = 'scale(0.95) translateY(16px)';
+            document.body.style.overflow = '';
+        }
+
+        function hidePdfLoader() {
+            const loader = document.getElementById('pdf-loader');
+            if (loader) loader.style.display = 'none';
+        }
+
+        // Tutup modal dengan tombol Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeManualModal();
+        });
+
+
+        // --- 6. LOGIC FLOATING CONTACT CARD ---
+        let isContactOpen = false;
+
+        function toggleContactCard() {
+            const card = document.getElementById('contact-card');
+            const icon = document.getElementById('fab-icon');
+            isContactOpen = !isContactOpen;
+
+            if (isContactOpen) {
+                card.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+                card.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+                icon.className = 'fas fa-times text-xl transition-transform duration-300';
+            } else {
+                card.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+                card.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+                icon.className = 'fas fa-headset text-xl transition-transform duration-300';
+            }
+        }
+
+        // Tutup card jika klik di luar area
+        document.addEventListener('click', function(e) {
+            const card = document.getElementById('contact-card');
+            const fab  = document.getElementById('contact-fab');
+            if (isContactOpen && !card.contains(e.target) && !fab.contains(e.target)) {
+                toggleContactCard();
+            }
+        });
 
 
         // --- 5. LOGIC SCROLL SPY (NAVBAR ACTIVE) ---
