@@ -24,7 +24,7 @@ class Auth extends BaseController
         if (session()->get('id_user')) {
             return redirect()->to('/dashboard');
         }
-        $title = 'Login - Inventory Kendaraan';
+        $title = 'Login V-MARS';
         return view('auth/login', compact('title'));
     }
 
