@@ -108,7 +108,11 @@
                 <div class="flex flex-col md:flex-row gap-6 md:gap-0 items-center justify-between">
                     <div class="text-center md:text-left md:w-1/2 md:border-r border-slate-200 md:pr-8 w-full border-b md:border-b-0 pb-6 md:pb-0">
                         <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-500 mb-2 block">Sisa Waktu</span>
-                        <p id="main-timer" class="text-slate-800 font-bold text-xl md:text-2xl tabular-nums tracking-tighter">00:00:00</p>
+                        <?php if (!empty($targetLabel)): ?>
+                            <p class="text-slate-800 font-bold text-xl md:text-2xl"><?= esc($targetLabel) ?></p>
+                        <?php else: ?>
+                            <p id="main-timer" class="text-slate-800 font-bold text-xl md:text-2xl tabular-nums tracking-tighter">00:00:00</p>
+                        <?php endif; ?>
                     </div>
 
                     <div class="text-center md:text-left md:w-1/2 md:pl-8 w-full">

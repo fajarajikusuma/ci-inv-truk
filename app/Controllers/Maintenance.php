@@ -20,7 +20,8 @@ class Maintenance extends BaseController
         }
 
         return view('maintenance', [
-            'targetDate' => $targetMaintenance
+            'targetDate' => $targetMaintenance,
+            'targetLabel' => env('app.maintenanceLabel', '')
         ]);
     }
 }
