@@ -15,10 +15,10 @@ class MaintenanceFilter implements FilterInterface
         $secretKey = "bypass-v-mars-security-key085293617889" . $request->getIPAddress();
         $nameIdentifier = "mas-ganteng-fajar-aji-kusuma085293617889" . $request->getIPAddress();
 
-        // 1. Ambil target waktu dari Konstanta
-        $targetMaintenance = MAINTENANCE_UNTIL;
-        $isExpired = time() > strtotime($targetMaintenance);
-        $isMaintenance = env('app.isMaintenance', false);
+        // 1. Ambil target waktu dari env atau Konstanta sebagai fallback
+        $targetMaintenance = env('app.maintenanceUntil', MAINTENANCE_UNTIL);
+        $isExpired = $targetMaintenance ? time() > strtotime(trim($targetMaintenance)) : false;
+        $isMaintenance = filter_var(env('app.isMaintenance', false), FILTER_VALIDATE_BOOLEAN);
 
         // 2. LOGIKA PINTU RAHASIA
         $accessKey = $_GET['access'] ?? null;
