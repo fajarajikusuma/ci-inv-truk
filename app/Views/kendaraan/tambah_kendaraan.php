@@ -25,6 +25,7 @@
 
         <div class="card-body">
             <form action="<?= base_url('kendaraan/simpan') ?>" method="post" enctype="multipart/form-data">
+                <?= csrf_field() ?>
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="nopol" class="form-label">Nomor Polisi</label>

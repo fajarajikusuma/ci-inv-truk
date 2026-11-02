@@ -44,8 +44,8 @@
                         <label for="status" class="form-label">Status</label>
                         <select name="status" id="status" class="form-select" required>
                             <option value="">-- Pilih Status --</option>
-                            <option value="Aktif" <?= $sopir['status_sopir'] == 'aktif' ? 'selected' : '' ?>>Aktif</option>
-                            <option value="Nonaktif" <?= $sopir['status_sopir'] == 'nonaktif' ? 'selected' : '' ?>>Nonaktif</option>
+                            <option value="aktif" <?= $sopir['status_sopir'] == 'aktif' ? 'selected' : '' ?>>Aktif</option>
+                            <option value="nonaktif" <?= $sopir['status_sopir'] == 'nonaktif' ? 'selected' : '' ?>>Nonaktif</option>
                         </select>
                     </div>
                 </div>

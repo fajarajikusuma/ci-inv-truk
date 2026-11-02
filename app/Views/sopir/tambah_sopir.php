@@ -25,6 +25,7 @@
 
         <div class="card-body">
             <form action="<?= base_url('sopir/simpan') ?>" method="post" enctype="multipart/form-data">
+                <?= csrf_field() ?>
                 <div class="row">
 
                     <div class="col-md-6 mb-3">
@@ -41,8 +42,8 @@
                         <label for="status" class="form-label">Status</label>
                         <select name="status" id="status" class="form-select" required>
                             <option value="">-- Pilih Status --</option>
-                            <option value="aktif" <?= old('status_sopir') == 'aktif' ? 'selected' : '' ?>>Aktif</option>
-                            <option value="nonaktif" <?= old('status_sopir') == 'nonaktif' ? 'selected' : '' ?>>Nonaktif</option>
+                            <option value="aktif" <?= old('status') == 'aktif' ? 'selected' : '' ?>>Aktif</option>
+                            <option value="nonaktif" <?= old('status') == 'nonaktif' ? 'selected' : '' ?>>Nonaktif</option>
                         </select>
                     </div>
 
