@@ -15,7 +15,7 @@ class Maintenance extends BaseController
         $hasBypass = isset($_COOKIE[$cookieName]);
 
         // JIKA SUDAH TIDAK MAINTENANCE
-        if (!$isMaintenance || $isExpired || $hasBypass) {
+        if (!$isMaintenance || $hasBypass) {
             return redirect()->to(site_url('/'));
         }
 

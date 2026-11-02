@@ -61,7 +61,7 @@ class MaintenanceFilter implements FilterInterface
         }
 
         // 4. EKSEKUSI FILTER
-        if ($isMaintenance && !$isExpired && !$hasBypass) {
+        if ($isMaintenance && !$hasBypass) {
             if (url_is('maintenance-mode')) {
                 return;
             }
@@ -70,7 +70,7 @@ class MaintenanceFilter implements FilterInterface
 
         // 5. AUTO-OFF
         if (url_is('maintenance-mode')) {
-            if (!$isMaintenance || $isExpired || $hasBypass) {
+            if (!$isMaintenance || $hasBypass) {
                 return redirect()->to(site_url('/'));
             }
         }
